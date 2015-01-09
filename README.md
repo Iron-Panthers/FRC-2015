@@ -1,9 +1,10 @@
 # Iron Panthers 2015 Recycle Rush Code
 This repository contains a complete eclipse workspace, so, the relevant source files will be under ```frcrr2015/src```.
 
+## License
 The MIT License (MIT)
 
-Copyright (c) 2015 Burlingame Iron Panthers
+Copyright (c) 2015 Leon Cheung, Peter Skidmore, Burlingame Iron Panthers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
