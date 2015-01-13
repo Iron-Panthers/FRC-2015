@@ -1,5 +1,7 @@
 # Iron Panthers 2015 Recycle Rush Code
-This repository contains a complete eclipse workspace, so, the relevant source files will be under ```frcrr2015/src```.
+Relevant source files will be found under ```src```.
+
+Detailed documentation can be found in the [Wiki](https://github.com/Iron-Panthers/FRC-2015/wiki).
 
 ## License
 The MIT License (MIT)
