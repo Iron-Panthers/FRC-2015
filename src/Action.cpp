@@ -13,3 +13,4 @@ void Action<T>::run() const
 {
 	std::cout << "run was called in Action" << std::endl;
 }
+

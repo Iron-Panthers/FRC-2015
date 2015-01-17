@@ -8,6 +8,7 @@ class Action
 {
 public:
 	const int cost;
+	Action();
 	Action(std::function<T> func, int cost);
 	void run() const;
 private:
