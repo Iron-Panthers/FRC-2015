@@ -1,22 +1,11 @@
 #include "Logger.hpp"
-#include <iostream>
-#include <WPILib.h>
-#include <string>
-#include <fstream>
 
-Logger::Logger()
+static Logger Logger::*get()
 {
-	std::cout<< "constructor" << std::endl;
+	std::cout << "*get" << std::endl;
 }
 
-Logger::~Logger()
+void Logger::log(std::string message)
 {
-	std::cout<< "destructor" << std::endl;
+	std::cout << "log" << std::endl;
 }
-
-void Logger::logToFile(Log log)
-{
-	std::cout<< log.action + log.position + log.time << std::endl;
-}
-
-
