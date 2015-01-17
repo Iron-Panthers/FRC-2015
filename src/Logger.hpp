@@ -3,6 +3,7 @@
 
 #include <WPILib.h>
 #include <string>
+#include "RobotLocation.hpp"
 
 struct Log{
 	std::string action;

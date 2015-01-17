@@ -2,10 +2,12 @@
 #include "RobotLocation.hpp"
 #include <iostream>
 
-void RobotLocation::update(){
+RobotLocation::RobotLocation()
+{
 	std::cout << "Hello World" << std::endl;
 }
 
-RobotLocation::RobotLocation(){
+void RobotLocation::update()
+{
 	std::cout << "Hello World" << std::endl;
 }

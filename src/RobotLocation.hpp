@@ -1,18 +1,20 @@
-#ifdef ROBOT_LOCATION_HPP
+#ifndef ROBOT_LOCATION_HPP
 #define ROBOT_LOCATION_HPP
 
 #include <WPILib.h>
+#include <utility>
 
-class RobotLocation{
+class RobotLocation
+{
+public:
+	RobotLocation();
+	void update();
+
 private:
 	Gyro gyro;
 	Encoder left, right;
 	std::pair<float, float> pos;
 	float direction;
-
-public:
-	RobotLocation();
-	void update();
 };
 
 

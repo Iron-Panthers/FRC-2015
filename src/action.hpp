@@ -1,16 +1,17 @@
-#include "main.cpp"
+#ifndef ACTION_HPP
+#define ACTION_HPP
 
-int main()
+#include <functional>
+
+template <typename T>
+class Action
 {
-	public
-	{
-	const std::function callback;
-	}
+public:
+	const int cost;
+	Action(std::function<T> func, int cost);
+	void run() const;
+private:
+	const std::function<T> callback;
+};
 
-
-	private
-	{
-
-	}
-}
-
+#endif

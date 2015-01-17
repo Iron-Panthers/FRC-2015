@@ -1,4 +1,5 @@
 #include "EventRelay.hpp"
+#include "ActionMap.hpp"
 #include <WPILib.h>
 #include <iostream>
 

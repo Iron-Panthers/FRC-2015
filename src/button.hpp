@@ -44,3 +44,4 @@ public:
 Button(bool wouldBeDown, bool wouldBePressed, bool wouldBeUp, ButtonNames name)
 private:
 ButtonNames name
+#endif

@@ -1,5 +1,5 @@
+#include <ThreeMotorGroup.hpp>
 #include <WPIlib.h>
-#include "threemotorgroups.hpp"
 
 int main ()
 {
