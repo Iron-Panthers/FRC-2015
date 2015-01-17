@@ -1,10 +1,10 @@
 #ifndef ACTIONMAP_HPP
 #define ACTIONMAP_HPP
 
+#include <Action.hpp>
+#include <Button.hpp>
 #include <vector>
 #include <utility>
-#include "Action.hpp"
-#include "Button.hpp"
 
 class ActionMap
 {
