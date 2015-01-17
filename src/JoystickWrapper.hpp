@@ -4,18 +4,18 @@
 #include <WPILib.h>
 #include <iostream>
 #include <array>
-#include "Button.hpp"
+#include "JoyButton.hpp"
 
 class JoystickWrapper
 {
 public:
 	void pollJoystick();
-	const std::array<Button, 12>& getStates();
+	const std::array<JoyButton, 12>& getStates();
 	JoystickWrapper();
 
 private:
 	Joystick joystick;
-	std::array<Button, 12> joyButtons;
+	std::array<JoyButton, 12> joyButtons;
 };
 
 #endif
