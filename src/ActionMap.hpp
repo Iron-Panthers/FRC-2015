@@ -12,7 +12,7 @@ public:
 	void associate();
 	bool eventOccuredFor();
 private:
-	std::vector<std::pair<Button, Action>> ButtonMap;
+	std::vector<std::pair<JoyButton, Action>> ButtonMap;
 };
 
 #endif
