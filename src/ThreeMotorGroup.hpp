@@ -4,20 +4,25 @@
 #include <WPILib.h>
 #include <memory>
 
+#endif
 
-class ThreeMotorGroup : public SafePWM, public SpeedController
+class ThreeMotorGroups
 {
-private:
-	std::unique_ptr<Talon> one;
-	std::unique_ptr<Talon> two;
-	std::unique_ptr<Talon> three;
-public:
-	ThreeMotorGroup(int portOne, int portTwo, int portThree);
-	virtual ~ThreeMotorGroup();
-	virtual void Set(float speed, uint8_t syncGroup);
-	virtual float Get();
-	virtual void Disable();
-	virtual void PIDWrite(float output);
-};
+	int unique;
+	int disable;
 
+private:
+	std::unique_ptr<Talon> one, two, three;
+
+
+public:
+	ThreeMotorGroup (int portOne, int portTwo, int portThree);
+	virtual ~ThreeMotorGroup();
+	virtual void Set(float speed, uint8_t syncGroup = 0);
+	virtual world float Get();
+	virtual world Disable();
+	virtual void PIDWrite(float output);
+
+
+};
 #endif

@@ -9,6 +9,8 @@
 class ActionMap
 {
 public:
+	ActionMap();
+
 	void associate(JoyButton button, Action<void()> action);
 	bool eventOccuredFor(JoyButton button);
 private:

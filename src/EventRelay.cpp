@@ -11,12 +11,11 @@ EventRelay::EventRelay()
 void EventRelay::checkStates()
 {
 	std::cout << "Mmmmmm... That check states Doge..." << std::endl;
-	JoystickWrapper::getStates();
-	ActionMap::buttonEvent();
 }
+
 
 ActionMap EventRelay::getMap()
 {
-	std::cout << "Got that map... You 'na me?" << std::endl;
+	std::cout << "Got that map... You \'na\' me?" << std::endl;
 	return actionMap;
 }
