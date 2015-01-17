@@ -3,20 +3,25 @@
 
 #include <WPILib.h>
 #include <string>
-#include <iostream>
 #include "RobotLocation.hpp"
+
+struct Log{
+	std::string action;
+	//use RobotLocation
+	std::string position;
+	std::string time;
+};
 
 class Logger
 {
-public:
-	static Logger *get();
-	void log(std::string message);
-	RobotLocation loc;
-
 private:
-	static Logger instance;
 	Timer timer;
-	std::string fileName;
+	static Log myLog;
+	std::string outputFile;
+public:
+	void logToFile(Log log);
+	Logger();
+	~Logger();
 };
 
 #endif

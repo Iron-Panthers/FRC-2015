@@ -2,15 +2,17 @@
 #define ACTIONMAP_HPP
 
 #include <vector>
+#include <utility>
 #include "Action.hpp"
 #include "Button.hpp"
 
 class ActionMap
 {
-
+public:
+	void associate();
+	bool eventOccuredFor();
+private:
+	std::vector<std::pair<Button, Action>> ButtonMap;
 };
-private std::vector<std::pair<>> ButtonMap
-public void register()
-public bool EventOcurredFor();
 
 #endif
