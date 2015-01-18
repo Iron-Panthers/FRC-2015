@@ -6,7 +6,7 @@ ActionMap::ActionMap()
 	std::cout << "ActionMap Online" << std::endl;
 }
 
-void ActionMap::associate(JoyButton button, Action action)
+void ActionMap::associate(JoyButton button, Action<void()> action)
 {
 		std::cout << "Associate Online" << std::endl;
 }

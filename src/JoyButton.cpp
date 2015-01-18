@@ -1,5 +1,10 @@
 #include <JoyButton.hpp>
 
+JoyButton::JoyButton()
+{
+
+}
+
 JoyButton::JoyButton(ButtonNames name)
 {
 	std::cout << "Button #2" << std::endl;
