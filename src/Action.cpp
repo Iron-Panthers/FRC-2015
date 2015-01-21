@@ -4,6 +4,8 @@
 
 template <typename T>
 Action<T>::Action(std::function<T> func, int cost)
+	: callback(func)
+	, cost(cost)
 {
 	std::cout << "Action constructor was called." << std::endl;
 }
@@ -11,6 +13,7 @@ Action<T>::Action(std::function<T> func, int cost)
 template <typename T>
 void Action<T>::run() const
 {
+	callback();
 	std::cout << "run was called in Action" << std::endl;
 }
 
