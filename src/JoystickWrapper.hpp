@@ -16,6 +16,9 @@ public:
 private:
 	Joystick joystick;
 	std::array<JoyButton, 12> joyButtons;
+	bool checkDown(JoyButton joyButton);
+	bool checkUp();
+	bool checkPressed();
 };
 
 #endif
