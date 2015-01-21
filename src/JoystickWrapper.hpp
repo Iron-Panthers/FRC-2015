@@ -4,7 +4,8 @@
 #include <WPILib.h>
 #include <iostream>
 #include <array>
-#include "JoyButton.hpp"
+
+#include "../src/JoyButton.hpp"
 
 class JoystickWrapper
 {

@@ -1,8 +1,9 @@
+#include "../src/RobotLocation.hpp"
+
 #include <WPILib.h>
-#include "RobotLocation.hpp"
 #include <iostream>
 
-RobotLocation::RobotLocation()
+RobotLocation::RobotLocation() : gyro(2, 3)
 {
 	std::cout << "Hello World" << std::endl;
 }

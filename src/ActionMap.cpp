@@ -1,5 +1,6 @@
+#include "../src/ActionMap.hpp"
+
 #include <WPILib.h>
-#include "ActionMap.hpp"
 
 ActionMap::ActionMap()
 {

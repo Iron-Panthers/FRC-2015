@@ -1,9 +1,9 @@
 #ifndef EVENT_RELAY_HPP
 #define EVENT_RELAY_HPP
 
-#include "ActionMap.hpp"
-#include "JoystickWrapper.hpp"
 #include <WPILib.h>
+#include "../src/ActionMap.hpp"
+#include "../src/JoystickWrapper.hpp"
 
 class EventRelay
 {

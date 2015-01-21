@@ -1,9 +1,11 @@
 #include "EventRelay.hpp"
-#include "ActionMap.hpp"
+
 #include <WPILib.h>
 #include <iostream>
-
+#include "ActionMap.hpp"
 EventRelay::EventRelay()
+	: actionMap()
+	, joyWrap()
 {
 	std::cout << "Yeeeee... That Event Relay online" << std::endl;
 }

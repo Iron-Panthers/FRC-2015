@@ -1,4 +1,4 @@
-#include "JoystickWrapper.hpp"
+#include "../src/JoystickWrapper.hpp"
 
 //for getRawNumber() down is true
 

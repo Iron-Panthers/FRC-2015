@@ -1,5 +1,6 @@
 #include <WPILib.h>
-#include "EventRelay.hpp"
+
+#include "../src/EventRelay.hpp"
 
 class Robot: public IterativeRobot
 {
