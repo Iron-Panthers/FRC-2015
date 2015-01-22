@@ -12,7 +12,13 @@ EventRelay::EventRelay()
 
 void EventRelay::checkStates()
 {
+	std::array<JoyButton, 12>& buttonStates = joyWrap.getStates();
 	std::cout << "Mmmmmm... That check states Doge..." << std::endl;
+
+	for (std::array<JoyButton, 12>& buttonStates; buttonStates < 12; buttonStates++)
+	{
+
+	}
 }
 
 
