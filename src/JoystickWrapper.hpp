@@ -5,7 +5,7 @@
 #include <iostream>
 #include <array>
 
-#include "../src/JoyButton.hpp"
+#include "JoyButton.hpp"
 
 class JoystickWrapper
 {
@@ -17,9 +17,9 @@ public:
 private:
 	Joystick joystick;
 	std::array<JoyButton, 12> joyButtons;
-	bool checkDown(JoyButton joyButton);
-	bool checkUp();
-	bool checkPressed();
+	bool checkDown(JoyButton joyButton, ButtonNames butt);
+	bool checkUp(JoyButton joyButton, ButtonNames butt);
+	bool checkPressed(JoyButton joyButton, ButtonNames butt);
 };
 
 #endif
