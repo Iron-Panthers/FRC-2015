@@ -1,6 +1,6 @@
-#include "../src/ActionMap.hpp"
-
 #include <WPILib.h>
+#include "ActionMap.hpp"
+#include <utility>
 
 ActionMap::ActionMap()
 {
@@ -10,10 +10,21 @@ ActionMap::ActionMap()
 void ActionMap::associate(JoyButton button, Action<void()> action)
 {
 		std::cout << "Associate Online" << std::endl;
+		buttonMap.insert(std::make_pair(button, action));
 }
 
 bool ActionMap::eventOccuredFor(JoyButton button)
 {
-	std::cout << "EventOccuredFor Online. BattleDoge" << std::endl;
+	if (buttonMap.find(button) == buttonMap.end())
+	{
+		return false;
+	}
+	else
+	{
+		auto action = buttonMap.find(button)->second;
+		action.run();
+		return true;
+	}
 }
+
 

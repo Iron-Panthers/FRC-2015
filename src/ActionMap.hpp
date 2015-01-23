@@ -1,10 +1,10 @@
 #ifndef ACTIONMAP_HPP
 #define ACTIONMAP_HPP
 
+#include "Action.hpp"
+#include "JoyButton.hpp"
 #include <vector>
 #include <utility>
-#include "../src/Action.hpp"
-#include "../src/JoyButton.hpp"
 
 class ActionMap
 {
@@ -14,8 +14,7 @@ public:
 	void associate(JoyButton button, Action<void()> action);
 	bool eventOccuredFor(JoyButton button);
 private:
-	std::vector<std::pair<JoyButton, Action<void()>>> buttonMap;
-
+	std::map<JoyButton, Action<void()>> buttonMap;
 };
 
 #endif
