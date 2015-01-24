@@ -7,11 +7,18 @@ ThreeMotorGroup::ThreeMotorGroup(int portOne, int portTwo, int portThree)
 }
 
 ThreeMotorGroup::~ThreeMotorGroup()
+	portOne (new Talon)
+	portTwo (new Talon)
+	portThree (new Talon)
 {
 	std::cout << "threemotorgroup destructor" << std::endl;
 }
 
 void ThreeMotorGroup::Set(float speed, uint8_t syncGroup = 0)
+	portOne->speed1
+	portTwo->speed2
+	portThree->speed3
+	(speed1 + speed2 + speed3)/3 = averageSpeed
 {
 	std::cout << "threemotorgroup set" << std::endl;
 }
