@@ -12,7 +12,7 @@ public:
 	ActionMap();
 
 	void associate(JoyButton button, Action<void()> action);
-	bool eventOccuredFor(JoyButton button);
+	bool eventOccurredFor(JoyButton button);
 private:
 	std::map<JoyButton, Action<void()>> buttonMap;
 };

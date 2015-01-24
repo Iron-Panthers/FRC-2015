@@ -1,8 +1,6 @@
 #include "EventRelay.hpp"
-
-#include <WPILib.h>
-#include <iostream>
 #include "ActionMap.hpp"
+
 EventRelay::EventRelay()
 	: actionMap()
 	, joyWrap()
@@ -12,12 +10,15 @@ EventRelay::EventRelay()
 
 void EventRelay::checkStates()
 {
-	std::array<JoyButton, 12>& buttonStates = joyWrap.getStates();
+	std::array<JoyButton, 12> buttonStates = joyWrap.getStates();
 	std::cout << "Mmmmmm... That check states Doge..." << std::endl;
 
-	for (std::array<JoyButton, 12>& buttonStates; buttonStates < 12; buttonStates++)
+	for(int i = 0; i < buttonStates.size(); i++)
 	{
-
+		if(buttonStates[i].pressed || buttonStates[i].up || buttonStates[i].down)
+		{
+			actionMap.eventOccurredFor(buttonStates[i]);
+		}
 	}
 }
 

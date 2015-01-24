@@ -13,7 +13,7 @@ void ActionMap::associate(JoyButton button, Action<void()> action)
 		buttonMap.insert(std::make_pair(button, action));
 }
 
-bool ActionMap::eventOccuredFor(JoyButton button)
+bool ActionMap::eventOccurredFor(JoyButton button)
 {
 	if (buttonMap.find(button) == buttonMap.end())
 	{
