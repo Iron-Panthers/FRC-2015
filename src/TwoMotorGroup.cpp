@@ -1,5 +1,6 @@
 #include <WPILib.h>
 #include "TwoMotorGroup.hpp"
+#include <iostream>
 
 TwoMotorGroup::TwoMotorGroup(int portOne, int portTwo)
 	: one(new Talon(1))
@@ -8,12 +9,18 @@ TwoMotorGroup::TwoMotorGroup(int portOne, int portTwo)
 
 }
 
-float TwoMotorGroup::Set(float Speed)
+void TwoMotorGroup::Set(float speed)
 {
-	return 0.0f;
-}
-
-void TwoMotorGroup::Get()
-{
+	one->Set(speed);
+	two->Set(speed);
 
 }
+
+float TwoMotorGroup::Get()
+{
+	int B;
+	float speedOne = one->Get();
+	float speedTwo = two->Get();
+	B = (speedOne + speedTwo) /2;
+	std::cout << B;
+};
