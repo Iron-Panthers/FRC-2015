@@ -3,6 +3,7 @@
 
 #include <WPILib.h>
 #include <memory>
+#include <iostream>
 
 class ThreeMotorGroup : public SpeedController
 {
