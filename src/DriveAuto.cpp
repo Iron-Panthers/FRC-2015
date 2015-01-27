@@ -32,6 +32,10 @@ void DriveAuto::updateQueue()
 		rightMotors->TwoMotorGroup::Set(action.second[1]);
 		float distanceTraveled = leftEncoder->GetDistance();
 		action.second[0] -= distanceTraveled;
+		if(action.second[0] == 0)
+		{
+			actionQueues.pop();
+		}
 	}
 	if(action.first == DriveActions::Turn)
 	{
@@ -39,13 +43,24 @@ void DriveAuto::updateQueue()
 		{
 			leftMotors->TwoMotorGroup::Set(-1);
 			rightMotors->TwoMotorGroup::Set(1);
+			if(action.second[0] == Gyro::GetAngle())
+			{
+				leftMotors->TwoMotorGroup::Set(0);
+				rightMotors->TwoMotorGroup::Set(0);
+				actionQueues.pop();
+			}
 
 		}
 		if(action.second[0] > 0)
 		{
 			leftMotors->TwoMotorGroup::Set(1);
 			rightMotors->TwoMotorGroup::Set(-1);
-
+			if(action.second[0] == Gyro::GetAngle())
+			{
+				leftMotors->TwoMotorGroup::Set(0);
+				rightMotors->TwoMotorGroup::Set(0);
+				actionQueues.pop();
+			}
 		}
 	}
 }
