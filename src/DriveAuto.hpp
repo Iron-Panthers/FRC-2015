@@ -4,6 +4,7 @@
 #include <ostream>
 #include <WPILib.h>
 #include <queue>
+#include "TwoMotorGroup.hpp"
 
 class DriveAuto {
 public:
