@@ -1,16 +1,31 @@
 #include <WPILib.h>
+#include "EventRelay.hpp"
+#include "Autonomous.hpp"
+#include "Action.hpp"
+#include "JoyButton.hpp"
+#include "DriveAuto.hpp"
+#include "JoystickWrapper.hpp"
+#include "RobotLocation.hpp"
+#include "TwoMotorGroup.hpp"
+#include "VisionClass.hpp"
+#include "ActionMap.hpp"
 
-#include "../src/EventRelay.hpp"
 
 class Robot: public IterativeRobot
 {
 	DoubleSolenoid *one;
 	Talon *talon;
-public:
-	Robot() : one(new DoubleSolenoid(0, 1)), talon(new Talon(1)) {}
 
 private:
+	EventRelay relay;
+	Autonomous auton;
+	void mapJoystick()
+	{
 
+	}
+
+public:
+	Robot() : one(new DoubleSolenoid(0, 1)), talon(new Talon(1)) {}
 
 	void RobotInit()
 	{
@@ -19,6 +34,7 @@ private:
 
 	void AutonomousInit()
 	{
+
 	}
 
 	void AutonomousPeriodic()
@@ -40,8 +56,14 @@ private:
 
 	}
 
-	void TestPeriodic()
+	void DisabledInit()
 	{
+
+	}
+
+	void DisabledPeriodic()
+	{
+
 	}
 };
 
