@@ -7,7 +7,6 @@
 #include "AnalogTriggerOutput.h"
 #include "AnalogTrigger.h"
 //#include "NetworkCommunication/UsageReporting.h"
-#include "WPIErrors.h"
 
 /**
  * Create an object that represents one of the four outputs from an analog trigger.
@@ -31,7 +30,6 @@ AnalogTriggerOutput::~AnalogTriggerOutput()
 	{
 		int32_t status = 0;
 		cleanInterrupts(m_interrupt, &status);
-		wpi_setErrorWithContext(status, getHALErrorMessage(status));
 		m_interrupt = NULL;
 		m_interrupts->Free(m_interruptIndex);
 	}
@@ -45,7 +43,6 @@ bool AnalogTriggerOutput::Get()
 {
   int32_t status = 0;
   bool result = getAnalogTriggerOutput(m_trigger->m_trigger, m_outputType, &status);
-  wpi_setErrorWithContext(status, getHALErrorMessage(status));
   return result;
 }
 

@@ -9,13 +9,11 @@
 
 #include "HAL/HAL.hpp"
 #include "SensorBase.h"
-#include "tables/ITableListener.h"
-#include "LiveWindow/LiveWindowSendable.h"
 
 /**
  * PCM compressor
  */
-class Compressor: public SensorBase, public LiveWindowSendable, public ITableListener {
+class Compressor: public SensorBase {
 public:
 	explicit Compressor(uint8_t pcmID);
 	Compressor();
@@ -40,14 +38,6 @@ public:
 	bool GetCompressorNotConnectedFault();
 	void ClearAllPCMStickyFaults();
 
-	void UpdateTable();
-	void StartLiveWindowMode();
-	void StopLiveWindowMode();
-	std::string GetSmartDashboardType();
-	void InitTable(ITable *subTable);
-	ITable *GetTable();
-	void ValueChanged(ITable* source, const std::string& key, EntryValue value, bool isNew);
-
 protected:
 	void *m_pcm_pointer;
 
@@ -55,7 +45,6 @@ private:
 	void InitCompressor(uint8_t module);
 	void SetCompressor(bool on);
 
-	ITable *m_table;
 };
 
 #endif /* Compressor_H_ */

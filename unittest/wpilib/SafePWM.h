@@ -15,7 +15,7 @@
  * This delegates the actual work to a MotorSafetyHelper object that is used for all
  * objects that implement MotorSafety.
  */
-class SafePWM : public PWM, public MotorSafety
+class SafePWM : public PWM
 {
 public:
 	explicit SafePWM(uint32_t channel);
@@ -32,5 +32,4 @@ public:
 	virtual void SetSpeed(float speed);
 private:
 	void InitSafePWM();
-	MotorSafetyHelper *m_safetyHelper;
 };

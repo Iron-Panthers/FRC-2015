@@ -3,10 +3,8 @@
  */
 
 #include "Compressor.h"
-#include "WPIErrors.h"
 
 void Compressor::InitCompressor(uint8_t pcmID) {
-	m_table = 0;
 	m_pcm_pointer = initializeCompressor(pcmID);
 
 	SetClosedLoopControl(true);
@@ -59,7 +57,7 @@ bool Compressor::Enabled() {
 	value = getCompressor(m_pcm_pointer, &status);
 
 	if(status) {
-		wpi_setWPIError(Timeout);
+		
 	}
 
 	return value;
@@ -76,7 +74,7 @@ bool Compressor::GetPressureSwitchValue() {
 	value = getPressureSwitch(m_pcm_pointer, &status);
 
 	if(status) {
-		wpi_setWPIError(Timeout);
+		
 	}
 
 	return value;
@@ -94,7 +92,7 @@ float Compressor::GetCompressorCurrent() {
 	value = getCompressorCurrent(m_pcm_pointer, &status);
 
 	if(status) {
-		wpi_setWPIError(Timeout);
+		
 	}
 
 	return value;
@@ -112,7 +110,7 @@ void Compressor::SetClosedLoopControl(bool on) {
 	setClosedLoopControl(m_pcm_pointer, on, &status);
 
 	if(status) {
-		wpi_setWPIError(Timeout);
+		
 	}
 }
 
@@ -128,7 +126,7 @@ bool Compressor::GetClosedLoopControl() {
 	value = getClosedLoopControl(m_pcm_pointer, &status);
 
 	if(status) {
-		wpi_setWPIError(Timeout);
+		
 	}
 
 	return value;
@@ -146,7 +144,7 @@ bool Compressor::GetCompressorCurrentTooHighFault() {
 	value = getCompressorCurrentTooHighFault(m_pcm_pointer, &status);
 
 	if(status) {
-		wpi_setWPIError(Timeout);
+		
 	}
 
 	return value;
@@ -164,7 +162,7 @@ bool Compressor::GetCompressorCurrentTooHighStickyFault() {
 	value = getCompressorCurrentTooHighStickyFault(m_pcm_pointer, &status);
 
 	if(status) {
-		wpi_setWPIError(Timeout);
+		
 	}
 
 	return value;
@@ -182,7 +180,7 @@ bool Compressor::GetCompressorShortedStickyFault() {
 	value = getCompressorShortedStickyFault(m_pcm_pointer, &status);
 
 	if(status) {
-		wpi_setWPIError(Timeout);
+		
 	}
 
 	return value;
@@ -199,7 +197,7 @@ bool Compressor::GetCompressorShortedFault() {
 	value = getCompressorShortedFault(m_pcm_pointer, &status);
 
 	if(status) {
-		wpi_setWPIError(Timeout);
+		
 	}
 
 	return value;
@@ -218,7 +216,7 @@ bool Compressor::GetCompressorNotConnectedStickyFault() {
 	value = getCompressorNotConnectedStickyFault(m_pcm_pointer, &status);
 
 	if(status) {
-		wpi_setWPIError(Timeout);
+		
 	}
 
 	return value;
@@ -236,7 +234,7 @@ bool Compressor::GetCompressorNotConnectedFault() {
 	value = getCompressorNotConnectedFault(m_pcm_pointer, &status);
 
 	if(status) {
-		wpi_setWPIError(Timeout);
+		
 	}
 
 	return value;
@@ -257,37 +255,6 @@ void Compressor::ClearAllPCMStickyFaults() {
 	clearAllPCMStickyFaults(m_pcm_pointer, &status);
 
 	if(status) {
-		wpi_setWPIError(Timeout);
+		
 	}
-}
-void Compressor::UpdateTable() {
-	if(m_table) {
-		m_table->PutBoolean("Enabled", Enabled());
-		m_table->PutBoolean("Pressure switch", GetPressureSwitchValue());
-	}
-}
-
-void Compressor::StartLiveWindowMode() {
-}
-
-void Compressor::StopLiveWindowMode() {
-}
-
-std::string Compressor::GetSmartDashboardType() {
-	return "Compressor";
-}
-
-void Compressor::InitTable(ITable *subTable) {
-	m_table = subTable;
-	UpdateTable();
-}
-
-ITable *Compressor::GetTable() {
-	return m_table;
-}
-
-void Compressor::ValueChanged(ITable* source, const std::string& key, EntryValue value, bool isNew) {
-	if(value.b) Start();
-	else Stop();
-
 }

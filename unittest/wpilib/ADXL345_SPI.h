@@ -8,7 +8,6 @@
 #include "interfaces/Accelerometer.h"
 #include "SensorBase.h"
 #include "SPI.h"
-#include "LiveWindow/LiveWindowSendable.h"
 
 class DigitalInput;
 class DigitalOutput;
@@ -19,7 +18,7 @@ class DigitalOutput;
  * This class allows access to an Analog Devices ADXL345 3-axis accelerometer via SPI.
  * This class assumes the sensor is wired in 4-wire SPI mode.
  */
-class ADXL345_SPI : public Accelerometer, public SensorBase, public LiveWindowSendable
+class ADXL345_SPI : public Accelerometer, public SensorBase
 {
 protected:
 	static const uint8_t kPowerCtlRegister = 0x2D;
@@ -53,18 +52,9 @@ public:
 	virtual double GetAcceleration(Axes axis);
 	virtual AllAxes GetAccelerations();
 
-	virtual std::string GetSmartDashboardType();
-	virtual void InitTable(ITable *subtable);
-	virtual void UpdateTable();
-	virtual ITable* GetTable();
-	virtual void StartLiveWindowMode() {}
-	virtual void StopLiveWindowMode() {}
-
 protected:
 	void Init(Range range);
 
 	SPI* m_spi;
 	SPI::Port m_port;
-private:
-	ITable *m_table;
 };

@@ -6,15 +6,11 @@
 
 #include "SafePWM.h"
 
-#include "MotorSafetyHelper.h"
-
 /**
  * Initialize a SafePWM object by setting defaults
  */
 void SafePWM::InitSafePWM()
 {
-	m_safetyHelper = new MotorSafetyHelper(this);
-	m_safetyHelper->SetSafetyEnabled(false);
 }
 
 /**
@@ -28,7 +24,6 @@ SafePWM::SafePWM(uint32_t channel): PWM(channel)
 
 SafePWM::~SafePWM()
 {
-	delete m_safetyHelper;
 }
 
 /**
@@ -37,7 +32,6 @@ SafePWM::~SafePWM()
  */
 void SafePWM::SetExpiration(float timeout)
 {
-	m_safetyHelper->SetExpiration(timeout);
 }
 
 /**
@@ -46,7 +40,6 @@ void SafePWM::SetExpiration(float timeout)
  */
 float SafePWM::GetExpiration()
 {
-	return m_safetyHelper->GetExpiration();
 }
 
 /**
@@ -56,7 +49,6 @@ float SafePWM::GetExpiration()
  */
 bool SafePWM::IsAlive()
 {
-	return m_safetyHelper->IsAlive();
 }
 
 /**
@@ -76,7 +68,6 @@ void SafePWM::StopMotor()
  */
 void SafePWM::SetSafetyEnabled(bool enabled)
 {
-	m_safetyHelper->SetSafetyEnabled(enabled);
 }
 
 /**
@@ -85,7 +76,6 @@ void SafePWM::SetSafetyEnabled(bool enabled)
  */
 bool SafePWM::IsSafetyEnabled()
 {
-	return m_safetyHelper->IsSafetyEnabled();
 }
 
 void SafePWM::GetDescription(char *desc)
@@ -102,5 +92,4 @@ void SafePWM::GetDescription(char *desc)
 void SafePWM::SetSpeed(float speed)
 {
 	PWM::SetSpeed(speed);
-	m_safetyHelper->Feed();
 }

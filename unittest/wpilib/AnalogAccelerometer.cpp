@@ -6,19 +6,15 @@
 
 #include "AnalogAccelerometer.h"
 //#include "NetworkCommunication/UsageReporting.h"
-#include "WPIErrors.h"
-#include "LiveWindow/LiveWindow.h"
 
 /**
  * Common function for initializing the accelerometer.
  */
 void AnalogAccelerometer::InitAccelerometer()
 {
-	m_table = NULL;
 	m_voltsPerG = 1.0;
 	m_zeroGVoltage = 2.5;
 	HALReport(HALUsageReporting::kResourceType_Accelerometer, m_AnalogInput->GetChannel());
-	LiveWindow::GetInstance()->AddSensor("Accelerometer", m_AnalogInput->GetChannel(), this);
 }
 
 /**
@@ -44,7 +40,7 @@ AnalogAccelerometer::AnalogAccelerometer(AnalogInput *channel)
 {
 	if (channel == NULL)
 	{
-		wpi_setWPIError(NullParameter);
+	//	wpi_setWPIError(NullParameter);
 	}
 	else
 	{
@@ -110,29 +106,4 @@ void AnalogAccelerometer::SetZero(float zero)
 double AnalogAccelerometer::PIDGet()
 {
 	return GetAcceleration();
-}
-
-void AnalogAccelerometer::UpdateTable() {
-	if (m_table != NULL) {
-		m_table->PutNumber("Value", GetAcceleration());
-	}
-}
-
-void AnalogAccelerometer::StartLiveWindowMode() {
-}
-
-void AnalogAccelerometer::StopLiveWindowMode() {
-}
-
-std::string AnalogAccelerometer::GetSmartDashboardType() {
-	return "Accelerometer";
-}
-
-void AnalogAccelerometer::InitTable(ITable *subTable) {
-	m_table = subTable;
-	UpdateTable();
-}
-
-ITable * AnalogAccelerometer::GetTable() {
-	return m_table;
 }

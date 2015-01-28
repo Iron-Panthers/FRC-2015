@@ -8,7 +8,6 @@
 #include "HAL/HAL.hpp"
 #include "SensorBase.h"
 #include "PIDSource.h"
-#include "LiveWindow/LiveWindowSendable.h"
 
 /**
  * Analog input class.
@@ -20,7 +19,7 @@
  * resolution, while the averaged samples are divided by the number of samples to retain the resolution,
  * but get more stable values.
  */
-class AnalogInput : public SensorBase, public PIDSource, public LiveWindowSendable
+class AnalogInput : public SensorBase, public PIDSource
 {
 public:
 	static const uint8_t kAccumulatorModuleNumber = 1;
@@ -61,18 +60,9 @@ public:
 
 	double PIDGet();
 
-	void UpdateTable();
-	void StartLiveWindowMode();
-	void StopLiveWindowMode();
-	std::string GetSmartDashboardType();
-	void InitTable(ITable *subTable);
-	ITable * GetTable();
-
 private:
 	void InitAnalogInput(uint32_t channel);
 	uint32_t m_channel;
 	void* m_port;
 	int64_t m_accumulatorOffset;
-
-	ITable *m_table;
 };

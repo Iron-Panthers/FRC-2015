@@ -7,14 +7,14 @@
 
 #include "interfaces/Accelerometer.h"
 #include "SensorBase.h"
-#include "LiveWindow/LiveWindowSendable.h"
+#include <string>
 
 /**
  * Built-in accelerometer.
  *
  * This class allows access to the RoboRIO's internal accelerometer.
  */
-class BuiltInAccelerometer : public Accelerometer, public SensorBase, public LiveWindowSendable
+class BuiltInAccelerometer : public Accelerometer, public SensorBase
 {
 public:
 	BuiltInAccelerometer(Range range = kRange_8G);
@@ -25,14 +25,4 @@ public:
 	virtual double GetX();
 	virtual double GetY();
 	virtual double GetZ();
-
-	virtual std::string GetSmartDashboardType();
-	virtual void InitTable(ITable *subtable);
-	virtual void UpdateTable();
-	virtual ITable* GetTable();
-	virtual void StartLiveWindowMode() {}
-	virtual void StopLiveWindowMode() {}
-
-private:
-	ITable *m_table;
 };

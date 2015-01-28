@@ -8,15 +8,13 @@
 #include "AnalogInput.h"
 #include "SensorBase.h"
 #include "PIDSource.h"
-#include "LiveWindow/LiveWindowSendable.h"
-
 /**
  * Handle operation of an analog accelerometer.
  * The accelerometer reads acceleration directly through the sensor. Many sensors have
  * multiple axis and can be treated as multiple devices. Each is calibrated by finding
  * the center value over a period of time.
  */
-class AnalogAccelerometer : public SensorBase, public PIDSource, public LiveWindowSendable {
+class AnalogAccelerometer : public SensorBase, public PIDSource {
 public:
 	explicit AnalogAccelerometer(int32_t channel);
 	explicit AnalogAccelerometer(AnalogInput *channel);
@@ -26,14 +24,6 @@ public:
 	void SetSensitivity(float sensitivity);
 	void SetZero(float zero);
 	double PIDGet();
-
-	void UpdateTable();
-	void StartLiveWindowMode();
-	void StopLiveWindowMode();
-	std::string GetSmartDashboardType();
-	void InitTable(ITable *subTable);
-	ITable * GetTable();
-
 private:
 	void InitAccelerometer();
 
@@ -41,6 +31,4 @@ private:
 	float m_voltsPerG;
 	float m_zeroGVoltage;
 	bool m_allocatedChannel;
-
-	ITable *m_table;
 };

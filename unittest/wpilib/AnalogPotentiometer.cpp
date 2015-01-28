@@ -71,29 +71,3 @@ double AnalogPotentiometer::Get() {
 double AnalogPotentiometer::PIDGet() {
     return Get();
 }
-
-
-/**
- * @return the Smart Dashboard Type
- */
-std::string AnalogPotentiometer::GetSmartDashboardType() {
-    return "Analog Input";
-}
-
-/**
- * Live Window code, only does anything if live window is activated.
- */
-void AnalogPotentiometer::InitTable(ITable *subtable) {
-    m_table = subtable;
-    UpdateTable();
-}
-
-void AnalogPotentiometer::UpdateTable() {
-    if (m_table != NULL) {
-        m_table->PutNumber("Value", Get());
-    }
-}
-
-ITable* AnalogPotentiometer::GetTable() {
-    return m_table;
-}

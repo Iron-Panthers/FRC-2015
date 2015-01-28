@@ -9,7 +9,6 @@
 #include "DigitalInput.h"
 //#include "NetworkCommunication/UsageReporting.h"
 #include "Resource.h"
-#include "WPIErrors.h"
 
 /**
  * Create an instance of a counter object.

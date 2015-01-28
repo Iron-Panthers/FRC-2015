@@ -9,7 +9,6 @@
 #include <stdint.h>
 #include <HAL/Power.hpp>
 #include <HAL/HAL.hpp>
-#include "ErrorBase.h"
 
 /**
  * Get the input voltage to the robot controller
@@ -18,7 +17,6 @@
 double ControllerPower::GetInputVoltage() {
 	int32_t status = 0;
 	double retVal = getVinVoltage(&status);
-	wpi_setGlobalErrorWithContext(status, getHALErrorMessage(status));
 	return retVal;
 }
 
@@ -29,7 +27,6 @@ double ControllerPower::GetInputVoltage() {
 double ControllerPower::GetInputCurrent() {
 	int32_t status = 0;
 	double retVal = getVinCurrent(&status);
-	wpi_setGlobalErrorWithContext(status, getHALErrorMessage(status));
 	return retVal;
 }
 
@@ -40,7 +37,6 @@ double ControllerPower::GetInputCurrent() {
 double ControllerPower::GetVoltage6V() {
 	int32_t status = 0;
 	double retVal = getUserVoltage6V(&status);
-	wpi_setGlobalErrorWithContext(status, getHALErrorMessage(status));
 	return retVal;
 }
 
@@ -51,7 +47,6 @@ double ControllerPower::GetVoltage6V() {
 double ControllerPower::GetCurrent6V() {
 	int32_t status = 0;
 	double retVal = getUserCurrent6V(&status);
-	wpi_setGlobalErrorWithContext(status, getHALErrorMessage(status));
 	return retVal;
 }
 
@@ -63,7 +58,6 @@ double ControllerPower::GetCurrent6V() {
 bool ControllerPower::GetEnabled6V() {
 	int32_t status = 0;
 	bool retVal = getUserActive6V(&status);
-	wpi_setGlobalErrorWithContext(status, getHALErrorMessage(status));
 	return retVal;
 }
 
@@ -74,7 +68,6 @@ bool ControllerPower::GetEnabled6V() {
 int ControllerPower::GetFaultCount6V() {
 	int32_t status = 0;
 	int retVal = getUserCurrentFaults6V(&status);
-	wpi_setGlobalErrorWithContext(status, getHALErrorMessage(status));
 	return retVal;
 }
 
@@ -85,7 +78,6 @@ int ControllerPower::GetFaultCount6V() {
 double ControllerPower::GetVoltage5V() {
 	int32_t status = 0;
 	double retVal = getUserVoltage5V(&status);
-	wpi_setGlobalErrorWithContext(status, getHALErrorMessage(status));
 	return retVal;
 }
 
@@ -96,7 +88,6 @@ double ControllerPower::GetVoltage5V() {
 double ControllerPower::GetCurrent5V() {
 	int32_t status = 0;
 	double retVal = getUserCurrent5V(&status);
-	wpi_setGlobalErrorWithContext(status, getHALErrorMessage(status));
 	return retVal;
 }
 
@@ -108,7 +99,6 @@ double ControllerPower::GetCurrent5V() {
 bool ControllerPower::GetEnabled5V() {
 	int32_t status = 0;
 	bool retVal = getUserActive5V(&status);
-	wpi_setGlobalErrorWithContext(status, getHALErrorMessage(status));
 	return retVal;
 }
 
@@ -119,7 +109,6 @@ bool ControllerPower::GetEnabled5V() {
 int ControllerPower::GetFaultCount5V() {
 	int32_t status = 0;
 	int retVal = getUserCurrentFaults5V(&status);
-	wpi_setGlobalErrorWithContext(status, getHALErrorMessage(status));
 	return retVal;
 }
 
@@ -130,7 +119,6 @@ int ControllerPower::GetFaultCount5V() {
 double ControllerPower::GetVoltage3V3() {
 	int32_t status = 0;
 	double retVal = getUserVoltage3V3(&status);
-	wpi_setGlobalErrorWithContext(status, getHALErrorMessage(status));
 	return retVal;
 }
 
@@ -141,7 +129,6 @@ double ControllerPower::GetVoltage3V3() {
 double ControllerPower::GetCurrent3V3() {
 	int32_t status = 0;
 	double retVal = getUserCurrent3V3(&status);
-	wpi_setGlobalErrorWithContext(status, getHALErrorMessage(status));
 	return retVal;
 }
 
@@ -154,7 +141,6 @@ double ControllerPower::GetCurrent3V3() {
 bool ControllerPower::GetEnabled3V3() {
 	int32_t status = 0;
 	bool retVal = getUserActive3V3(&status);
-	wpi_setGlobalErrorWithContext(status, getHALErrorMessage(status));
 	return retVal;
 }
 
@@ -165,6 +151,5 @@ bool ControllerPower::GetEnabled3V3() {
 int ControllerPower::GetFaultCount3V3() {
 	int32_t status = 0;
 	int retVal = getUserCurrentFaults3V3(&status);
-	wpi_setGlobalErrorWithContext(status, getHALErrorMessage(status));
 	return retVal;
 }

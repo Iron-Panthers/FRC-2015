@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include "Base.h"
-
+#include <stdint.h>
 /**
  * Base class for all sensors.
  * Stores most recent status information as well as containing utility functions for checking

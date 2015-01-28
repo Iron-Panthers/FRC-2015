@@ -1,7 +1,6 @@
 
 #include "AnalogInput.h"
 #include "interfaces/Potentiometer.h"
-#include "LiveWindow/LiveWindowSendable.h"
 
 /**
  * Class for reading analog potentiometers. Analog potentiometers read
@@ -12,7 +11,7 @@
  * @author Alex Henning
  * @author Colby Skeggs (rail voltage)
  */
-class AnalogPotentiometer : public Potentiometer, public LiveWindowSendable {
+class AnalogPotentiometer : public Potentiometer {
 public:
     /**
      * AnalogPotentiometer constructor.
@@ -54,28 +53,9 @@ public:
     virtual double PIDGet();
 
 
-    /*
-     * Live Window code, only does anything if live window is activated.
-     */
-    virtual std::string GetSmartDashboardType();
-    virtual void InitTable(ITable *subtable);
-    virtual void UpdateTable();
-    virtual ITable* GetTable();
-
-    /**
-     * AnalogPotentiometers don't have to do anything special when entering the LiveWindow.
-     */
-    virtual void StartLiveWindowMode() {}
-
-    /**
-     * AnalogPotentiometers don't have to do anything special when exiting the LiveWindow.
-     */
-    virtual void StopLiveWindowMode() {}
-
 private:
     double m_fullRange, m_offset;
     AnalogInput* m_analog_input;
-    ITable* m_table;
     bool m_init_analog_input;
 
     /**

@@ -6,7 +6,6 @@
 
 #include "DigitalInput.h"
 #include "Resource.h"
-#include "WPIErrors.h"
 
 /**
  * Create an instance of a DigitalInput.

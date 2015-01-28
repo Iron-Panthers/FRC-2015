@@ -6,15 +6,13 @@
 #pragma once
 
 #include "DigitalSource.h"
-#include "LiveWindow/LiveWindowSendable.h"
-#include "tables/ITableListener.h"
 
 /**
  * Class to write to digital outputs.
  * Write values to the digital output channels. Other devices implemented elsewhere will allocate
  * channels automatically so for those devices it shouldn't be done here.
  */
-class DigitalOutput : public DigitalSource, public ITableListener, public LiveWindowSendable
+class DigitalOutput : public DigitalSource
 {
 public:
 	explicit DigitalOutput(uint32_t channel);
@@ -33,19 +31,9 @@ public:
 	virtual uint32_t GetModuleForRouting();
 	virtual bool GetAnalogTriggerForRouting();
 
-	virtual void ValueChanged(ITable* source, const std::string& key, EntryValue value, bool isNew);
-	void UpdateTable();
-	void StartLiveWindowMode();
-	void StopLiveWindowMode();
-	std::string GetSmartDashboardType();
-	void InitTable(ITable *subTable);
-	ITable * GetTable();
-
 private:
 	void InitDigitalOutput(uint32_t channel);
 
 	uint32_t m_channel;
 	void *m_pwmGenerator;
-
-	ITable *m_table;
 };

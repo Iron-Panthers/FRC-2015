@@ -6,20 +6,16 @@
 
 #include "BuiltInAccelerometer.h"
 #include "HAL/HAL.hpp"
-#include "WPIErrors.h"
-#include "LiveWindow/LiveWindow.h"
 
 /**
  * Constructor.
  * @param range The range the accelerometer will measure
  */
 BuiltInAccelerometer::BuiltInAccelerometer(Range range)
-	: m_table(0)
 {
 	SetRange(range);
 
 	HALReport(HALUsageReporting::kResourceType_Accelerometer, 0, 0, "Built-in accelerometer");
-	LiveWindow::GetInstance()->AddSensor((std::string)"BuiltInAccel",0, this);
 }
 
 BuiltInAccelerometer::~BuiltInAccelerometer()
@@ -31,7 +27,6 @@ void BuiltInAccelerometer::SetRange(Range range)
 {
 	if(range == kRange_16G)
 	{
-		wpi_setWPIErrorWithContext(ParameterOutOfRange, "16G range not supported (use k2G, k4G, or k8G)");
 	}
 
 	setAccelerometerActive(false);
@@ -61,25 +56,4 @@ double BuiltInAccelerometer::GetY()
 double BuiltInAccelerometer::GetZ()
 {
 	return getAccelerometerZ();
-}
-
-std::string BuiltInAccelerometer::GetSmartDashboardType() {
-	return "3AxisAccelerometer";
-}
-
-void BuiltInAccelerometer::InitTable(ITable *subtable) {
-	m_table = subtable;
-	UpdateTable();
-}
-
-void BuiltInAccelerometer::UpdateTable() {
-	if (m_table != NULL) {
-		m_table->PutNumber("X", GetX());
-		m_table->PutNumber("Y", GetY());
-		m_table->PutNumber("Z", GetZ());
-	}
-}
-
-ITable* BuiltInAccelerometer::GetTable() {
-	return m_table;
 }

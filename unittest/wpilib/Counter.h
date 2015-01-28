@@ -9,7 +9,6 @@
 #include "AnalogTriggerOutput.h"
 #include "CounterBase.h"
 #include "SensorBase.h"
-#include "LiveWindow/LiveWindowSendable.h"
 
 /**
  * Class for counting the number of ticks on a digital input channel.
@@ -20,7 +19,7 @@
  * All counters will immediately start counting - Reset() them if you need them
  * to be zeroed before use.
  */
-class Counter : public SensorBase, public CounterBase, public LiveWindowSendable
+class Counter : public SensorBase, public CounterBase
 {
 public:
 
@@ -72,12 +71,6 @@ public:
 		return m_index;
 	}
 
-	void UpdateTable();
-	void StartLiveWindowMode();
-	void StopLiveWindowMode();
-	virtual std::string GetSmartDashboardType();
-	void InitTable(ITable *subTable);
-	ITable * GetTable();
 protected:
 	DigitalSource *m_upSource;		///< What makes the counter count up.
 	DigitalSource *m_downSource;	///< What makes the counter count down.
@@ -88,6 +81,4 @@ private:
 	bool m_allocatedUpSource;		///< Was the upSource allocated locally?
 	bool m_allocatedDownSource;	///< Was the downSource allocated locally?
 	uint32_t m_index;					///< The index of this counter.
-
-	ITable *m_table;
 };

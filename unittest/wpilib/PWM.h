@@ -88,13 +88,6 @@ protected:
 	int32_t m_deadbandMinPwm;
 	int32_t m_minPwm;
 
-	void ValueChanged(ITable* source, const std::string& key, EntryValue value, bool isNew);
-	void UpdateTable();
-	void StartLiveWindowMode();
-	void StopLiveWindowMode();
-	std::string GetSmartDashboardType();
-	void InitTable(ITable *subTable);
-
 private:
 	void InitPWM(uint32_t channel);
 	uint32_t m_channel;

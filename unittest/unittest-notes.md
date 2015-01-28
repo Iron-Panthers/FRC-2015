@@ -12,6 +12,7 @@ required
 	- Counter
 	- PIDSource
 	- GenericHID
+	- probably need to simulate I2C
 
 RobotBase.cpp
 	- where I should put everything to simulate the real world?
