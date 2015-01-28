@@ -7,14 +7,17 @@
 class RobotLocation
 {
 public:
-	RobotLocation();
+	const std::pair<float, float> getPosition()
+	const RobotLocation& get()
 	void update();
 
 private:
-	Gyro gyro;
-	Encoder left, right;
+	RobotLocation();
+	const std::unique_ptr <Gyro> gyro;
+	const std::unique_ptr<Encoder> left, right;
 	std::pair<float, float> pos;
 	float direction;
+	static RobotLocation instance;
 };
 
 

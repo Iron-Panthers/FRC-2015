@@ -1,6 +1,7 @@
-#include <ostream>
+#include <iostream>
 #include <WPILib.h>
-#include <DriveAuto.hpp>
+#include "DriveAuto.hpp"
+#include "RobotLocation.hpp"
 
 void DriveAuto::move(float feet, float motorVelocity)
 {
@@ -43,7 +44,7 @@ void DriveAuto::updateQueue()
 		{
 			leftMotors->TwoMotorGroup::Set(-1);
 			rightMotors->TwoMotorGroup::Set(1);
-			if(action.second[0] == Gyro::GetAngle())
+			if(action.second[0] == gyro->GetAngle())
 			{
 				leftMotors->TwoMotorGroup::Set(0);
 				rightMotors->TwoMotorGroup::Set(0);

@@ -1,10 +1,11 @@
 #ifndef DRIVE_AUTO_HPP
 #define DRIVE_AUTO_HPP
 
-#include <ostream>
+#include <iostream>
 #include <WPILib.h>
 #include <queue>
 #include "TwoMotorGroup.hpp"
+#include "RobotLocation.hpp"
 
 class DriveAuto {
 public:
@@ -18,10 +19,7 @@ public:
 	};
 private:
 	std::queue<std::pair <DriveActions, std::vector<float>>> actionQueues;
-	const std::shared_ptr<Encoder> leftEncoder;
-	const std::shared_ptr<Encoder> rightEncoder;
-	const std::shared_ptr<Gyro> gyro;
-	const std::unique_ptr<TwoMotorGroup> leftMotors;
+	const std::unique_ptr<TwoMotorGroup> left	Motors;
 	const std::unique_ptr<TwoMotorGroup> rightMotors;
 };
 
