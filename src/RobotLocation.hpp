@@ -11,13 +11,16 @@ class RobotLocation
 {
 public:
 	const std::pair<float, float> getPosition();
-	const RobotLocation* get();
+	const static RobotLocation* get();
 	void update();
 
+	const std::shared_ptr<Gyro> getGyro() const;
+	const std::shared_ptr<Encoder> getLeftEncoder() const;
+	const std::shared_ptr<Encoder> getRightEncoder() const;
 private:
 	RobotLocation();
-	const std::unique_ptr <Gyro> gyro;
-	const std::unique_ptr<Encoder> left, right;
+	const std::shared_ptr<Gyro> gyro;
+	const std::shared_ptr<Encoder> left, right;
 	std::pair<float, float> pos;
 	float direction;
 	static RobotLocation* instance;

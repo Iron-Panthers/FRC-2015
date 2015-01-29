@@ -16,8 +16,9 @@ public:
 		Move,
 		Turn
 	};
+	void update();
 private:
-	std::queue<std::pair <DriveActions, std::vector<float>>> actionQueues;
+	std::queue<std::pair <DriveActions, std::vector<float>>> actionQueue;
 	const std::unique_ptr<TwoMotorGroup> leftMotors;
 	const std::unique_ptr<TwoMotorGroup> rightMotors;
 };

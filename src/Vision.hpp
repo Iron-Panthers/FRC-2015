@@ -1,12 +1,12 @@
-#ifndef VISUALCLASS_HPP
-#define VISUALLCLASS_HPP
+#ifndef VISION_HPP
+#define VISION_HPP
 #include <iostream>
 #include <WPILib.h>
 #include <string>
 #include <fstream>
-#include "VisionClass.cpp"
 
-class Vision {
+class Vision
+{
 private:
 	const std::string cameraIP;
 	const AxisCamera camera;

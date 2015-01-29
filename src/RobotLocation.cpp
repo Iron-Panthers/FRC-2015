@@ -18,52 +18,29 @@ const RobotLocation* RobotLocation::get()
 }
 
 RobotLocation::RobotLocation()
-	: gyro(1)
-	, left(0,1)
-	, right(0, 1)
+	: gyro(new Gyro(1))
+	, left(new Encoder(0,1))
+	, right(new Encoder(0, 1))
 {
 	std::cout << "Hello World" << std::endl;
 }
 
 void RobotLocation::update()
 {
-	std::pair<DriveAuto::DriveActions, std::vector<float>> action = std::queue::front();
-	if(action.first == DriveAuto::DriveActions::Move)
-	{
-		DriveAuto::leftMotors->TwoMotorGroup::Set(action.second[1]);
-		DriveAuto::rightMotors->TwoMotorGroup::Set(action.second[1]);
-		float distanceTraveled = left->GetDistance();
-		action.second[0] -= distanceTraveled;
-		if(action.second[0] == 0)
-		{
-			DriveAuto::actionQueues.pop();
-		}
-	}
-	if(action.first == DriveAuto::DriveActions::Turn)
-	{
-		if(action.second[0] < 0)
-		{
-			DriveAuto::leftMotors->TwoMotorGroup::Set(-1);
-			DriveAuto::rightMotors->TwoMotorGroup::Set(1);
-			if(action.second[0] == gyro->GetAngle())
-			{
-				DriveAuto::leftMotors->TwoMotorGroup::Set(0);
-				DriveAuto::rightMotors->TwoMotorGroup::Set(0);
-				DriveAuto::actionQueues.pop();
-			}
 
-		}
-		if(action.second[0] > 0)
-		{
-			DriveAuto::leftMotors->TwoMotorGroup::Set(1);
-			DriveAuto::rightMotors->TwoMotorGroup::Set(-1);
-			if(action.second[0] == gyro->GetAngle())
-			{
-				DriveAuto::leftMotors->TwoMotorGroup::Set(0);
-				DriveAuto::rightMotors->TwoMotorGroup::Set(0);
-				DriveAuto::actionQueues.pop();
-			}
-		}
-	}
 }
 
+const std::shared_ptr<Gyro> RobotLocation::getGyro() const
+{
+	return gyro;
+}
+
+const std::shared_ptr<Encoder> RobotLocation::getLeftEncoder() const
+{
+	return left;
+}
+
+const std::shared_ptr<Encoder> RobotLocation::getRightEncoder() const
+{
+	return right;
+}

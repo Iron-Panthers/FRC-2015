@@ -22,5 +22,5 @@ float TwoMotorGroup::Get()
 	float speedOne = one->Get();
 	float speedTwo = two->Get();
 	B = (speedOne + speedTwo) /2;
-	std::cout << B;
+	return B;
 };

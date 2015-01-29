@@ -7,7 +7,7 @@
 #include "JoystickWrapper.hpp"
 #include "RobotLocation.hpp"
 #include "TwoMotorGroup.hpp"
-#include "VisionClass.hpp"
+#include "Vision.hpp"
 #include "ActionMap.hpp"
 
 

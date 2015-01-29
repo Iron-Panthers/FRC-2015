@@ -1,4 +1,4 @@
-#include <JoyButton.hpp>
+#include "JoyButton.hpp"
 
 JoyButton::JoyButton()
 	: name()
