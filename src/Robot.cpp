@@ -19,6 +19,7 @@ class Robot: public IterativeRobot
 private:
 	EventRelay relay;
 	Autonomous auton;
+	DriveAuto autoDrive;
 	void mapJoystick()
 	{
 
@@ -39,11 +40,9 @@ public:
 
 	void AutonomousPeriodic()
 	{
-		talon->Set(0.4);
-		one->Set(DoubleSolenoid::kForward);
-		Wait(10);
-		one->Set(DoubleSolenoid::kReverse);
-		Wait(10);
+		autoDrive.move(52, .5);
+		autoDrive.axisTurn(360);
+
 	}
 
 	void TeleopInit()
