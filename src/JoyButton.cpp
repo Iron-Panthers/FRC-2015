@@ -13,6 +13,12 @@ JoyButton::JoyButton(ButtonNames name)
 	std::cout << "Button #2" << std::endl;
 }
 
+JoyButton::JoyButton(const JoyButton& button)
+	: name(button.name), down(button.down), pressed(button.pressed), up(button.up)
+{
+
+}
+
 JoyButton::JoyButton(bool wouldBeDown, bool wouldBePressed, bool wouldBeUp, ButtonNames name)
 	: down(wouldBeDown)
 	, pressed(wouldBePressed)
@@ -29,4 +35,9 @@ inline bool JoyButton::operator==(const JoyButton& right)
 	else
 		return false;
 	std::cout << "Operator== JoyButton" << std::endl;
+}
+
+bool JoyButton::operator<(const JoyButton& right) const
+{
+	return name < right.name;
 }

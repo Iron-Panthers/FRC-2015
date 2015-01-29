@@ -1,4 +1,5 @@
 #include "Autonomous.hpp"
+#include "Vision.hpp"
 
 Autonomous::Autonomous()
 	: drive(), vision()

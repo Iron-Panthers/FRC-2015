@@ -13,12 +13,10 @@
 
 class Robot: public IterativeRobot
 {
-	DoubleSolenoid *one;
-	Talon *talon;
 
 private:
-	EventRelay relay;
-	Autonomous auton;
+	//EventRelay relay;
+	//Autonomous auton;
 	DriveAuto autoDrive;
 	void mapJoystick()
 	{
@@ -26,7 +24,7 @@ private:
 	}
 
 public:
-	Robot() : one(new DoubleSolenoid(0, 1)), talon(new Talon(1)) {}
+	Robot() {}
 
 	void RobotInit()
 	{
@@ -35,14 +33,12 @@ public:
 
 	void AutonomousInit()
 	{
-
+		autoDrive.move(52, .5);
 	}
 
 	void AutonomousPeriodic()
 	{
-		autoDrive.move(52, .5);
-		autoDrive.axisTurn(360);
-
+		autoDrive.update();
 	}
 
 	void TeleopInit()
@@ -52,7 +48,6 @@ public:
 
 	void TeleopPeriodic()
 	{
-
 	}
 
 	void DisabledInit()

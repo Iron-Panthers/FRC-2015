@@ -3,9 +3,17 @@
 #include "DriveAuto.hpp"
 #include "RobotLocation.hpp"
 
+DriveAuto::DriveAuto()
+	: leftMotors(new TwoMotorGroup(0, 1))
+	//, rightMotors(new TwoMotorGroup(0, 1))
+{
+
+}
+
 void DriveAuto::move(float feet, float motorVelocity)
 {
-	std::pair<DriveActions, std::vector<float>> moveAction;
+	std::cout << "move" << std::endl;
+	std::pair<DriveActions, std::vector<float> > moveAction;
 	moveAction.first = DriveActions::Move;
 	std::vector<float> params;
 	params.push_back(feet);
@@ -16,7 +24,7 @@ void DriveAuto::move(float feet, float motorVelocity)
 
 void DriveAuto::axisTurn(float degrees)
 {
-	std::pair<DriveActions, std::vector<float>> moveAction;
+	std::pair<DriveActions, std::vector<float> > moveAction;
 	moveAction.first = DriveActions::Turn;
 	std::vector<float> params;
 	params.push_back(degrees);
@@ -26,11 +34,11 @@ void DriveAuto::axisTurn(float degrees)
 
 void DriveAuto::update()
 {
-	std::pair<DriveAuto::DriveActions, std::vector<float>> action = actionQueue.front();
+	std::pair<DriveAuto::DriveActions, std::vector<float> > action = actionQueue.front();
 	if(action.first == DriveAuto::DriveActions::Move)
 	{
 		leftMotors->Set(action.second[1]);
-		rightMotors->Set(action.second[1]);
+		//rightMotors->Set(action.second[1]);
 		float distanceTraveled = RobotLocation::get()->getLeftEncoder()->GetDistance();
 		action.second[0] -= distanceTraveled;
 		if(action.second[0] == 0)
@@ -43,11 +51,11 @@ void DriveAuto::update()
 		if(action.second[0] < 0)
 		{
 			leftMotors->Set(-1);
-			rightMotors->Set(1);
+			//rightMotors->Set(1);
 			if(action.second[0] == RobotLocation::get()->getGyro()->GetAngle())
 			{
 				leftMotors->Set(0);
-				rightMotors->Set(0);
+				//rightMotors->Set(0);
 				actionQueue.pop();
 			}
 
@@ -55,11 +63,11 @@ void DriveAuto::update()
 		if(action.second[0] > 0)
 		{
 			leftMotors->Set(1);
-			rightMotors->Set(-1);
+			//rightMotors->Set(-1);
 			if(action.second[0] == RobotLocation::get()->getGyro()->GetAngle())
 			{
 				leftMotors->Set(0);
-				rightMotors->Set(0);
+				//rightMotors->Set(0);
 				actionQueue.pop();
 			}
 		}

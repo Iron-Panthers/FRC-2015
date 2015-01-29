@@ -3,24 +3,28 @@
 #include <iostream>
 
 TwoMotorGroup::TwoMotorGroup(int portOne, int portTwo)
-	: one(new Talon(1))
-	, two(new Talon(2))
+	: one(new Talon(portOne))
+	, two(new Talon(portTwo))
 {
-
+	std::cout << portOne << portTwo << "twomotorgroup constructor" << std::endl;
 }
 
 void TwoMotorGroup::Set(float speed)
 {
 	one->Set(speed);
 	two->Set(speed);
-
 }
 
 float TwoMotorGroup::Get()
 {
-	int B;
+	float B;
 	float speedOne = one->Get();
 	float speedTwo = two->Get();
 	B = (speedOne + speedTwo) /2;
 	return B;
-};
+}
+
+TwoMotorGroup::~TwoMotorGroup()
+{
+
+}
