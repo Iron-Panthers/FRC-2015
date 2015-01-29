@@ -3,12 +3,18 @@
 #include <iostream>
 #include <cmath>
 
-bool tolerance(float val1, float val2, float tolVal)
+const std::pair<float, float> RobotLocation::getPosition()
 {
-	if(fabs(val1 - val2) < tolVal)
+	return pos;
+}
+
+const RobotLocation* RobotLocation::get()
+{
+	if(instance == nullptr)
 	{
-		return true;
+		instance = new RobotLocation();
 	}
+	return instance;
 }
 
 RobotLocation::RobotLocation()
@@ -21,15 +27,43 @@ RobotLocation::RobotLocation()
 
 void RobotLocation::update()
 {
-	direction == gyro.GetAngle()*180/M_PI;
-	if(tolerance(left.GetDistance(), right.GetDistance(), 5e-5) == true)
+	std::pair<DriveAuto::DriveActions, std::vector<float>> action = std::queue::front();
+	if(action.first == DriveAuto::DriveActions::Move)
 	{
-		float x = left.GetDistance()/cos(direction);
-		float y = right.GetDistance()/sin(direction);
-		pos.first += x;
-		pos.second += y;
-
+		DriveAuto::leftMotors->TwoMotorGroup::Set(action.second[1]);
+		DriveAuto::rightMotors->TwoMotorGroup::Set(action.second[1]);
+		float distanceTraveled = left->GetDistance();
+		action.second[0] -= distanceTraveled;
+		if(action.second[0] == 0)
+		{
+			DriveAuto::actionQueues.pop();
+		}
 	}
+	if(action.first == DriveAuto::DriveActions::Turn)
+	{
+		if(action.second[0] < 0)
+		{
+			DriveAuto::leftMotors->TwoMotorGroup::Set(-1);
+			DriveAuto::rightMotors->TwoMotorGroup::Set(1);
+			if(action.second[0] == gyro->GetAngle())
+			{
+				DriveAuto::leftMotors->TwoMotorGroup::Set(0);
+				DriveAuto::rightMotors->TwoMotorGroup::Set(0);
+				DriveAuto::actionQueues.pop();
+			}
 
+		}
+		if(action.second[0] > 0)
+		{
+			DriveAuto::leftMotors->TwoMotorGroup::Set(1);
+			DriveAuto::rightMotors->TwoMotorGroup::Set(-1);
+			if(action.second[0] == gyro->GetAngle())
+			{
+				DriveAuto::leftMotors->TwoMotorGroup::Set(0);
+				DriveAuto::rightMotors->TwoMotorGroup::Set(0);
+				DriveAuto::actionQueues.pop();
+			}
+		}
+	}
 }
 

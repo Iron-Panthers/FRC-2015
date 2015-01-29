@@ -3,12 +3,15 @@
 
 #include <WPILib.h>
 #include <utility>
+#include "DriveAuto.hpp"
+#include "TwoMotorGroup.hpp"
+#include <queue>
 
 class RobotLocation
 {
 public:
-	const std::pair<float, float> getPosition()
-	const RobotLocation& get()
+	const std::pair<float, float> getPosition();
+	const RobotLocation* get();
 	void update();
 
 private:
@@ -17,7 +20,7 @@ private:
 	const std::unique_ptr<Encoder> left, right;
 	std::pair<float, float> pos;
 	float direction;
-	static RobotLocation instance;
+	static RobotLocation* instance;
 };
 
 

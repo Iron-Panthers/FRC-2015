@@ -11,7 +11,6 @@ class DriveAuto {
 public:
 	void move(float feet, float motorVelocity);
 	void axisTurn(float degrees);
-	void updateQueue();
 	enum DriveActions
 	{
 		Move,
@@ -19,7 +18,7 @@ public:
 	};
 private:
 	std::queue<std::pair <DriveActions, std::vector<float>>> actionQueues;
-	const std::unique_ptr<TwoMotorGroup> left	Motors;
+	const std::unique_ptr<TwoMotorGroup> leftMotors;
 	const std::unique_ptr<TwoMotorGroup> rightMotors;
 };
 
