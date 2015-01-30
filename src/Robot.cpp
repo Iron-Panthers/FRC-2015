@@ -15,9 +15,10 @@ class Robot: public IterativeRobot
 {
 
 private:
-	//EventRelay relay;
+	EventRelay relay;
 	//Autonomous auton;
 	DriveAuto autoDrive;
+	Shifter shifter;
 	void mapJoystick()
 	{
 
@@ -28,7 +29,10 @@ public:
 
 	void RobotInit()
 	{
-		//EventRelay relay;
+		JoyButton triggerButton(ButtonNames::Trigger);
+		std::function<void()> callback(std::bind(&Shifter::shiftHigh, &shifter));
+		Action<void()> action(callback, 0);
+		relay.getMap().associate(triggerButton, action);
 	}
 
 	void AutonomousInit()
@@ -52,7 +56,11 @@ public:
 
 	void DisabledInit()
 	{
-
+		JoyButton button(ButtonNames::Button9);
+		std::function<void()> callbackShiftLow(std::bind(&Shifter::shiftLow, &shifter));
+		Action<void()> action(callbackShiftLow, 0);
+		EventRelay relay;
+		relay.getMap().associate(button, action);
 	}
 
 	void DisabledPeriodic()
