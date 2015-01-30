@@ -1,16 +1,30 @@
 #include <WPILib.h>
+#include "EventRelay.hpp"
+#include "Autonomous.hpp"
+#include "Action.hpp"
+#include "JoyButton.hpp"
+#include "DriveAuto.hpp"
+#include "JoystickWrapper.hpp"
+#include "RobotLocation.hpp"
+#include "TwoMotorGroup.hpp"
+#include "Vision.hpp"
+#include "ActionMap.hpp"
 
-#include "../src/EventRelay.hpp"
 
 class Robot: public IterativeRobot
 {
-	DoubleSolenoid *one;
-	Talon *talon;
-public:
-	Robot() : one(new DoubleSolenoid(0, 1)), talon(new Talon(1)) {}
 
 private:
+	//EventRelay relay;
+	//Autonomous auton;
+	DriveAuto autoDrive;
+	void mapJoystick()
+	{
 
+	}
+
+public:
+	Robot() {}
 
 	void RobotInit()
 	{
@@ -19,15 +33,12 @@ private:
 
 	void AutonomousInit()
 	{
+		autoDrive.move(52, .5);
 	}
 
 	void AutonomousPeriodic()
 	{
-		talon->Set(0.4);
-		one->Set(DoubleSolenoid::kForward);
-		Wait(10);
-		one->Set(DoubleSolenoid::kReverse);
-		Wait(10);
+		autoDrive.update();
 	}
 
 	void TeleopInit()
@@ -37,11 +48,16 @@ private:
 
 	void TeleopPeriodic()
 	{
+	}
+
+	void DisabledInit()
+	{
 
 	}
 
-	void TestPeriodic()
+	void DisabledPeriodic()
 	{
+
 	}
 };
 

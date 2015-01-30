@@ -6,7 +6,7 @@ Detailed documentation can be found in the [Wiki](https://github.com/Iron-Panthe
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2015 Leon Cheung, Peter Skidmore, Katherine Brogan, Maggie Chang, Isabel Dominik, Michael Luo, Austin Soohoo, Emily Tam, Kimberly Wang, Burlingame Iron Panthers
+Copyright (c) 2015 Leon Cheung, Peter Skidmore, Katherine Brogan, Maggie Chang, Max Chakhmatov, Isabel Dominik, Michael Luo, Austin Soohoo, Emily Tam, Kimberly Wang, Burlingame Iron Panthers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

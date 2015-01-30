@@ -3,33 +3,45 @@
 #include <iostream>
 #include <cmath>
 
-bool tolerance(float val1, float val2, float tolVal)
+const std::pair<float, float> RobotLocation::getPosition()
 {
-	if(fabs(val1 - val2) < tolVal)
+	return pos;
+}
+
+RobotLocation* RobotLocation::instance = nullptr;
+const RobotLocation* RobotLocation::get()
+{
+	if(instance == nullptr)
 	{
-		return true;
+		instance = new RobotLocation();
 	}
+	return instance;
 }
 
 RobotLocation::RobotLocation()
-	: gyro(1)
-	, left(0,1)
-	, right(0, 1)
+	: gyro(new Gyro(1))
+	, left(new Encoder(0,1))
+//	, right(new Encoder(2, 3))
 {
 	std::cout << "Hello World" << std::endl;
 }
 
 void RobotLocation::update()
 {
-	direction == gyro.GetAngle()*180/M_PI;
-	if(tolerance(left.GetDistance(), right.GetDistance(), 5e-5) == true)
-	{
-		float x = left.GetDistance()/cos(direction);
-		float y = right.GetDistance()/sin(direction);
-		pos.first += x;
-		pos.second += y;
-
-	}
 
 }
 
+const std::shared_ptr<Gyro> RobotLocation::getGyro() const
+{
+	return gyro;
+}
+
+const std::shared_ptr<Encoder> RobotLocation::getLeftEncoder() const
+{
+	return left;
+}
+
+const std::shared_ptr<Encoder> RobotLocation::getRightEncoder() const
+{
+	return right;
+}

@@ -27,7 +27,9 @@ public:
 	bool pressed;
 	bool up;
 	inline bool operator==(const JoyButton& right);
+	bool operator<(const JoyButton& right) const;
 	JoyButton();
+	JoyButton(const JoyButton& button);
 	JoyButton(ButtonNames name);
 	JoyButton(bool wouldBeDown, bool wouldBePressed, bool wouldBeUp, ButtonNames name);
 

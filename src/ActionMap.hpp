@@ -3,7 +3,6 @@
 
 #include "Action.hpp"
 #include "JoyButton.hpp"
-#include <vector>
 #include <utility>
 
 class ActionMap
@@ -14,7 +13,7 @@ public:
 	void associate(JoyButton button, Action<void()> action);
 	bool eventOccurredFor(JoyButton button);
 private:
-	std::map<JoyButton, Action<void()>> buttonMap;
+	std::map<JoyButton, Action<void()> > buttonMap;
 };
 
 #endif
