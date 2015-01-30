@@ -10,6 +10,7 @@ EventRelay::EventRelay()
 
 void EventRelay::checkStates()
 {
+	joyWrap.pollJoystick();
 	std::array<JoyButton, 12> buttonStates = joyWrap.getStates();
 	std::cout << "Mmmmmm... That check states Doge..." << std::endl;
 

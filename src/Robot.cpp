@@ -52,6 +52,7 @@ public:
 
 	void TeleopPeriodic()
 	{
+		relay.checkStates();
 	}
 
 	void DisabledInit()
