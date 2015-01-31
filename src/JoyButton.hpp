@@ -6,7 +6,7 @@
 
 enum ButtonNames
 {
-	Trigger = 0,
+	Trigger = 1,
 	SideButton,
 	BottomLeft,
 	BottomRight,

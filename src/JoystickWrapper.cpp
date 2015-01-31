@@ -29,7 +29,7 @@ bool JoystickWrapper::checkPressed(JoyButton joyButton, ButtonNames butt)
 void JoystickWrapper::pollJoystick()
 {
 	std::cout << "pollJoystick" << std::endl;
-	for (int i = 0; i < joyButtons.size(); i++)
+	for (int i = 1; i <= joyButtons.size(); i++)
 	{
 		if(checkDown(joyButtons[i], static_cast<ButtonNames>(i)))
 		{

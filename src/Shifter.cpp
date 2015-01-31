@@ -1,6 +1,9 @@
 #include<WPILib.h>
 #include <iostream>
-#include "GearShifter.hpp"
+#include "Shifter.hpp"
+
+Shifter::Shifter()
+	: shift(new DoubleSolenoid(0, 1)) {}
 
 Shifter::Shifter(int solenoidPortA, int solenoidPortB)
 	: shift(new DoubleSolenoid(solenoidPortA, solenoidPortB))

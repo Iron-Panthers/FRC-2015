@@ -9,6 +9,7 @@
 #include "TwoMotorGroup.hpp"
 #include "Vision.hpp"
 #include "ActionMap.hpp"
+#include "Shifter.hpp"
 
 
 class Robot: public IterativeRobot
@@ -17,32 +18,38 @@ class Robot: public IterativeRobot
 private:
 	EventRelay relay;
 	//Autonomous auton;
-	DriveAuto autoDrive;
+	//DriveAuto autoDrive;
 	Shifter shifter;
-	void mapJoystick()
+	/*void mapJoystick()
 	{
 
-	}
+	}*/
 
 public:
 	Robot() {}
 
 	void RobotInit()
 	{
-		JoyButton triggerButton(ButtonNames::Trigger);
+		JoyButton triggerButton(true, false, false, ButtonNames::Trigger);
 		std::function<void()> callback(std::bind(&Shifter::shiftHigh, &shifter));
 		Action<void()> action(callback, 0);
 		relay.getMap().associate(triggerButton, action);
+
+		JoyButton button(true, false, false, ButtonNames::Button9);
+		std::function<void()> callbackShiftLow(std::bind(&Shifter::shiftLow, &shifter));
+		Action<void()> actionB(callbackShiftLow, 0);
+		EventRelay relay;
+		relay.getMap().associate(button, actionB);
 	}
 
 	void AutonomousInit()
 	{
-		autoDrive.move(52, .5);
+		//autoDrive.move(52, .5);
 	}
 
 	void AutonomousPeriodic()
 	{
-		autoDrive.update();
+		//autoDrive.update();
 	}
 
 	void TeleopInit()
@@ -57,11 +64,7 @@ public:
 
 	void DisabledInit()
 	{
-		JoyButton button(ButtonNames::Button9);
-		std::function<void()> callbackShiftLow(std::bind(&Shifter::shiftLow, &shifter));
-		Action<void()> action(callbackShiftLow, 0);
-		EventRelay relay;
-		relay.getMap().associate(button, action);
+
 	}
 
 	void DisabledPeriodic()
