@@ -38,7 +38,6 @@ public:
 		JoyButton button(true, false, false, ButtonNames::Button9);
 		std::function<void()> callbackShiftLow(std::bind(&Shifter::shiftLow, &shifter));
 		Action<void()> actionB(callbackShiftLow, 0);
-		EventRelay relay;
 		relay.getMap().associate(button, actionB);
 	}
 
