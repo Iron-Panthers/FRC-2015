@@ -12,11 +12,13 @@ void EventRelay::checkStates()
 {
 	joyWrap.pollJoystick();
 	std::array<JoyButton, 12> buttonStates = joyWrap.getStates();
-	std::cout << "Mmmmmm... That check states Doge..." << std::endl;
+	auto button = buttonStates[0];
 
-	for(int i = 0; i < buttonStates.size(); i++)
+	std::cout << button.down << button.pressed << button.up << std::endl;
+
+	for(unsigned int i = 0; i < buttonStates.size(); i++)
 	{
-		if(buttonStates[i].pressed || buttonStates[i].up || buttonStates[i].down)
+		if (buttonStates[i].down || buttonStates[i].pressed || buttonStates[i].up)
 		{
 			actionMap.eventOccurredFor(buttonStates[i]);
 		}
@@ -24,7 +26,7 @@ void EventRelay::checkStates()
 }
 
 
-ActionMap EventRelay::getMap()
+ActionMap& EventRelay::getMap()
 {
 	std::cout << "Got that map... You \'na\' me?" << std::endl;
 	return actionMap;

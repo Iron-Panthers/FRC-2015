@@ -20,7 +20,7 @@ bool JoystickWrapper::checkUp(JoyButton joyButton, ButtonNames butt)
 
 bool JoystickWrapper::checkPressed(JoyButton joyButton, ButtonNames butt)
 {
-	if((joyButton.down || joyButton.pressed) && !joyButton.up && !joystick.GetRawButton(butt))
+	if((joyButton.down || joyButton.pressed) && !joyButton.up && joystick.GetRawButton(butt))
 		return true;
 	else
 		return false;
@@ -28,32 +28,44 @@ bool JoystickWrapper::checkPressed(JoyButton joyButton, ButtonNames butt)
 
 void JoystickWrapper::pollJoystick()
 {
-	std::cout << "pollJoystick" << std::endl;
 	for (int i = 0; i < joyButtons.size(); i++)
 	{
-		if(checkDown(joyButtons[i], static_cast<ButtonNames>(i)))
-		{
-			joyButtons[i].down = true;
-		}
-		if(checkUp(joyButtons[i], static_cast<ButtonNames>(i)))
+		if(checkUp(joyButtons[i], static_cast<ButtonNames>(i + 1)))
 		{
 			joyButtons[i].up = true;
 		}
-		if(checkPressed(joyButtons[i], static_cast<ButtonNames>(i)))
+		else
+		{
+			joyButtons[i].up = false;
+		}
+		if(checkPressed(joyButtons[i], static_cast<ButtonNames>(i + 1)))
 		{
 			joyButtons[i].pressed = true;
 		}
-
+		else
+		{
+			joyButtons[i].pressed = false;
+		}
+		if(checkDown(joyButtons[i], static_cast<ButtonNames>(i + 1)))
+		{
+			joyButtons[i].down = true;
+		}
+		else
+		{
+			joyButtons[i].down = false;
+		}
 	}
 }
 
 const std::array<JoyButton, 12>& JoystickWrapper::getStates()
 {
-	std::cout << "getStates" << std::endl;
 	return joyButtons;
 }
 
 JoystickWrapper::JoystickWrapper() : joystick(0), joyButtons()
 {
-	std::cout << "getStates" << std::endl;
+	for(int i = 0; i < joyButtons.size(); i++)
+	{
+		joyButtons[i].name = static_cast<ButtonNames>(i + 1);
+	}
 }

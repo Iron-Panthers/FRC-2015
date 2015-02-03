@@ -1,6 +1,12 @@
 #include<WPILib.h>
 #include <iostream>
 #include "Shifter.hpp"
+<<<<<<< HEAD
+=======
+
+Shifter::Shifter()
+	: shift(new DoubleSolenoid(0, 1)) {}
+>>>>>>> origin/master
 
 Shifter::Shifter(int solenoidPortA, int solenoidPortB)
 	: shift(new DoubleSolenoid(solenoidPortA, solenoidPortB))
