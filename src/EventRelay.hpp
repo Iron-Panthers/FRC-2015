@@ -2,8 +2,9 @@
 #define EVENT_RELAY_HPP
 
 #include <WPILib.h>
-#include "../src/ActionMap.hpp"
-#include "../src/JoystickWrapper.hpp"
+#include "ActionMap.hpp"
+#include "JoystickWrapper.hpp"
+#include <iostream>
 
 class EventRelay
 {
@@ -12,7 +13,7 @@ private:
 	JoystickWrapper joyWrap;
 public:
 	void checkStates();
-	ActionMap getMap();
+	ActionMap& getMap();
 	EventRelay();
 };
 
