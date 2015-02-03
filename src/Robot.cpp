@@ -18,8 +18,10 @@ class Robot: public IterativeRobot
 private:
 	EventRelay relay;
 	//Autonomous auton;
-	//DriveAuto autoDrive;
+	DriveAuto autoDrive;
 	Shifter shifter;
+	//Talon *talons;
+	//Talon *talond;
 	/*void mapJoystick()
 	{
 
@@ -39,16 +41,25 @@ public:
 		std::function<void()> callbackShiftLow(std::bind(&Shifter::shiftLow, &shifter));
 		Action<void()> actionB(callbackShiftLow, 0);
 		relay.getMap().associate(button, actionB);
+
+
+
 	}
 
 	void AutonomousInit()
 	{
 		//autoDrive.move(52, .5);
+		//talons = new Talon(0);
+		//talond = new Talon(1);
+		autoDrive.move(100, .5);
 	}
 
 	void AutonomousPeriodic()
 	{
 		//autoDrive.update();
+		//talons->Set(.5);
+		//talond->Set(.5);
+		autoDrive.update();
 	}
 
 	void TeleopInit()
@@ -59,6 +70,7 @@ public:
 	void TeleopPeriodic()
 	{
 		relay.checkStates();
+
 	}
 
 	void DisabledInit()

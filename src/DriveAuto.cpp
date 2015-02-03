@@ -38,24 +38,25 @@ void DriveAuto::update()
 	if(action.first == DriveAuto::DriveActions::Move)
 	{
 		leftMotors->Set(action.second[1]);
-		//rightMotors->Set(action.second[1]);
+		rightMotors->Set(action.second[1]);
 		float distanceTraveled = RobotLocation::get()->getLeftEncoder()->GetDistance();
 		action.second[0] -= distanceTraveled;
 		if(action.second[0] == 0)
 		{
 			actionQueue.pop();
 		}
+		std::cout << "update" << std::endl;
 	}
 	if(action.first == DriveAuto::DriveActions::Turn)
 	{
 		if(action.second[0] < 0)
 		{
 			leftMotors->Set(-1);
-			//rightMotors->Set(1);
+			rightMotors->Set(1);
 			if(action.second[0] == RobotLocation::get()->getGyro()->GetAngle())
 			{
 				leftMotors->Set(0);
-				//rightMotors->Set(0);
+				rightMotors->Set(0);
 				actionQueue.pop();
 			}
 
@@ -63,11 +64,11 @@ void DriveAuto::update()
 		if(action.second[0] > 0)
 		{
 			leftMotors->Set(1);
-			//rightMotors->Set(-1);
+			rightMotors->Set(-1);
 			if(action.second[0] == RobotLocation::get()->getGyro()->GetAngle())
 			{
 				leftMotors->Set(0);
-				//rightMotors->Set(0);
+				rightMotors->Set(0);
 				actionQueue.pop();
 			}
 		}

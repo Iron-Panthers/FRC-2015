@@ -22,7 +22,7 @@ public:
 private:
 	std::queue<std::pair <DriveActions, std::vector<float>>> actionQueue;
 	const std::unique_ptr<TwoMotorGroup> leftMotors;
-	//const std::unique_ptr<TwoMotorGroup> rightMotors;
+	const std::unique_ptr<TwoMotorGroup> rightMotors;
 };
 
 #endif
