@@ -9,7 +9,7 @@ const std::pair<float, float> RobotLocation::getPosition()
 }
 
 RobotLocation* RobotLocation::instance = nullptr;
-const RobotLocation* RobotLocation::get()
+RobotLocation* RobotLocation::get()
 {
 	if(instance == nullptr)
 	{
@@ -24,6 +24,8 @@ RobotLocation::RobotLocation()
 //	, right(new Encoder(2, 3))
 {
 	std::cout << "Hello World" << std::endl;
+	left->SetDistancePerPulse(163);
+	//right->SetDistancePerPulse(163);
 }
 
 void RobotLocation::update()
@@ -36,7 +38,7 @@ const std::shared_ptr<Gyro> RobotLocation::getGyro() const
 	return gyro;
 }
 
-const std::shared_ptr<Encoder> RobotLocation::getLeftEncoder() const
+std::shared_ptr<Encoder> RobotLocation::getLeftEncoder()
 {
 	return left;
 }
