@@ -18,7 +18,7 @@ class Robot: public IterativeRobot
 private:
 	EventRelay relay;
 	//Autonomous auton;
-	DriveAuto autoDrive;
+
 	Shifter shifter;
 	//Talon *talons;
 	//Talon *talond;

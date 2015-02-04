@@ -10,6 +10,16 @@ DriveAuto::DriveAuto()
 
 }
 
+DriveAuto* DriveAuto::instance = nullptr;
+const DriveAuto* DriveAuto::get()
+{
+	if(instance == nullptr)
+	{
+		instance = new DriveAuto();
+	}
+	return instance;
+}
+
 void DriveAuto::move(float feet, float motorVelocity)
 {
 	std::cout << "move" << std::endl;
