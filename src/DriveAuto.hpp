@@ -7,7 +7,8 @@
 #include "TwoMotorGroup.hpp"
 #include "RobotLocation.hpp"
 
-class DriveAuto {
+class DriveAuto
+{
 public:
 	void move(float feet, float motorVelocity);
 	void axisTurn(float degrees);
@@ -24,10 +25,8 @@ private:
 	std::queue<std::pair <DriveActions, std::vector<float>>> actionQueue;
 	const std::unique_ptr<TwoMotorGroup> leftMotors;
 	const std::unique_ptr<TwoMotorGroup> rightMotors;
-<<<<<<< HEAD
 	static DriveAuto* instance;
-=======
->>>>>>> origin/master
+
 };
 
 #endif

@@ -21,7 +21,7 @@ const RobotLocation* RobotLocation::get()
 RobotLocation::RobotLocation()
 	: gyro(new Gyro(1))
 	, left(new Encoder(0,1))
-//	, right(new Encoder(2, 3))
+	, right(new Encoder(2, 3))
 {
 	std::cout << "Hello World" << std::endl;
 }
