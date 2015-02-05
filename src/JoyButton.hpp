@@ -6,7 +6,7 @@
 
 enum ButtonNames
 {
-	Trigger = 0,
+	Trigger = 1,
 	SideButton,
 	BottomLeft,
 	BottomRight,
@@ -26,6 +26,7 @@ public:
 	bool down;
 	bool pressed;
 	bool up;
+	ButtonNames name;
 	inline bool operator==(const JoyButton& right);
 	bool operator<(const JoyButton& right) const;
 	JoyButton();
@@ -33,8 +34,6 @@ public:
 	JoyButton(ButtonNames name);
 	JoyButton(bool wouldBeDown, bool wouldBePressed, bool wouldBeUp, ButtonNames name);
 
-private:
-	ButtonNames name;
 };
 
 #endif

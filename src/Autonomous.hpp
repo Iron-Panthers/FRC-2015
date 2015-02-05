@@ -10,7 +10,6 @@ public:
 	void run();
 	Autonomous();
 private:
-	DriveAuto drive;
 	Vision vision;
 	SendableChooser autoChoice;
 };

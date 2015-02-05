@@ -10,6 +10,16 @@ DriveAuto::DriveAuto()
 
 }
 
+DriveAuto* DriveAuto::instance = nullptr;
+const DriveAuto* DriveAuto::get()
+{
+	if(instance == nullptr)
+	{
+		instance = new DriveAuto();
+	}
+	return instance;
+}
+
 void DriveAuto::move(float feet, float motorVelocity)
 {
 	std::cout << "move" << std::endl;
@@ -40,9 +50,14 @@ void DriveAuto::update()
 		leftMotors->Set(action.second[1]);
 		//rightMotors->Set(action.second[1]);
 		float distanceTraveled = RobotLocation::get()->getLeftEncoder()->GetDistance();
+		std::cout << "encoder value: " << RobotLocation::get()->getLeftEncoder()->GetRate() << std::endl;
+		std::cout << "distance traveled: " << distanceTraveled << std::endl;
 		action.second[0] -= distanceTraveled;
 		if(action.second[0] == 0)
 		{
+			std::cout << "update" << std::endl;
+			leftMotors->Set(0);
+			//rightMotors->Set(0);
 			actionQueue.pop();
 		}
 	}
