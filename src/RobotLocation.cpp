@@ -19,13 +19,14 @@ RobotLocation* RobotLocation::get()
 }
 
 RobotLocation::RobotLocation()
-	: gyro(new Gyro(1))
+	: gyro(new Gyro(0))
 	, left(new Encoder(0,1))
-	, right(new Encoder(2, 3))
+	//, right(new Encoder(2, 3))
 {
-	std::cout << "Hello World" << std::endl;
-	left->SetDistancePerPulse(163);
-	//right->SetDistancePerPulse(163);
+	//left->SetDistancePerPulse(0.073631077818);
+	left->SetDistancePerPulse(0.073631077818 / 79.62947);
+	//left->SetDistancePerPulse(163/12);
+	//right->SetDistancePerPulse(163/12);
 }
 
 void RobotLocation::update()

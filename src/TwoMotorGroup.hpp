@@ -11,8 +11,9 @@ public:
 	float Get();
 	void Set(float speed);
 	~TwoMotorGroup();
+
 private:
-	 std::shared_ptr<Talon> one, two;
+	std::shared_ptr<Talon> one, two;
 
 };
 

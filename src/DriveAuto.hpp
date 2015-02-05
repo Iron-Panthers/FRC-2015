@@ -18,19 +18,16 @@ public:
 		Turn
 	};
 	void update();
-	const static DriveAuto* get();
+	static DriveAuto* get();
+	const std::shared_ptr<TwoMotorGroup> getLeftMotors();
+	const std::shared_ptr<TwoMotorGroup> getRightMotors();
 
 private:
 	DriveAuto();
 	std::queue<std::pair <DriveActions, std::vector<float>>> actionQueue;
-	const std::unique_ptr<TwoMotorGroup> leftMotors;
-<<<<<<< HEAD
-	//const std::unique_ptr<TwoMotorGroup> rightMotors;
-=======
-	const std::unique_ptr<TwoMotorGroup> rightMotors;
+	const std::shared_ptr<TwoMotorGroup> leftMotors;
+	const std::shared_ptr<TwoMotorGroup> rightMotors;
 	static DriveAuto* instance;
-
->>>>>>> origin/master
 };
 
 #endif

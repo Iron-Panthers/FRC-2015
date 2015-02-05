@@ -18,8 +18,11 @@ class Robot: public IterativeRobot
 private:
 	EventRelay relay;
 	//Autonomous auton;
+	//DriveAuto autoDrive;
 
 	Shifter shifter;
+	DigitalInput* input;
+	int x;
 	//Talon *talons;
 	//Talon *talond;
 	/*void mapJoystick()
@@ -28,7 +31,10 @@ private:
 	}*/
 
 public:
-	Robot() {}
+	Robot() : shifter(0, 1), input(new DigitalInput(2))
+	{
+		RobotLocation::get(); //construct the gyro
+	}
 
 	void RobotInit()
 	{
@@ -51,7 +57,7 @@ public:
 		//autoDrive.move(52, .5);
 		//talons = new Talon(0);
 		//talond = new Talon(1);
-		autoDrive.move(5, .5);
+		DriveAuto::get()->move(10, .5);
 	}
 
 	void AutonomousPeriodic()
@@ -59,18 +65,23 @@ public:
 		//autoDrive.update();
 		//talons->Set(.5);
 		//talond->Set(.5);
-		autoDrive.update();
+		DriveAuto::get()->update();
 	}
 
 	void TeleopInit()
 	{
-
 	}
 
 	void TeleopPeriodic()
 	{
-		relay.checkStates();
+		std::cout << input->Get();
+		if (x % 8 == 0)
+		{
+			std::cout << std::endl;
+			x = 0;
+		}
 
+		x++;
 	}
 
 	void DisabledInit()
