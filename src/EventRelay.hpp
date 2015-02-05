@@ -13,7 +13,7 @@ private:
 	JoystickWrapper joyWrap;
 public:
 	void checkStates();
-	ActionMap& getMap();
+	ActionMap getMap();
 	EventRelay();
 };
 

@@ -2,7 +2,7 @@
 #include "Vision.hpp"
 
 Autonomous::Autonomous()
-	: vision()
+	: drive(), vision()
 {
 
 }

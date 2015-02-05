@@ -25,10 +25,7 @@ JoyButton::JoyButton(bool wouldBeDown, bool wouldBePressed, bool wouldBeUp, Butt
 	, up(wouldBeUp)
 	, name(name)
 {
-	std::cout << std::boolalpha << wouldBeDown << "down\t"
-			  	  	  	  	    << wouldBeUp << "up\t"
-								<< wouldBePressed << "pressed\t"
-								<< name << "button name" << std::endl;
+	std::cout << "Button #1" << std::endl;
 }
 
 inline bool JoyButton::operator==(const JoyButton& right)

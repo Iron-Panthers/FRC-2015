@@ -14,6 +14,5 @@ template <typename T>
 void Action<T>::run() const
 {
 	callback();
+	std::cout << "run was called in Action" << std::endl;
 }
-
-template class Action<void()>;
