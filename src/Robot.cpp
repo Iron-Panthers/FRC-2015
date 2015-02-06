@@ -57,12 +57,14 @@ public:
 		//autoDrive.move(52, .5);
 		//talons = new Talon(0);
 		//talond = new Talon(1);
-		DriveAuto::get()->move(10, .5);
+		DriveAuto::get()->move(700, .7);
+		DriveAuto::get()->move(100, 0.1);
+		DriveAuto::get()->move(1000, 1);
 	}
 
 	void AutonomousPeriodic()
 	{
-		//autoDrive.update();
+	//autoDrive.update();
 		//talons->Set(.5);
 		//talond->Set(.5);
 		DriveAuto::get()->update();
@@ -75,13 +77,6 @@ public:
 	void TeleopPeriodic()
 	{
 		std::cout << input->Get();
-		if (x % 8 == 0)
-		{
-			std::cout << std::endl;
-			x = 0;
-		}
-
-		x++;
 	}
 
 	void DisabledInit()

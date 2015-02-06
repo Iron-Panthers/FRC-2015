@@ -2,6 +2,12 @@
 #include <WPILib.h>
 #include "DriveAuto.hpp"
 #include "RobotLocation.hpp"
+#include <cmath>
+
+bool tolerance(double left, double right, double epsilon)
+{
+	return (std::abs(std::abs(left) - std::abs(right)) < epsilon);
+}
 
 DriveAuto::DriveAuto()
 	: leftMotors(new TwoMotorGroup(0, 1))
@@ -30,14 +36,16 @@ const std::shared_ptr<TwoMotorGroup> DriveAuto::getRightMotors()
 	return rightMotors;
 }
 
-void DriveAuto::move(float feet, float motorVelocity)
+void DriveAuto::move(float inches, float motorVelocity)
 {
 	std::cout << "move" << std::endl;
 	std::pair<DriveActions, std::vector<float> > moveAction;
 	moveAction.first = DriveActions::Move;
 	std::vector<float> params;
-	params.push_back(feet);
+	params.push_back(inches);
 	params.push_back(motorVelocity);
+	params.push_back(RobotLocation::get()->getLeftEncoder()->GetDistance());
+	//params.push_back(RobotLocatoin::get()->getRightEncoder()->GetDistance());
 	moveAction.second = params;
 	actionQueue.push (moveAction);
 }
@@ -54,24 +62,29 @@ void DriveAuto::axisTurn(float degrees)
 
 void DriveAuto::update()
 {
+	if (actionQueue.size() == 0)
+	{
+		return;
+	}
+
 	std::pair<DriveAuto::DriveActions, std::vector<float> > action = actionQueue.front();
+
 	if(action.first == DriveAuto::DriveActions::Move)
 	{
 		leftMotors->Set(action.second[1]);
 		//rightMotors->Set(action.second[1]);
-		float distanceTraveled = RobotLocation::get()->getLeftEncoder()->GetDistance();
-		std::cout << action.second[0] << std::endl;
-		action.second[0] -= distanceTraveled;
-		std::cout<< action.second[0] << std::endl;
-		if(action.second[0] == 0)
+		float totalDistance = RobotLocation::get()->getLeftEncoder()->GetDistance();
+		std::cout << actionQueue.size() << "\t" << std::abs(action.second[0]) - std::abs(totalDistance - action.second[2]) <<  std::endl;
+		if(tolerance(action.second[0], totalDistance - action.second[2], 0.5 * action.second[1] * 10))
 		{
-			std::cout << "update" << std::endl;
 			leftMotors->Set(0);
 			//rightMotors->Set(0);
 			actionQueue.pop();
+			if (actionQueue.size() > 0)
+				actionQueue.front().second[2] = RobotLocation::get()->getLeftEncoder()->GetDistance();
 		}
 	}
-	if(action.first == DriveAuto::DriveActions::Turn)
+	else if(action.first == DriveAuto::DriveActions::Turn)
 	{
 		if(action.second[0] < 0)
 		{
@@ -97,4 +110,5 @@ void DriveAuto::update()
 			}
 		}
 	}
+	else if(action.first )
 }

@@ -15,7 +15,8 @@ public:
 	enum DriveActions
 	{
 		Move,
-		Turn
+		Turn,
+		Wait
 	};
 	void update();
 	static DriveAuto* get();

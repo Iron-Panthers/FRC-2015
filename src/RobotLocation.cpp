@@ -33,7 +33,7 @@ RobotLocation::RobotLocation()
 >>>>>>> caef0c445cbaa6a60a2848cbfd61c4db521ea6af
 {
 	//left->SetDistancePerPulse(0.073631077818);
-	left->SetDistancePerPulse(0.073631077818 / 79.62947);
+	left->SetDistancePerPulse(0.073631077818 / 7.139690);
 	//left->SetDistancePerPulse(163/12);
 	//right->SetDistancePerPulse(163/12);
 }
