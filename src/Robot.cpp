@@ -18,7 +18,7 @@ class Robot: public IterativeRobot
 private:
 	EventRelay relay;
 	//Autonomous auton;
-	DriveAuto autoDrive;
+
 	Shifter shifter;
 	//Talon *talons;
 	//Talon *talond;
@@ -51,7 +51,7 @@ public:
 		//autoDrive.move(52, .5);
 		//talons = new Talon(0);
 		//talond = new Talon(1);
-		autoDrive.move(100, .5);
+		autoDrive.move(5, .5);
 	}
 
 	void AutonomousPeriodic()

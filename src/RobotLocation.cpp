@@ -9,7 +9,7 @@ const std::pair<float, float> RobotLocation::getPosition()
 }
 
 RobotLocation* RobotLocation::instance = nullptr;
-const RobotLocation* RobotLocation::get()
+RobotLocation* RobotLocation::get()
 {
 	if(instance == nullptr)
 	{
@@ -21,10 +21,16 @@ const RobotLocation* RobotLocation::get()
 RobotLocation::RobotLocation()
 	: gyro(new Gyro(1))
 	, left(new Encoder(0,1))
+<<<<<<< HEAD
 	, builtinaccelerometer()
 //	, right(new Encoder(2, 3))
+=======
+	, right(new Encoder(2, 3))
+>>>>>>> origin/master
 {
 	std::cout << "Hello World" << std::endl;
+	left->SetDistancePerPulse(163);
+	//right->SetDistancePerPulse(163);
 }
 
 void RobotLocation::update()
@@ -32,17 +38,11 @@ void RobotLocation::update()
 	double x = builtinaccelerometer.GetX()
 	double y = builtinaccelerometer.GetY()
 
-	float x * (1/3600);
-	float  * distX;
-	float y * (1/3600);
-	float  * distY;
+	float distX = x * (1/3600);
+	float distY = y * (1/3600);
 
-	double distX
-	double distY
-	builtinaccelerometer ** (1/3600)
-
-	float radius = 3.0;
-	float circumference = radius * 2 * 3.14;
+	pos.first = distX += position.first
+	pos.second = distY += position.second
 }
 
 const std::shared_ptr<Gyro> RobotLocation::getGyro() const
@@ -50,7 +50,7 @@ const std::shared_ptr<Gyro> RobotLocation::getGyro() const
 	return gyro;
 }
 
-const std::shared_ptr<Encoder> RobotLocation::getLeftEncoder() const
+std::shared_ptr<Encoder> RobotLocation::getLeftEncoder()
 {
 	return left;
 }
