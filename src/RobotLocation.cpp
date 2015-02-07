@@ -21,16 +21,9 @@ RobotLocation* RobotLocation::get()
 RobotLocation::RobotLocation()
 	: gyro(new Gyro(0))
 	, left(new Encoder(0,1))
-<<<<<<< HEAD
-<<<<<<< HEAD
-	, builtinaccelerometer()
-//	, right(new Encoder(2, 3))
-=======
+	//, builtinaccelerometer()
 	, right(new Encoder(2, 3))
->>>>>>> origin/master
-=======
-	//, right(new Encoder(2, 3))
->>>>>>> caef0c445cbaa6a60a2848cbfd61c4db521ea6af
+
 {
 	//left->SetDistancePerPulse(0.073631077818);
 	left->SetDistancePerPulse(0.073631077818 / 7.139690);
@@ -40,14 +33,14 @@ RobotLocation::RobotLocation()
 
 void RobotLocation::update()
 {
-	double x = builtinaccelerometer.GetX()
+	/*double x = builtinaccelerometer.GetX()
 	double y = builtinaccelerometer.GetY()
 
 	float distX = x * (1/3600);
 	float distY = y * (1/3600);
 
 	pos.first = distX += position.first
-	pos.second = distY += position.second
+	pos.second = distY += position.second*/
 }
 
 const std::shared_ptr<Gyro> RobotLocation::getGyro() const
