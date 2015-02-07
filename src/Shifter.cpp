@@ -1,8 +1,9 @@
-#include<WPILib.h>
+#include <WPILib.h>
 #include <iostream>
 #include "Shifter.hpp"
 #include "TwoMotorGroup.hpp"
 #include "DriveAuto.hpp"
+#include "RobotLocation.hpp"
 
 
 Shifter::Shifter(int solenoidPortA, int solenoidPortB)
@@ -34,3 +35,18 @@ void Shifter::shiftLow()
 	DriveAuto::get()->getRightMotors()->Set(pSpeedTwo);
 	std::cout << "ShiftLow online" << std::endl;
 }
+
+void Shifter::shiftUpdate()
+{
+	float leftSpeed = RobotLocation::get()->getLeftEncoder()->GetRate();
+	float rightSpeed = RobotLocation::get()->getRightEncoder()->GetRate();
+	if(rightSpeed >= 100 && leftSpeed >= 100 && RobotLocation::get()->getLeftEncoder()->Get() != DoubleSolenoid::kForward && RobotLocation::get()->getRightEncoder()->Get() != DoubleSolenoid::kForward)
+	{
+		shiftHigh();
+	}
+	else if(rightSpeed < 100 && leftSpeed < 100 && RobotLocation::get()->getLeftEncoder()->Get() != DoubleSolenoid::kReverse && RobotLocation::get()->getRightEncoder()->Get() != DoubleSolenoid::kReverse)
+	{
+		shiftLow();
+	}
+}
+

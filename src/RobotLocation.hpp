@@ -17,7 +17,7 @@ public:
 
 	const std::shared_ptr<Gyro> getGyro() const;
 	std::shared_ptr<Encoder> getLeftEncoder();
-	const std::shared_ptr<Encoder> getRightEncoder() const;
+	std::shared_ptr<Encoder> getRightEncoder();
 private:
 	RobotLocation();
 	const std::shared_ptr<Gyro> gyro;

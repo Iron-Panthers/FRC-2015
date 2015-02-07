@@ -12,6 +12,7 @@ class DriveAuto
 public:
 	void move(float feet, float motorVelocity);
 	void axisTurn(float degrees);
+	void wait(float seconds);
 	enum DriveActions
 	{
 		Move,

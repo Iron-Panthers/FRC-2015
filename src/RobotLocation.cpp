@@ -53,7 +53,7 @@ std::shared_ptr<Encoder> RobotLocation::getLeftEncoder()
 	return left;
 }
 
-const std::shared_ptr<Encoder> RobotLocation::getRightEncoder() const
+std::shared_ptr<Encoder> RobotLocation::getRightEncoder()
 {
 	return right;
 }

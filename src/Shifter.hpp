@@ -11,6 +11,7 @@ public:
 	Shifter(int solenoidPortA, int solenoidPortB);
 	void shiftHigh();
 	void shiftLow();
+	void shiftUpdate();
 };
 
 #endif

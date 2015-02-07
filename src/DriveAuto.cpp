@@ -54,10 +54,20 @@ void DriveAuto::move(float inches, float motorVelocity)
 
 void DriveAuto::axisTurn(float degrees)
 {
-	std::pair<DriveActions, std::vector<float> > moveAction;
+	std::pair<DriveActions, std::vector<float>> moveAction;
 	moveAction.first = DriveActions::Turn;
 	std::vector<float> params;
 	params.push_back(degrees);
+	moveAction.second = params;
+	actionQueue.push (moveAction);
+}
+
+void DriveAuto::wait(float seconds)
+{
+	std::pair<DriveActions, std::vector<float>> moveAction;
+	moveAction.first = DriveActions::Wait;
+	std::vector<float> params;
+	params.push_back(seconds);
 	moveAction.second = params;
 	actionQueue.push (moveAction);
 }
@@ -122,8 +132,10 @@ void DriveAuto::update()
 			}
 		}
 	}
-	else if(action.first )
+	else if(action.first == DriveAuto::DriveActions::Wait)
 	{
-
+		leftMotors->Set(0);
+		rightMotors->Set(0);
+		//Wait(static_cast<double>(action.second[0]));
 	}
 }

@@ -14,7 +14,6 @@ public:
 
 private:
 	std::shared_ptr<Talon> one, two;
-
 };
 
 #endif
