@@ -62,7 +62,7 @@ const std::array<JoyButton, 12>& JoystickWrapper::getStates()
 	return joyButtons;
 }
 
-JoystickWrapper::JoystickWrapper() : joystick(0), joyButtons()
+JoystickWrapper::JoystickWrapper() : joystick(0) , joyButtons() //Where joystick is plugged in
 {
 	for(int i = 0; i < joyButtons.size(); i++)
 	{

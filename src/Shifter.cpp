@@ -1,7 +1,7 @@
 #include <WPILib.h>
 #include <iostream>
 #include "Shifter.hpp"
-#include "TwoMotorGroup.hpp"
+#include "TwoMotorGroup.hpp"b
 #include "DriveAuto.hpp"
 #include "RobotLocation.hpp"
 
@@ -42,7 +42,7 @@ void Shifter::shiftUpdate()
 	float rightSpeed = RobotLocation::get()->getRightEncoder()->GetRate();
 	if(rightSpeed >= 100 && leftSpeed >= 100 && RobotLocation::get()->getLeftEncoder()->Get() != DoubleSolenoid::kForward && RobotLocation::get()->getRightEncoder()->Get() != DoubleSolenoid::kForward)
 	{
-		shiftHigh();
+		shiftHigh(); //if it's going fast and isn't already shifted high then shift
 	}
 	else if(rightSpeed < 100 && leftSpeed < 100 && RobotLocation::get()->getLeftEncoder()->Get() != DoubleSolenoid::kReverse && RobotLocation::get()->getRightEncoder()->Get() != DoubleSolenoid::kReverse)
 	{

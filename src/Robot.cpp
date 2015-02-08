@@ -19,8 +19,6 @@ private:
 	EventRelay relay;
 	//Autonomous auton;
 	Shifter shifter;
-	Talon *talons;
-	Talon *talond;
 public:
 	Robot() : shifter(0, 1)
 	{
@@ -43,14 +41,9 @@ public:
 	void AutonomousInit()
 	{
 		//autoDrive.move(52, .5);
-		talons = new Talon(2);
-		talond = new Talon(3);
+		//talons = new Talon(2);
+		//talond = new Talon(3);
 		//DriveAuto::get()->move(36, 0.2);
-		shifter.shiftHigh();
-		Wait[2];
-		talons = 0;
-		talons = 0;
-
 	}
 
 	void AutonomousPeriodic()
