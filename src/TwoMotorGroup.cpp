@@ -20,7 +20,7 @@ float TwoMotorGroup::Get()
 	float B;
 	float speedOne = one->Get();
 	float speedTwo = two->Get();
-	B = (speedOne + speedTwo) /2;
+	B = (speedOne + speedTwo) /2; //average speed from both robots
 	return B;
 }
 
