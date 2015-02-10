@@ -1,4 +1,4 @@
- #include "Vision.hpp"
+#include "Vision.hpp"
 #include <vector>
 #define Y_IMAGE_RES 480
 #define VIEW_ANGLE 49
@@ -10,37 +10,21 @@
 #define VERTICAL_SCORE_LIMIT 50
 #define LR_SCORE_LIMIT 50
 #define MAX_PARTICLES 8
-struct Scores
- {
- double rectangularity;
- double aspectRatioVertical;
- double aspectRatioHorizontal;
- };
 
- struct TargetReport
- {
- int verticalIndex;
- int horizontalIndex;
- bool Hot;
- double totalScore;
- double leftScore;
- double rightScore;
- double tapeWidthScore;
- double verticalScore;
- };
- Threshold threshold(60, 100, 90, 255, 20, 255);
- ParticleFilterCriteria2 criteria[] = {
- IMAQ_MT_AREA, AREA_MINIMUM, 65535, false, false
- };
 
- ColorImage *image;
- image = new RGBImage("/testImage.jpg");
- BinaryImage *thresholdImage = image->ThresholdHSV(threshold);
- BinaryImage *convexHullImage = thresholdImage->ConvexHull(false);
- BinaryImage *filteredImage = convexHullImage->ParticleFilter(criteria, 1);
- vector<ParticleAnalysisReport> *reports = filteredImage->GetOrderedParticleAnalysisReports();
- scores = new Scores[reports->size()];
+Threshold threshold(60, 100, 90, 255, 20, 255);
+ParticleFilterCriteria2 criteria[] = {
+	IMAQ_MT_AREA, AREA_MINIMUM, 65535, false, false
+};
 
+ColorImage *image;
+image = new RGBImage("/testImage.jpg");
+camera.GetImage(image);
+BinaryImage *thresholdImage = image->ThresholdHSV(threshold);
+BinaryImage *convexHullImage = thresholdImage->ConvexHull(false);
+BinaryImage *filteredImage = convexHullImage->ParticleFilter(criteria, 1);
+std::vector<ParticleAnalysisReport> *reports = filteredImage->GetOrderedParticleAnalysisReports();
+scores = new Scores[reports->size()];
 
 Vision::Vision():
 cameraIP(std::string("localhost")), camera(cameraIP){
@@ -48,7 +32,7 @@ cameraIP(std::string("localhost")), camera(cameraIP){
 }
 float Vision::distanceToBox()
 {
-	for(unsigned i = 0; i<reports->size(); i++)
+	for(unsigned int i = 0; i<reports->size(); i++)
 	{
 		ParticleAnalysisReport *report = &(reports_>at(1));
 
@@ -96,7 +80,7 @@ float Vision::distanceToBox()
 
 float Vision::angleToBox()
 {
-return 0;
+	return 0;
 }
 
 
