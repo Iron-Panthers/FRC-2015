@@ -4,6 +4,7 @@
 #include <WPILib.h>
 #include <string>
 #include <fstream>
+#include <cmath>
 #include <vector>
 
 class Vision
@@ -12,12 +13,13 @@ public:
 	Vision();
 	float distanceToBox();
 	float angleToBox();
-	struct Scores
+
+	/*struct Scores
 	{
 		double rectangularity;
 		double aspectRatioVertical;
 		double aspectRatioHorizontal;
-	};
+	};*/
 	struct TargetReport
 	{
 		int verticalIndex;
@@ -31,7 +33,13 @@ public:
 	};
 private:
 	const std::string cameraIP;
-	const AxisCamera camera;
+	AxisCamera camera;
+	//Scores *scores;
+
+	const float FOV;
+	const float CAM_PROJECTION;
+	const float WREAL;
+
 };
 
 #endif
