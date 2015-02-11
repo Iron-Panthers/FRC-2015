@@ -6,6 +6,8 @@ EventRelay::EventRelay()
 	, joyWrap()
 {
 	std::cout << "Yeeeee... That Event Relay online" << std::endl;
+	DriveAuto::get();
+	RobotDrive driveRobot(DriveAuto::get()->getLeftMotors(), DriveAuto::get()->getRightMotors());
 }
 
 void EventRelay::checkStates()

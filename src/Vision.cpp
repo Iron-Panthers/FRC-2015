@@ -1,19 +1,5 @@
 #include "Vision.hpp"
 #include <vector>
-#define Y_IMAGE_RES 480
-#define VIEW_ANGLE 49
-#define PI 3.141592653
-#define RECTANGULARITY_LIMIT 40
-#define ASPECT_RATIO_LIMIT 55
-#define AREA_MINIMUM 150
-#define TAPE_WIDTH_LIMIT 50
-#define VERTICAL_SCORE_LIMIT 50
-#define LR_SCORE_LIMIT 50
-#define MAX_PARTICLES 8
-
-
-
-
 
 Vision::Vision()
 	:cameraIP(std::string("localhost")), camera(cameraIP), FOV(62.85913123), CAM_PROJECTION(2), WREAL(20)
@@ -26,9 +12,9 @@ float Vision::distanceToBox()
 	ColorImage *image;
 	camera.GetImage(image);
 
-	Threshold threshold(170, 185, 90, 255, 20, 255);
+	Threshold threshold(120, 131, 90, 255, 20, 255);
 	ParticleFilterCriteria2 criteria[] = {
-		IMAQ_MT_AREA, AREA_MINIMUM, 65535, false, false
+		IMAQ_MT_AREA, 500, 65535, false, false
 	};
 
 	BinaryImage *thresholdImage = image->ThresholdHSV(threshold);
