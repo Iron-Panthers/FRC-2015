@@ -11,6 +11,8 @@ EventRelay::EventRelay()
 			   , DriveAuto::get()->getRightMotors()->getTalonTwo().get())
 {
 	std::cout << "Yeeeee... That Event Relay online" << std::endl;
+	driveRobot.SetInvertedMotor(static_cast<RobotDrive::MotorType>(2), true);
+	driveRobot.SetInvertedMotor(static_cast<RobotDrive::MotorType>(3), true);
 }
 
 void EventRelay::checkStates()
