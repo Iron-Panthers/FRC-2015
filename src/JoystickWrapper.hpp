@@ -13,6 +13,7 @@ public:
 	void pollJoystick();
 	const std::array<JoyButton, 12>& getStates();
 	JoystickWrapper();
+	Joystick* getJoystick();
 
 private:
 	Joystick joystick;

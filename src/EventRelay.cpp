@@ -1,17 +1,22 @@
 #include "EventRelay.hpp"
 #include "ActionMap.hpp"
+#include "DriveAuto.hpp"
 
 EventRelay::EventRelay()
 	: actionMap()
 	, joyWrap()
+	, driveRobot(DriveAuto::get()->getLeftMotors()->getTalonOne().get()
+			   , DriveAuto::get()->getLeftMotors()->getTalonTwo().get()
+			   , DriveAuto::get()->getRightMotors()->getTalonOne().get()
+			   , DriveAuto::get()->getRightMotors()->getTalonTwo().get())
 {
 	std::cout << "Yeeeee... That Event Relay online" << std::endl;
-	DriveAuto::get();
-	RobotDrive driveRobot(DriveAuto::get()->getLeftMotors(), DriveAuto::get()->getRightMotors());
 }
 
 void EventRelay::checkStates()
 {
+	driveRobot.ArcadeDrive(joyWrap.getJoystick());
+
 	joyWrap.pollJoystick();
 	std::array<JoyButton, 12> buttonStates = joyWrap.getStates();
 	auto button = buttonStates[0];

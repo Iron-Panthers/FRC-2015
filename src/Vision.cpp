@@ -2,7 +2,7 @@
 #include <vector>
 
 Vision::Vision()
-	:cameraIP(std::string("localhost")), camera(cameraIP), FOV(62.85913123), CAM_PROJECTION(2), WREAL(20)
+	:cameraIP(std::string("10.50.26.20")), camera(cameraIP), FOV(62.85913123), CAM_PROJECTION(2), WREAL(20)
 {
 
 }
@@ -11,7 +11,6 @@ float Vision::distanceToBox()
 {
 	ColorImage *image;
 	camera.GetImage(image);
-
 	Threshold threshold(120, 131, 90, 255, 20, 255);
 	ParticleFilterCriteria2 criteria[] = {
 		IMAQ_MT_AREA, 500, 65535, false, false
