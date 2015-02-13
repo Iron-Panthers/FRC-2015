@@ -70,14 +70,3 @@ void TwoMotorGroup::PIDWrite(float output)
 {
 	Set(output);
 }
-
-std::shared_ptr<Talon> TwoMotorGroup::getTalonOne()
-{
-	return one;
-}
-
-std::shared_ptr<Talon> TwoMotorGroup::getTalonTwo()
-{
-	return two;
-}
-
