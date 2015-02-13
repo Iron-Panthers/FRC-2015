@@ -28,7 +28,7 @@ RobotLocation::RobotLocation()
 	//left->SetDistancePerPulse(0.073631077818);
 	left->SetDistancePerPulse(0.073631077818 / 7.139690);
 	//left->SetDistancePerPulse(163/12);
-	//right->SetDistancePerPulse(163/12);
+	right->SetDistancePerPulse(0.073631077818 / 7.139690);
 }
 
 void RobotLocation::update()

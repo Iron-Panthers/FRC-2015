@@ -4,6 +4,7 @@
 #include <iostream>
 #include <queue>
 #include <fstream>
+#include <ostream>
 
 class ToteLifter
 {
@@ -21,10 +22,8 @@ private:
 	bool tolerance(double left, double right, double epsilon);
 	double targetDistance;
 	const double toteMotorSpeed;
-
-	const std::string encoderValueFilename;
+	const std::string encoderValueFileName;
 	double distanceOffset;
-
 };
 
 #endif

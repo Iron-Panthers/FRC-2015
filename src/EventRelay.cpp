@@ -11,13 +11,19 @@ EventRelay::EventRelay()
 			   , DriveAuto::get()->getRightMotors()->getTalonTwo().get())
 {
 	std::cout << "Yeeeee... That Event Relay online" << std::endl;
-	driveRobot.SetInvertedMotor(static_cast<RobotDrive::MotorType>(2), true);
-	driveRobot.SetInvertedMotor(static_cast<RobotDrive::MotorType>(3), true);
+	driveRobot.SetInvertedMotor(static_cast<RobotDrive::MotorType>(0), false);
+	driveRobot.SetInvertedMotor(static_cast<RobotDrive::MotorType>(1), false);
+	driveRobot.SetInvertedMotor(static_cast<RobotDrive::MotorType>(2), false);
+	driveRobot.SetInvertedMotor(static_cast<RobotDrive::MotorType>(3), false);
+	//0 3
+	//0 2
+	driveRobot.SetSafetyEnabled(false);
 }
 
 void EventRelay::checkStates()
 {
 	driveRobot.ArcadeDrive(joyWrap.getJoystick());
+	std::cout << "after drive" << std::endl;
 
 	joyWrap.pollJoystick();
 	std::array<JoyButton, 12> buttonStates = joyWrap.getStates();
