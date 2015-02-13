@@ -19,9 +19,11 @@ private:
 	EventRelay relay;
 	//Autonomous auton;
 	Shifter shifter;
+	Vision vision;
 public:
 	Robot() : shifter(0, 1)
 	{
+
 		RobotLocation::get(); //construct the gyro
 	}
 
@@ -51,7 +53,8 @@ public:
 		//autoDrive.update();
 		//talons->Set(.5);
 		//talond->Set(.5);
-		DriveAuto::get()->update();
+		//DriveAuto::get()->update();
+		//vision.distanceToBox();
 	}
 
 	void TeleopInit()
@@ -62,6 +65,7 @@ public:
 	void TeleopPeriodic()
 	{
 		//std::cout << input->Get();
+		relay.checkStates();
 	}
 
 	void DisabledInit()

@@ -15,6 +15,7 @@ public:
 	void checkStates();
 	ActionMap& getMap();
 	EventRelay();
+	RobotDrive driveRobot;
 };
 
 #endif

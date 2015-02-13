@@ -69,3 +69,8 @@ JoystickWrapper::JoystickWrapper() : joystick(0) , joyButtons() //Where joystick
 		joyButtons[i].name = static_cast<ButtonNames>(i + 1);
 	}
 }
+
+Joystick* JoystickWrapper::getJoystick()
+{
+	return &joystick;
+}
