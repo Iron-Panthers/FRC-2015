@@ -41,7 +41,7 @@ void DriveAuto::move(float inches, float motorVelocity)
 	std::cout << "move" << std::endl;
 	std::pair<DriveActions, std::vector<float> > moveAction;
 	moveAction.first = DriveActions::Move;
-	std::vector<float> params;  //stores inches and motorVelocity
+	std::vector<float> params; //stores inches and motorVelocity
 	params.push_back(inches);
 	params.push_back(motorVelocity);
 	float leftDistance = RobotLocation::get()->getLeftEncoder()->GetDistance();
@@ -103,7 +103,6 @@ void DriveAuto::update()
 				float totalDistance = (leftDistance + rightDistance) / 2.0f; //average distance from both encoders
 				actionQueue.front().second[2] = totalDistance;
 			}
-
 		}
 	}
 	else if(action.first == DriveAuto::DriveActions::Turn)
@@ -112,19 +111,18 @@ void DriveAuto::update()
 		{
 			leftMotors->Set(-1);
 			rightMotors->Set(1);
-			if(action.second[0] == RobotLocation::get()->getGyro()->GetAngle()) //need to use tolerance here
+			if(action.second[0] == RobotLocation::get()->getGyro()->GetAngle()) //need to put tolerance here
 			{
 				leftMotors->Set(0);
 				rightMotors->Set(0);
 				actionQueue.pop();
 			}
-
 		}
 		if(action.second[0] > 0) //want to turn left
 		{
 			leftMotors->Set(1);
 			rightMotors->Set(-1);
-			if(action.second[0] == RobotLocation::get()->getGyro()->GetAngle()) //need to use tolerance here
+			if(action.second[0] == RobotLocation::get()->getGyro()->GetAngle()) //need to put tolerance here
 			{
 				leftMotors->Set(0);
 				rightMotors->Set(0);

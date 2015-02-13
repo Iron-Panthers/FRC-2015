@@ -40,11 +40,12 @@ void Shifter::shiftUpdate()
 {
 	float leftSpeed = RobotLocation::get()->getLeftEncoder()->GetRate();
 	float rightSpeed = RobotLocation::get()->getRightEncoder()->GetRate();
-	if(rightSpeed >= 100 && leftSpeed >= 100 && RobotLocation::get()->getLeftEncoder()->Get() != DoubleSolenoid::kForward && RobotLocation::get()->getRightEncoder()->Get() != DoubleSolenoid::kForward)
+	float averageSpeed = (leftSpeed + rightSpeed)/2;
+	if(averageSpeed >= 100 && RobotLocation::get()->getLeftEncoder()->Get() != DoubleSolenoid::kForward && RobotLocation::get()->getRightEncoder()->Get() != DoubleSolenoid::kForward)
 	{
 		shiftHigh(); //if it's going faster than 100 and isn't already shifted high then shiftHigh
 	}
-	else if(rightSpeed < 100 && leftSpeed < 100 && RobotLocation::get()->getLeftEncoder()->Get() != DoubleSolenoid::kReverse && RobotLocation::get()->getRightEncoder()->Get() != DoubleSolenoid::kReverse)
+	else if(averageSpeed < 100 && RobotLocation::get()->getLeftEncoder()->Get() != DoubleSolenoid::kReverse && RobotLocation::get()->getRightEncoder()->Get() != DoubleSolenoid::kReverse)
 	{
 		shiftLow(); //if it's going slower than 100 and isn't already shifted low then shiftLow
 	}
