@@ -16,15 +16,15 @@ class Robot: public IterativeRobot
 {
 
 private:
-	EventRelay relay;
+	//EventRelay relay;
 	//Autonomous auton;
 	//Shifter shifter;
 	//Vision vision;
-
+	Talon *one, *two, *three, *four;
 public:
-	Robot()
+	Robot() : one(new Talon(0)), two(new Talon(1)), three(new Talon(2)), four(new Talon(3))
 	{
-		RobotLocation::get(); //construct the gyro
+		//RobotLocation::get(); //construct the gyro
 	}
 
 	void RobotInit()
@@ -44,17 +44,17 @@ public:
 	{
 		//talons = new Talon(2);
 		//talond = new Talon(3);
-		DriveAuto::get()->move(30, 0.2);
+		//DriveAuto::get()->move(30, 0.2);
 	}
 
 	void AutonomousPeriodic()
 	{
 		//talons->Set(.5);
 		//talond->Set(.5);
-		DriveAuto::get()->update();
+		//DriveAuto::get()->update();
 		//vision.distanceToBox();
-		std::cout << "Left: " << RobotLocation::get()->getLeftEncoder()->GetDistance() << std::endl;
-		std::cout << "Right: " << RobotLocation::get()->getRightEncoder()->GetDistance() << std::endl;
+		//std::cout << "Left: " << RobotLocation::get()->getLeftEncoder()->GetDistance() << std::endl;
+		//std::cout << "Right: " << RobotLocation::get()->getRightEncoder()->GetDistance() << std::endl;
 	}
 
 	void TeleopInit()
@@ -65,7 +65,13 @@ public:
 	void TeleopPeriodic()
 	{
 		//std::cout << input->Get();
-		relay.checkStates();
+		//relay.checkStates();
+		one->Set(0.3);
+		two->Set(0.3);
+		three->Set(0.3);
+		four->Set(0.3);
+		std::cout << "Left: " << RobotLocation::get()->getLeftEncoder()->GetDistance() << std::endl;
+		std::cout << "Right: " << RobotLocation::get()->getRightEncoder()->GetDistance() << std::endl;
 	}
 
 	void DisabledInit()

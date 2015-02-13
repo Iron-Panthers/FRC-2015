@@ -89,10 +89,9 @@ void DriveAuto::update()
 		leftMotors->Set(-action.second[1]);
 		rightMotors->Set(action.second[1]); //Sets the left & right motors to the motorVelocity that was pushed in the queue in Move()
 
-		leftMotors->syncWith(robotLocation->getRightEncoder(), robotLocation->getLeftEncoder());
-		leftMotors->moveStraight(true);
-		leftMotors->updateSync();
-
+		rightMotors->syncWith(robotLocation->getLeftEncoder(), robotLocation->getRightEncoder());
+		rightMotors->moveStraight(true);
+		rightMotors->updateSync();
 		float leftDistance = robotLocation->getLeftEncoder()->GetDistance();
 		float rightDistance = robotLocation->getRightEncoder()->GetDistance();
 		float totalDistance = (leftDistance + rightDistance) / 2.0f; //average of both encoders
@@ -101,7 +100,7 @@ void DriveAuto::update()
 		{
 			leftMotors->Set(0);
 			rightMotors->Set(0);
-			leftMotors->moveStraight(false);
+			rightMotors->moveStraight(false);
 			actionQueue.pop();
 			if (actionQueue.size() > 0) //If there's stuff in actionQueues
 			{
