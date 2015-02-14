@@ -53,7 +53,7 @@ void DriveAuto::move(float inches, float motorVelocity)
 	moveAction.second = params; //Puts inches & motorVelocity in moveAction
 	actionQueue.push (moveAction); //Stores the params pair and the DriveAction in actionQueue
 
-	rightMotors->syncWith(robotLocation->getLeftEncoder(), robotLocation->getRightEncoder());
+	rightMotors->syncWith(RobotLocation::get()->getLeftEncoder(), RobotLocation::get()->getRightEncoder());
 }
 
 void DriveAuto::axisTurn(float degrees)
