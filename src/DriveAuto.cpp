@@ -52,6 +52,8 @@ void DriveAuto::move(float inches, float motorVelocity)
 	params.push_back(currentDistance);
 	moveAction.second = params; //Puts inches & motorVelocity in moveAction
 	actionQueue.push (moveAction); //Stores the params pair and the DriveAction in actionQueue
+
+	rightMotors->syncWith(robotLocation->getLeftEncoder(), robotLocation->getRightEncoder());
 }
 
 void DriveAuto::axisTurn(float degrees)
@@ -87,11 +89,11 @@ void DriveAuto::update()
 	if(action.first == DriveAuto::DriveActions::Move)
 	{
 		leftMotors->Set(-action.second[1]);
-		rightMotors->Set(action.second[1]); //Sets the left & right motors to the motorVelocity that was pushed in the queue in Move()
+		//rightMotors->Set(action.second[1]); //Sets the left & right motors to the motorVelocity that was pushed in the queue in Move()
 
-		rightMotors->syncWith(robotLocation->getLeftEncoder(), robotLocation->getRightEncoder());
 		rightMotors->moveStraight(true);
 		rightMotors->updateSync();
+
 		float leftDistance = robotLocation->getLeftEncoder()->GetDistance();
 		float rightDistance = robotLocation->getRightEncoder()->GetDistance();
 		float totalDistance = (leftDistance + rightDistance) / 2.0f; //average of both encoders

@@ -58,7 +58,7 @@ void TwoMotorGroup::syncWith(const std::shared_ptr<Encoder> encoderSync, const s
 void TwoMotorGroup::updateSync()
 {
 	if (controller)
-		controller->SetSetpoint(syncedEncoder->GetRate() / 80.0f);
+		controller->SetSetpoint(syncedEncoder->GetRate() / 209.131f);
 }
 
 void TwoMotorGroup::moveStraight(bool straight)
