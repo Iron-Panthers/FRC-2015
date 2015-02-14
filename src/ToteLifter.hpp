@@ -5,6 +5,7 @@
 #include <queue>
 #include <fstream>
 #include <ostream>
+#include <string>
 
 class ToteLifter
 {
@@ -18,12 +19,13 @@ public:
 
 private:
 	std::shared_ptr<Encoder> toteEncoder;
-	Talon *toteMotor;
+	Talon *leftMotor;
+	Talon *rightMotor;
 	bool tolerance(double left, double right, double epsilon);
 	double targetDistance;
 	const double toteMotorSpeed;
 	const std::string encoderValueFileName;
-	double distanceOffset;
+	float distanceOffset;
 };
 
 #endif
