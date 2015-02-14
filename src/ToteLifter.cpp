@@ -6,11 +6,12 @@ ToteLifter::ToteLifter()
 	  toteMotorSpeed(1.0),
 	  encoderValueFileName("lastEncoderValue.txt")
 {
-	std::fstream lastEncoderValue(encoderValueFileName);
+	std::ifstream lastEncoderValue(encoderValueFileName);
 }
 
 ToteLifter::~ToteLifter()
 {
+
 }
 
 bool ToteLifter::tolerance(double left, double right, double epsilon)
@@ -49,5 +50,6 @@ void ToteLifter::update()
 	std::fstream lastEncoderValue;
 	lastEncoderValue.open (encoderValueFileName);
 	lastEncoderValue << toteEncoder->GetDistance();
+	std::ios::trunc << 	"lastEncoderValue.txt" << std::ofstream;
 	lastEncoderValue.close();
 }
