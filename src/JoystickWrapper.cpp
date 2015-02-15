@@ -59,6 +59,8 @@ void JoystickWrapper::pollJoystick()
 
 const std::array<JoyButton, 12>& JoystickWrapper::getStates()
 {
+	if (joystick.GetRawButton(1))
+		std::cout << std::endl << std::endl << "sdf" << std::endl;
 	return joyButtons;
 }
 

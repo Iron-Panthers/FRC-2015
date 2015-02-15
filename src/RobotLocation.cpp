@@ -19,16 +19,16 @@ RobotLocation* RobotLocation::get()
 }
 
 RobotLocation::RobotLocation()
-	: gyro(new Gyro(0))
-	, left(new Encoder(0,1))
-	//, builtinaccelerometer()
-	, right(new Encoder(2, 3))
+	//: gyro(new Gyro(0))
+	: left(new Encoder(0,1))
+	//, b	uiltinaccelerometer()
+	//: right(new Encoder(4, 5))
 
 {
 	//left->SetDistancePerPulse(0.073631077818);
 	left->SetDistancePerPulse(0.073631077818 / 7.139690);
 	//left->SetDistancePerPulse(163/12);
-	right->SetDistancePerPulse(0.073631077818 / 7.139690);
+	//right->SetDistancePerPulse(0.073631077818 / 7.139690);
 }
 
 void RobotLocation::update()

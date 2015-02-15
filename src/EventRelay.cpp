@@ -29,7 +29,7 @@ void EventRelay::checkStates()
 	std::array<JoyButton, 12> buttonStates = joyWrap.getStates();
 	auto button = buttonStates[0];
 
-	std::cout << button.down << button.pressed << button.up << std::endl;
+	std::cout << '\t' << button.down << button.pressed << button.up << std::endl;
 
 	for(unsigned int i = 0; i < buttonStates.size(); i++)
 	{

@@ -1,13 +1,13 @@
-#include "../src/Logger.hpp"
-
+#include "spdlog/spdlog.h"
+#include "Logger.hpp"
 #include <iostream>
-#include <WPILib.h>
 #include <string>
 #include <fstream>
+#include "JoyButton.hpp"
 
 Logger::Logger()
 {
-	std::cout<< "constructor" << std::endl;
+	std::cout << "constructor" << std::endl;
 }
 
 Logger::~Logger()
@@ -15,9 +15,10 @@ Logger::~Logger()
 	std::cout<< "destructor" << std::endl;
 }
 
-void Logger::logToFile(Log log)
+void logToFile()
 {
-	std::cout<< log.action + log.position + log.time << std::endl;
+	//auto console = spd::stdout_logger_mt("console");
+	console->info(JoyButton(bool wouldBeDown, bool wouldBePressed, bool wouldBeUp, ButtonNames name));
 }
 
 

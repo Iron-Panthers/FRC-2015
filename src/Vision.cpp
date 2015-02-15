@@ -9,7 +9,7 @@ Vision::Vision()
 
 float Vision::distanceToBox()
 {
-	ColorImage *image;
+	ColorImage *image = nullptr;
 	camera.GetImage(image);
 	Threshold threshold(120, 131, 90, 255, 20, 255);
 	ParticleFilterCriteria2 criteria[] = {
@@ -34,9 +34,10 @@ float Vision::distanceToBox()
 	float wfake = reports->at(0).boundingRect.width;
 	float theta = FOV * wfake / CAM_PROJECTION;
 	float distance = WREAL / tan(theta * M_PI / 180);
-	std::cout << "wfake: " << wfake << '\t'
+	/*std::cout << "wfake: " << wfake << '\t'
 			  << "theta: " << theta << '\t'
-			  << "distance: " << distance << std::endl;
+			  << "distance: " << distance << std::endl;*/
+	std::cout << distance << std::endl;
 	return distance;
 }
 
