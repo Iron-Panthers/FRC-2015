@@ -1,12 +1,23 @@
 #include "ToteLifter.hpp"
 
 ToteLifter::ToteLifter()
+<<<<<<< HEAD
 	//: toteEncoder(new Encoder(5, 6)), //Encoder ports
 	: toteMotor(new Talon(4)),
+=======
+	: toteEncoder(new Encoder(5, 6)), //Encoder ports
+	  leftMotor(new Talon(7)),
+	  rightMotor(new Talon(8)),
+>>>>>>> origin/master
 	  toteMotorSpeed(1.0),
 	 encoderValueFileName("lastEncoderValue.txt")
 {
+<<<<<<< HEAD
 	//std::ifstream lastEncoderValue(encoderValueFileName);
+=======
+	std::ifstream lastEncoderValue(encoderValueFileName);
+	distanceOffset = std::stof(encoderValueFileName);
+>>>>>>> origin/master
 }
 
 ToteLifter::~ToteLifter()
@@ -58,26 +69,40 @@ std::shared_ptr<Encoder> ToteLifter::getToteEncoder()
 
 void ToteLifter::update()
 {
+<<<<<<< HEAD
 	/*double currentDistance = toteEncoder->GetDistance();
+=======
+	double currentDistance = toteEncoder->GetDistance() + distanceOffset;
+>>>>>>> origin/master
 	if(!tolerance(currentDistance, targetDistance, 2))
 	{
 		if(targetDistance > currentDistance)
 		{
-			toteMotor->Set(toteMotorSpeed);
+			leftMotor->Set(toteMotorSpeed);
+			rightMotor->Set(toteMotorSpeed);
 		}
 		else if(targetDistance < currentDistance)
 		{
-			toteMotor->Set(-toteMotorSpeed);
+			leftMotor->Set(-toteMotorSpeed);
+			rightMotor->Set(toteMotorSpeed);
 		}
 	}
 	else
 	{
-		toteMotor->Set(0);
+		leftMotor->Set(0);
+		rightMotor->Set(0);
 	}
+<<<<<<< HEAD
 	std::fstream lastEncoderValue;
 	lastEncoderValue.open (encoderValueFileName);
 	lastEncoderValue << toteEncoder->GetDistance();
 	std::ios::trunc << 	"lastEncoderValue.txt" << std::ofstream;
 	lastEncoderValue.close();*/
 
+=======
+	std::ofstream lastEncoderValue(encoderValueFileName, std::ios::trunc);
+	lastEncoderValue << toteEncoder->GetDistance() + distanceOffset;
+
+	lastEncoderValue.close();
+>>>>>>> origin/master
 }
