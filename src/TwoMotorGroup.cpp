@@ -2,18 +2,27 @@
 #include "TwoMotorGroup.hpp"
 #include <iostream>
 
-TwoMotorGroup::TwoMotorGroup(int portOne, int portTwo)
+TwoMotorGroup::TwoMotorGroup(int portOne, int portTwo, bool isInverted)
 	: one(new Talon(portOne))
 	, two(new Talon(portTwo))
 	, controller(nullptr)
+	, isInverted(new isInverted)
 {
 	std::cout << portOne << portTwo << "twomotorgroup constructor" << std::endl;
 }
 
 void TwoMotorGroup::Set(float speed, uint8_t syncGroup)
 {
-	one->Set(speed);
-	two->Set(speed);
+	if(isInverted)
+	{
+		one->Set(-speed);
+		two->Set(-speed);
+	}
+	else if(isInverted == false)
+	{
+		one->Set(speed);
+		two->Set(speed);
+	}
 }
 
 float TwoMotorGroup::Get()

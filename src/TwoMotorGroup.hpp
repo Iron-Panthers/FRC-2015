@@ -7,7 +7,7 @@
 
 class TwoMotorGroup : public SpeedController {
 public:
-	TwoMotorGroup(int portOne, int portTwo);
+	TwoMotorGroup(int portOne, int portTwo, bool isInverted);
 	float Get();
 	void Set(float speed, uint8_t syncGroup = 0);
 	void Disable();
@@ -24,6 +24,7 @@ public:
 	std::shared_ptr<Encoder> syncedEncoder;
 private:
 	std::shared_ptr<Talon> one, two;
+	bool isInverted;
 };
 
 #endif
