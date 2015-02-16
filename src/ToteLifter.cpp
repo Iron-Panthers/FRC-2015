@@ -28,38 +28,26 @@ void ToteLifter::setToteLevel(int level)
 void ToteLifter::setToteLevel1()
 {
 	setToteLevel(1);
-	leftMotor->Set(1.0);
-	rightMotor->Set(-1.0);
 }
 void ToteLifter::setToteLevel2()
 {
 	setToteLevel(2);
-	leftMotor->Set(1.0);
-	rightMotor->Set(-1.0);
 }
 void ToteLifter::setToteLevel3()
 {
 	setToteLevel(3);
-	leftMotor->Set(1.0);
-	rightMotor->Set(-1.0);
 }
 void ToteLifter::setToteLevel4()
 {
 	setToteLevel(4);
-	leftMotor->Set(1.0);
-	rightMotor->Set(-1.0);
 }
 void ToteLifter::setToteLevel5()
 {
 	setToteLevel(5);
-	leftMotor->Set(1.0);
-	rightMotor->Set(-1.0);
 }
 void ToteLifter::setToteLevel6()
 {
 	setToteLevel(6);
-	leftMotor->Set(1.0);
-	rightMotor->Set(-1.0);
 }
 
 std::shared_ptr<Encoder> ToteLifter::getToteEncoder()
@@ -75,7 +63,7 @@ void ToteLifter::update()
 		if(targetDistance > currentDistance)
 		{
 			leftMotor->Set(toteMotorSpeed);
-			rightMotor->Set(toteMotorSpeed);
+			rightMotor->Set(-toteMotorSpeed);
 		}
 		else if(targetDistance < currentDistance)
 		{

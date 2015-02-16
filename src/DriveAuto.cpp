@@ -47,8 +47,8 @@ float modification(float offset)
 }
 
 DriveAuto::DriveAuto()
-	: leftMotors(new TwoMotorGroup(0, 1))
-	, rightMotors(new TwoMotorGroup(2, 3))
+	: leftMotors(new TwoMotorGroup(0, 1, true))
+	, rightMotors(new TwoMotorGroup(2, 3, false))
 {
 	auto rl = RobotLocation::get();
 	rl->getLeftEncoder()->SetPIDSourceParameter(Encoder::kRate);

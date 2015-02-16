@@ -6,7 +6,7 @@ TwoMotorGroup::TwoMotorGroup(int portOne, int portTwo, bool isInverted)
 	: one(new Talon(portOne))
 	, two(new Talon(portTwo))
 	, controller(nullptr)
-	, isInverted(new isInverted)
+	, isInverted(isInverted)
 {
 	std::cout << portOne << portTwo << "twomotorgroup constructor" << std::endl;
 }
