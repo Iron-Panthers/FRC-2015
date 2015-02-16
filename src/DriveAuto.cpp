@@ -157,7 +157,10 @@ void DriveAuto::update()
 				if (actionQueue.size() > 0) //If there's stuff in actionQueues
 				{
 					float currentDistance = robotLocation->getLeftEncoder()->GetDistance();
-					actionQueue.front().second[2] = currentDistance;
+					if(actionQueue.front().first == DriveAuto::DriveActions::Move)
+					{
+						actionQueue.front().second[2] = currentDistance;
+					}
 				}
 			}
 		}
