@@ -18,7 +18,7 @@ Logger::~Logger()
 void logToFile()
 {
 	//auto console = spd::stdout_logger_mt("console");
-	console->info(JoyButton(bool wouldBeDown, bool wouldBePressed, bool wouldBeUp, ButtonNames name));
+	//console->info(JoyButton(bool wouldBeDown, bool wouldBePressed, bool wouldBeUp, ButtonNames name));
 }
 
 
