@@ -19,14 +19,13 @@ public:
 	void setToteLevel4();
 	void setToteLevel5();
 	void setToteLevel6();
-	float toteLevel;
 	std::shared_ptr<Encoder> getToteEncoder();
 	void update();
 
 private:
 	std::shared_ptr<Encoder> toteEncoder;
-	Talon *leftMotor;
-	Talon *rightMotor;
+	std::shared_ptr<Talon> leftMotor;
+	std::shared_ptr<Talon> rightMotor;
 	bool tolerance(double left, double right, double epsilon);
 	double targetDistance;
 	const double toteMotorSpeed;

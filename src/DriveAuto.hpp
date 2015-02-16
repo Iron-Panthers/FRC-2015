@@ -32,7 +32,6 @@ private:
 	static DriveAuto* instance;
 	float initialAngle;
 	bool whatToName;
-	bool amITurning;
 };
 
 #endif
