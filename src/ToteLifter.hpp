@@ -24,14 +24,9 @@ public:
 	void update();
 
 private:
-<<<<<<< HEAD
-	//std::shared_ptr<Encoder> toteEncoder;
-	Talon *toteMotor;
-=======
 	std::shared_ptr<Encoder> toteEncoder;
 	Talon *leftMotor;
 	Talon *rightMotor;
->>>>>>> origin/master
 	bool tolerance(double left, double right, double epsilon);
 	double targetDistance;
 	const double toteMotorSpeed;

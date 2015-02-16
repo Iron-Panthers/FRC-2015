@@ -63,7 +63,8 @@ public:
 		//talon2 = new Talon(1);
 		//talon3 = new Talon(2);
 		//talon4 = new Talon(3);
-		//DriveAuto::get()->move(30, 0.2);
+		DriveAuto::get()->move(30, 0.2);
+		DriveAuto::get()->axisTurn(90);
 	}
 
 	void AutonomousPeriodic()
@@ -72,9 +73,9 @@ public:
 		//two->Set(.1);
 		//three->Set(-.1);
 		//four->Set(-.1);
-		//DriveAuto::get()->update();
+		DriveAuto::get()->update();
 		//vision.distanceToBox();
-		std::cout << "Left: " << RobotLocation::get()->getLeftEncoder()->GetRate() << std::endl;
+		//std::cout << "Left: " << RobotLocation::get()->getLeftEncoder()->GetRate() << std::endl;
 		//std::cout << "Right: " << RobotLocation::get()->getRightEncoder()->GetDistance() << std::endl;
 
 	}
