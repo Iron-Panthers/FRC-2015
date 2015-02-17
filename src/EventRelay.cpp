@@ -18,18 +18,16 @@ EventRelay::EventRelay()
 	//0 3
 	//0 2
 	driveRobot.SetSafetyEnabled(false);
+	std::cout << "Event Relay done" <<std::endl;
 }
 
 void EventRelay::checkStates()
 {
 	driveRobot.ArcadeDrive(joyWrap.getJoystick());
-	std::cout << "after drive" << std::endl;
 
 	joyWrap.pollJoystick();
 	std::array<JoyButton, 12> buttonStates = joyWrap.getStates();
 	auto button = buttonStates[0];
-
-	std::cout << '\t' << button.down << button.pressed << button.up << std::endl;
 
 	for(unsigned int i = 0; i < buttonStates.size(); i++)
 	{

@@ -22,6 +22,15 @@ public:
 	std::shared_ptr<Encoder> getToteEncoder();
 	void update();
 
+	void manualUp();
+	void manualDown();
+	void manualStop();
+	void resumeAuto();
+
+	bool isManualUp;
+	bool isManualDown;
+	bool isManualStop;
+
 private:
 	std::shared_ptr<Encoder> toteEncoder;
 	std::shared_ptr<Talon> leftMotor;
