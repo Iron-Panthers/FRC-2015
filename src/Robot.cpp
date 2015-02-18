@@ -21,7 +21,7 @@ private:
 	//Autonomous auton;
 	Shifter shifter;
 	//Vision vision;
-	Talon *one, *two, *three, *four;
+	//Talon *one, *two, *three, *four;
 	ToteLifter lifter;
 public:
 	Robot() : shifter(0, 1)
@@ -87,26 +87,37 @@ public:
 
 	void AutonomousInit()
 	{
-		//talon1 = new Talon(0);
-		//talon2 = new Talon(1);
-		//talon3 = new Talon(2);
-		//talon4 = new Talon(3);
-		//std::cout << "test" << std::endl;
-		//DriveAuto::get()->move(90, 0.5);
+		shifter.shiftLow();
+		DriveAuto::get()->move(35, 0.4);
+		DriveAuto::get()->wait(0.3);
+		DriveAuto::get()->axisTurn(90);
+		DriveAuto::get()->move(35, 0.4);
+		DriveAuto::get()->wait(0.3);
+		DriveAuto::get()->axisTurn(90);
+		DriveAuto::get()->move(35, 0.4);
+		DriveAuto::get()->wait(0.3);
+		DriveAuto::get()->axisTurn(90);
+		DriveAuto::get()->move(35, 0.4);
+		DriveAuto::get()->wait(0.3);
+		DriveAuto::get()->axisTurn(90);
+/*		DriveAuto::get()->move(110, 0.2);
+		DriveAuto::get()->wait(0.5);
+		DriveAuto::get()->axisTurn(180);
+		DriveAuto::get()->wait(0.5);
+		DriveAuto::get()->move(110, 0.2);
+		DriveAuto::get()->axisTurn(180);
+*/
 		//DriveAuto::get()->axisTurn(90);
 		//DriveAuto::get()->move(50, 0.1);
 	}
 
 	void AutonomousPeriodic()
 	{
-		//one->Set(.1);
-		//two->Set(.1);
-		//three->Set(-.1);
-		//four->Set(-.1);
-		//DriveAuto::get()->update();
+		DriveAuto::get()->update();
 		//vision.distanceToBox();
 		//std::cout << "Left: " << RobotLocation::get()->getLeftEncoder()->GetRate() << std::endl;
-		//std::cout << "Right: " << RobotLocation::get()->getRightEncoder()->GetDistance() << std::endl;
+		std::cout << "Left: " << DriveAuto::get()->getLeftMotors()->Get() <<std::endl;
+		std::cout << "Right:" << DriveAuto::get()->getRightMotors()->Get() <<std::endl;
 
 	}
 
@@ -117,6 +128,7 @@ public:
 
 	void TeleopPeriodic()
 	{
+		std::cout << "Gyro: " << RobotLocation::get()->getGyro()->GetAngle() << std::endl;
 		//std::cout << input->Get();
 		relay.checkStates();
 		lifter.update();

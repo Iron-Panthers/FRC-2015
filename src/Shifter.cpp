@@ -17,7 +17,7 @@ void Shifter::shiftHigh()
 	int pSpeedOne = DriveAuto::get()->getLeftMotors()->Get();
 	int pSpeedTwo = DriveAuto::get()->getRightMotors()->Get();
 	Wait(0.1);
-	shift->Set(DoubleSolenoid::kForward);
+	shift->Set(DoubleSolenoid::kReverse);
 	Wait(0.1);
 	DriveAuto::get()->getLeftMotors()->Set(pSpeedOne);
 	DriveAuto::get()->getRightMotors()->Set(pSpeedTwo);
@@ -29,7 +29,7 @@ void Shifter::shiftLow()
 	int pSpeedOne = DriveAuto::get()->getLeftMotors()->Get();
 	int pSpeedTwo = DriveAuto::get()->getRightMotors()->Get();
 	Wait(0.1);
-	shift->Set(DoubleSolenoid::kReverse);
+	shift->Set(DoubleSolenoid::kForward);
 	Wait(0.1);
 	DriveAuto::get()->getLeftMotors()->Set(pSpeedOne);
 	DriveAuto::get()->getRightMotors()->Set(pSpeedTwo);

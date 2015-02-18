@@ -31,8 +31,10 @@ private:
 	const std::shared_ptr<TwoMotorGroup> rightMotors;
 	static DriveAuto* instance;
 	float initialAngle;
-	bool whatToName;
+	bool initiallyStraight;
 	bool initialTurn;
+
+	const float TURN_SPEED;
 };
 
 #endif
