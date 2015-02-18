@@ -7,11 +7,11 @@
 enum ButtonNames
 {
 	Trigger = 1,
-	SideButton,
-	BottomLeft,
-	BottomRight,
-	TopLeft,
-	TopRight,
+	SideButton, //2
+	BottomLeft, //3
+	BottomRight, //4
+	TopLeft, //5
+	TopRight, //6
 	Button7,
 	Button8,
 	Button9,

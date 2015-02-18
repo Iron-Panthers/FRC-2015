@@ -8,6 +8,10 @@ bool JoystickWrapper::checkDown(JoyButton joyButton, ButtonNames butt)
 		return true;
 	else
 		return false;
+	if (!joyButton.down && !joyButton.pressed && gameCube.GetRawButton(butt))
+		return true;
+	else
+		return false;
 }
 
 bool JoystickWrapper::checkUp(JoyButton joyButton, ButtonNames butt)
@@ -16,11 +20,19 @@ bool JoystickWrapper::checkUp(JoyButton joyButton, ButtonNames butt)
 		return true;
 	else
 		return false;
+	if((joyButton.down || joyButton.pressed) && !joyButton.up && !gameCube.GetRawButton(butt))
+		return true;
+	else
+		return false;
 }
 
 bool JoystickWrapper::checkPressed(JoyButton joyButton, ButtonNames butt)
 {
 	if((joyButton.down || joyButton.pressed) && !joyButton.up && joystick.GetRawButton(butt))
+		return true;
+	else
+		return false;
+	if((joyButton.down || joyButton.pressed) && !joyButton.up && gameCube.GetRawButton(butt))
 		return true;
 	else
 		return false;
@@ -61,10 +73,14 @@ const std::array<JoyButton, 12>& JoystickWrapper::getStates()
 {
 	if (joystick.GetRawButton(1))
 		std::cout << std::endl << std::endl << "sdf" << std::endl;
+	if (gameCube.GetRawButton(1))
+		std::cout << std::endl << std::endl << "gcn" << std::endl;
 	return joyButtons;
 }
 
-JoystickWrapper::JoystickWrapper() : joystick(0) , joyButtons() //Where joystick is plugged in
+JoystickWrapper::JoystickWrapper()
+	: joystick(0) , joyButtons() //Where joystick is plugged in
+	, gameCube(1) , joyButtons()
 {
 	for(int i = 0; i < joyButtons.size(); i++)
 	{
@@ -75,4 +91,9 @@ JoystickWrapper::JoystickWrapper() : joystick(0) , joyButtons() //Where joystick
 Joystick* JoystickWrapper::getJoystick()
 {
 	return &joystick;
+}
+
+Joystick* JoystickWrapper::getGameCube()
+{
+	return &gameCube;
 }

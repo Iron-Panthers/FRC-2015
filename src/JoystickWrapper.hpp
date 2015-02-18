@@ -14,9 +14,11 @@ public:
 	const std::array<JoyButton, 12>& getStates();
 	JoystickWrapper();
 	Joystick* getJoystick();
+	Joystick* getGameCube();
 
 private:
 	Joystick joystick;
+	Joystick gameCube;
 	std::array<JoyButton, 12> joyButtons;
 	bool checkDown(JoyButton joyButton, ButtonNames butt);
 	bool checkUp(JoyButton joyButton, ButtonNames butt);
