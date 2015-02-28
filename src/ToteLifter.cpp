@@ -5,7 +5,10 @@ ToteLifter::ToteLifter()
 	  leftMotor(new Talon(5)),
 	  rightMotor(new Talon(4)),
 	  toteMotorSpeed(1.0),
-	  encoderValueFileName("lastEncoderValue.txt")
+	  encoderValueFileName("lastEncoderValue.txt"),
+	  isManualUp(false),
+	  isManualDown(false),
+	  isManualStop(true)
 {
 	//std::ifstream lastEncoderValue(encoderValueFileName);
 	//distanceOffset = std::stof(encoderValueFileName);
@@ -86,24 +89,27 @@ void ToteLifter::resumeAuto()
 
 void ToteLifter::update()
 {
-	double currentDistance = toteEncoder->GetDistance() + distanceOffset;
-	if(!tolerance(currentDistance, targetDistance, 2))
+	if (!isManualUp || !isManualDown || !isManualStop )
 	{
-		if(targetDistance > currentDistance)
+		double currentDistance = toteEncoder->GetDistance() + distanceOffset;
+		if(!tolerance(currentDistance, targetDistance, 2))
 		{
-			leftMotor->Set(-toteMotorSpeed);
-			rightMotor->Set(toteMotorSpeed);
+			if(targetDistance > currentDistance)
+			{
+				leftMotor->Set(-toteMotorSpeed);
+				rightMotor->Set(toteMotorSpeed);
+			}
+			else if(targetDistance < currentDistance)
+			{
+				leftMotor->Set(toteMotorSpeed);
+				rightMotor->Set(-toteMotorSpeed);
+			}
 		}
-		else if(targetDistance < currentDistance)
+		else
 		{
-			leftMotor->Set(toteMotorSpeed);
-			rightMotor->Set(-toteMotorSpeed);
+			leftMotor->Set(0);
+			rightMotor->Set(0);
 		}
-	}
-	else
-	{
-		leftMotor->Set(0);
-		rightMotor->Set(0);
 	}
 
 	std::cout << "toteEncoder: " << toteEncoder->GetDistance() << std::endl;

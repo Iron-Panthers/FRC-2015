@@ -23,9 +23,10 @@ EventRelay::EventRelay()
 
 void EventRelay::checkStates()
 {
-	driveRobot.ArcadeDrive(joyWrap.getJoystick());
+	driveRobot.ArcadeDrive(joyWrap.getJoystick(), 2);
 
 	joyWrap.pollJoystick();
+	std::cout << joyWrap.getJoystick()->GetRawAxis(2) << std::endl;
 	std::array<JoyButton, 12> buttonStates = joyWrap.getStates();
 	auto button = buttonStates[0];
 

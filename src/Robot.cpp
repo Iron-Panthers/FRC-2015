@@ -87,7 +87,7 @@ public:
 
 	void AutonomousInit()
 	{
-		shifter.shiftLow();
+/*		shifter.shiftLow();
 		DriveAuto::get()->move(35, 0.4);
 		DriveAuto::get()->wait(0.3);
 		DriveAuto::get()->axisTurn(90);
@@ -100,7 +100,7 @@ public:
 		DriveAuto::get()->move(35, 0.4);
 		DriveAuto::get()->wait(0.3);
 		DriveAuto::get()->axisTurn(90);
-/*		DriveAuto::get()->move(110, 0.2);
+		DriveAuto::get()->move(110, 0.2);
 		DriveAuto::get()->wait(0.5);
 		DriveAuto::get()->axisTurn(180);
 		DriveAuto::get()->wait(0.5);
@@ -128,16 +128,16 @@ public:
 
 	void TeleopPeriodic()
 	{
-		std::cout << "Gyro: " << RobotLocation::get()->getGyro()->GetAngle() << std::endl;
+		//std::cout << "Gyro: " << RobotLocation::get()->getGyro()->GetAngle() << std::endl;
 		//std::cout << input->Get();
 		relay.checkStates();
-		lifter.update();
+		//lifter.update();
 		/*one->Set(0.3);
 		two->Set(0.3);
 		three->Set(0.3);
-		four->Set(0.3);
-		std::cout << "Left: " << RobotLocation::get()->getLeftEncoder()->GetDistance() << std::endl;
-		std::cout << "Right: " << RobotLocation::get()->getRightEncoder()->GetDistance() << std::endl;*/
+		four->Set(0.3);*/
+		//std::cout << "Left: " << RobotLocation::get()->getLeftEncoder()->GetDistance() << std::endl;
+		//std::cout << "Right: " << RobotLocation::get()->getRightEncoder()->GetDistance() << std::endl;
 	}
 
 	void DisabledInit()
