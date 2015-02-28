@@ -19,8 +19,8 @@ RobotLocation* RobotLocation::get()
 }
 
 RobotLocation::RobotLocation()
-	: gyro(new Gyro(0))
-	, left(new Encoder(0,1))
+	//: gyro(new Gyro(0))
+	: left(new Encoder(0,1))
 	//, b	uiltinaccelerometer()
 	//: right(new Encoder(4, 5))
 

@@ -63,10 +63,7 @@ public:
 		//talon2 = new Talon(1);
 		//talon3 = new Talon(2);
 		//talon4 = new Talon(3);
-		std::cout << "test" << std::endl;
-		DriveAuto::get()->move(90, 0.5);
-		DriveAuto::get()->axisTurn(90);
-		DriveAuto::get()->move(50, 0.1);
+		//DriveAuto::get()->move(30, 0.2);
 	}
 
 	void AutonomousPeriodic()
@@ -75,10 +72,9 @@ public:
 		//two->Set(.1);
 		//three->Set(-.1);
 		//four->Set(-.1);
-		std::cout << "chicken" << std::endl;
-		DriveAuto::get()->update();
+		//DriveAuto::get()->update();
 		//vision.distanceToBox();
-		//std::cout << "Left: " << RobotLocation::get()->getLeftEncoder()->GetRate() << std::endl;
+		std::cout << "Left: " << RobotLocation::get()->getLeftEncoder()->GetRate() << std::endl;
 		//std::cout << "Right: " << RobotLocation::get()->getRightEncoder()->GetDistance() << std::endl;
 
 	}
@@ -99,6 +95,20 @@ public:
 		std::cout << "Left: " << RobotLocation::get()->getLeftEncoder()->GetDistance() << std::endl;
 		std::cout << "Right: " << RobotLocation::get()->getRightEncoder()->GetDistance() << std::endl;*/
 		//relay.checkStates();
+
+		Joystick liftStick(1);
+		Talon toteMotor(1);
+		AnalogChannel totePot(1);
+		//AnalogChannel toteEncoder(1);
+		PidController toteControl(.1, 0, 0, &totePot, &toteMotor);	//Creates PID, first 3 values are p i and d respectively, totePot is the sensor and toteMotor is the motor the values are outputed to
+
+		toteControl.Enable();
+
+		while(isOperator())
+		{
+			toteControl.SetSetpoint((liftStick.getX() + 1.0) * 2.5);
+			Wait(.2);
+		}
 	}
 
 	void DisabledInit()
