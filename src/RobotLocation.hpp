@@ -25,6 +25,7 @@ private:
 	std::pair<float, float> pos;
 	float direction;
 	static RobotLocation* instance;
+	Lidar north, east;
 };
 
 
