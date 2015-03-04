@@ -4,6 +4,9 @@
 #include <wpilib.h>
 #include <iostream>
 
+const float distance = 0xf;
+const float distwo = 0x10;
+
 class Lidar
 {
 public:
