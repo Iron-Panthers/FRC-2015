@@ -6,8 +6,11 @@
 
 class Lidar
 {
+public:
+	Lidar(I2C::Port port, uint8_t address);
 	double getDistance();
-
+	virtual double PIDGet();
+	virtual ~Lidar();
 };
 
 
