@@ -11,6 +11,8 @@ public:
 	double getDistance();
 	virtual double PIDGet();
 	virtual ~Lidar();
+private:
+	I2C comm;
 };
 
 
