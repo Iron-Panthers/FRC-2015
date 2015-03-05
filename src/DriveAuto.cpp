@@ -4,6 +4,9 @@
 #include "RobotLocation.hpp"
 #include <cmath>
 
+const float DISTANCE_DS = 36;
+const float DISTANCE_TS = 93825;
+
 bool tolerance(double left, double right, double epsilon)
 {
 	return (std::abs(std::abs(left) - std::abs(right)) < epsilon);
@@ -24,12 +27,13 @@ DriveAuto::DriveAuto()
 	, rightMotors(new TwoMotorGroup(2, 3, false))
 	, TURN_SPEED(0.15f)
 {
-	auto rl = RobotLocation::get();
+p/	auto rl = RobotLocation::get();
 	rl->getLeftEncoder()->SetPIDSourceParameter(Encoder::kRate);
 	rl->getRightEncoder()->SetPIDSourceParameter(Encoder::kRate);
 	initiallyStraight = true;
 	initialAngle = true;
 	initialTurn = true;
+	initialAlign = true;
 }
 
 DriveAuto* DriveAuto::instance = nullptr;
@@ -85,6 +89,15 @@ void DriveAuto::wait(float seconds)
 	params.push_back(seconds);
 	moveAction.second = params;
 	actionQueue.push (moveAction); //Stores seconds and Wait in actionQueue
+}
+
+void DriveAuto::toteAlign()
+{
+	std::pair<DriveActions, std::vector<float>> moveAction;
+	moveAction.first = DriveActions::ToteAlign;
+	std::vector<float> params;
+	moveAction.second = params;
+	actionQueue.push (moveAction);
 }
 
 void DriveAuto::update()
@@ -201,5 +214,38 @@ void DriveAuto::update()
 		rightMotors->Set(0);
 		::Wait(static_cast<double>(action.second[0]));
 		actionQueue.pop();
+	}
+	else if(action.first == DriveAuto::DriveActions::ToteAlign)
+	{
+		float distanceEast = RobotLocation::get()->getEast().getDistance();
+		float distanceNorth = RobotLocation::get()->getNorth().getDistance();
+		if(tolerance(distanceEast, DISTANCE_DS, 1))
+		{
+			if(initialAlign == true)
+			{
+				leftMotors->Set(1);
+				rightMotors->Set(1);
+				initialAlign = false;
+			}
+			else
+			{
+				if(tolerance(distanceNorth, DISTANCE_TS, 1))
+				{
+					leftMotors->Set(0);
+					rightMotors->Set(0);
+				}
+			}
+		}
+		else
+		{
+			if(distanceEast > DISTANCE_TS)
+			{
+
+			}
+			else if(distanceEast < DISTANCE_TS)
+			{
+
+			}
+		}
 	}
 }

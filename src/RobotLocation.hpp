@@ -14,7 +14,8 @@ public:
 	const std::pair<float, float> getPosition();
 	static RobotLocation* get();
 	void update();
-
+	Lidar getNorth();
+	Lidar getEast();
 	const std::shared_ptr<Gyro> getGyro() const;
 	std::shared_ptr<Encoder> getLeftEncoder();
 	std::shared_ptr<Encoder> getRightEncoder();

@@ -43,6 +43,16 @@ void RobotLocation::update()
 	pos.second = distY += position.second*/
 }
 
+Lidar RobotLocation::getNorth()
+{
+	return north;
+}
+
+Lidar RobotLocation::getEast()
+{
+	return east;
+}
+
 const std::shared_ptr<Gyro> RobotLocation::getGyro() const
 {
 	return gyro;
