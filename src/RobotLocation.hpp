@@ -6,7 +6,7 @@
 #include "DriveAuto.hpp"
 #include "TwoMotorGroup.hpp"
 #include <queue>
-
+#include "Lidar.hpp"
 
 class RobotLocation
 {
@@ -18,6 +18,9 @@ public:
 	const std::shared_ptr<Gyro> getGyro() const;
 	std::shared_ptr<Encoder> getLeftEncoder();
 	std::shared_ptr<Encoder> getRightEncoder();
+
+	Lidar* getNorth();
+	Lidar* getEast();
 private:
 	RobotLocation();
 	const std::shared_ptr<Gyro> gyro;
@@ -25,7 +28,7 @@ private:
 	std::pair<float, float> pos;
 	float direction;
 	static RobotLocation* instance;
-	Lidar north, east;
+	Lidar *north, *east;
 };
 
 

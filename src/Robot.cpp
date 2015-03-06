@@ -17,21 +17,21 @@ class Robot: public IterativeRobot
 {
 
 private:
-	EventRelay relay;
+	//EventRelay relay;
 	//Autonomous auton;
-	Shifter shifter;
+	//Shifter shifter;
 	//Vision vision;
 	//Talon *one, *two, *three, *four;
-	ToteLifter lifter;
+	//ToteLifter lifter;
 public:
-	Robot() : shifter(0, 1)
+	Robot()// : shifter(0, 1)
 	{
 		//RobotLocation::get(); //construct the gyro
 	}
 
 	void RobotInit()
 	{
-		JoyButton triggerButton(true, false, false, ButtonNames::Trigger);
+		/*JoyButton triggerButton(true, false, false, ButtonNames::Trigger);
 		std::function<void()> callback(std::bind(&ToteLifter::setToteLevel1, &lifter));
 		Action<void()> action(callback, 0);
 		relay.getMap().associate(triggerButton, action);
@@ -81,13 +81,13 @@ public:
 		Action<void()> actionHigh(callbackShiftHigh, 0);
 		relay.getMap().associate(buttonHigh, actionHigh);
 
-
+*/
 
 	}
 
 	void AutonomousInit()
 	{
-		shifter.shiftLow();
+		/*shifter.shiftLow();
 		DriveAuto::get()->move(35, 0.4);
 		DriveAuto::get()->wait(0.3);
 		DriveAuto::get()->axisTurn(90);
@@ -123,17 +123,23 @@ public:
 
 	void TeleopInit()
 	{
-
+		RobotLocation::get();
 	}
 
 	void TeleopPeriodic()
 	{
-		std::cout << "Gyro: " << RobotLocation::get()->getGyro()->GetAngle() << std::endl;
+		//std::cout << "Gyro: " << RobotLocation::get()->getGyro()->GetAngle() << std::endl;
 		//std::cout << input->Get();
-		relay.checkStates();
-		lifter.update();
+		//relay.checkStates();
+		//lifter.update();
 		
-		Joystick liftStick(1);
+		::Wait(0.5);
+		std::cout << "north" << std::endl << std::endl;
+		RobotLocation::get()->getNorth()->getDistance();
+		std::cout << "east" << std::endl << std::endl;
+		RobotLocation::get()->getEast()->getDistance();
+
+		/*Joystick liftStick(1);
 		Talon toteMotor(1);
 		AnalogChannel totePot(1);
 		//AnalogChannel toteEncoder(1);
@@ -145,7 +151,7 @@ public:
 		{
 			toteControl.SetSetpoint((liftStick.getX() + 1.0) * 2.5);
 			Wait(.2);
-		}
+		}*/
 	}
 
 	void DisabledInit()

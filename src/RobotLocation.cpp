@@ -23,6 +23,8 @@ RobotLocation::RobotLocation()
 	: left(new Encoder(0,1))
 	//, b	uiltinaccelerometer()
 	//: right(new Encoder(4, 5))
+	, north(new Lidar(I2C::Port::kMXP, 0x62))
+	, east(new Lidar(I2C::Port::kOnboard, 0x62))
 
 {
 	//left->SetDistancePerPulse(0.073631077818);
@@ -57,3 +59,14 @@ std::shared_ptr<Encoder> RobotLocation::getRightEncoder()
 {
 	return right;
 }
+
+Lidar *RobotLocation::getNorth()
+{
+	return north;
+}
+
+Lidar *RobotLocation::getEast()
+{
+	return east;
+}
+
