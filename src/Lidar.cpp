@@ -1,33 +1,30 @@
 #include "Lidar.hpp"
 
-/*Lidar::Lidar(I2C::Port port, uint8_t address) : comm(port, address)
+Lidar::Lidar(uint32_t channelPulseLength, uint32_t channelSensorManagement, uint32_t channelResistorLine)
+	: pulseLength(channelPulseLength)
+	, sensorManagement(channelSensorManagement)
+	, resistorLine(channelResistorLine)
+
 {
-	if (port == I2C::Port::kMXP) std::cout << "mxp" << std::endl; else std::cout << "onboard" << std::endl;
-
-	int val = 100;
-	while (val > 0)
-	{
-		val = comm.Write(0x00, 0x04);
-		std::cout << "i2cval: " << val << std::endl;
-
-		::Wait(0.5);
-	}
-	if (port == I2C::Port::kMXP) std::cout << "mxpend" << std::endl; else std::cout << "onboardend" << std::endl;
-}*/
-
-Lidar::Lidar(uint32_t channel)  : comm(channel)
-{
-
+	sensorManagement.Set(1);
+	resistorLine.Set(0);
 }
 
-double Lidar::getDistance()
+double Lidar::getDistance() //returns distance in centimeters
 {
-	while (!comm.Get()) {}
-	auto start = std::chrono::high_resolution_clock::now();
-	while (comm.Get()) {}
-	auto stop = std::chrono::high_resolution_clock::now();
+	if(pulseLength.Get())
+	{
+		while (!pulseLength.Get()) {}
+		auto start = std::chrono::high_resolution_clock::now();
+		while (pulseLength.Get()) {}
+		auto stop = std::chrono::high_resolution_clock::now();
+		return std::chrono::duration<std::chrono::microseconds>(start - stop).count() / 10;
+	}
 
-	return std::chrono::duration<std::chrono::microseconds>(start - stop).count() / 10;
+	sensorManagement.Set(0);
+	::Wait(.001);
+	sensorManagement.Set(1);
+	return 0;
 }
 
 double Lidar::PIDGet()
