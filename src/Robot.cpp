@@ -17,12 +17,11 @@ class Robot: public IterativeRobot
 {
 
 private:
-	//EventRelay relay;
+	EventRelay relay;
 	//Autonomous auton;
 	//Shifter shifter;
 	//Vision vision;
-	//Talon *one, *two, *three, *four;
-	//ToteLifter lifter;
+	ToteLifter lifter;
 public:
 	Robot()// : shifter(0, 1)
 	{
@@ -31,7 +30,7 @@ public:
 
 	void RobotInit()
 	{
-		/*JoyButton triggerButton(true, false, false, ButtonNames::Trigger);
+		JoyButton triggerButton(true, false, false, ButtonNames::Trigger);
 		std::function<void()> callback(std::bind(&ToteLifter::setToteLevel1, &lifter));
 		Action<void()> action(callback, 0);
 		relay.getMap().associate(triggerButton, action);
@@ -71,7 +70,7 @@ public:
 		Action<void()> actionResumeAuto(callbackResumeAuto, 0);
 		relay.getMap().associate(button12, actionResumeAuto);
 
-		JoyButton button(true, false, false, ButtonNames::Button7);
+		/*JoyButton button(true, false, false, ButtonNames::Button7);
 		std::function<void()> callbackShiftLow(std::bind(&Shifter::shiftLow, &shifter));
 		Action<void()> actionB(callbackShiftLow, 0);
 		relay.getMap().associate(button, actionB);
@@ -80,9 +79,7 @@ public:
 		std::function<void()> callbackShiftHigh(std::bind(&Shifter::shiftHigh, &shifter));
 		Action<void()> actionHigh(callbackShiftHigh, 0);
 		relay.getMap().associate(buttonHigh, actionHigh);
-
-*/
-
+		*/
 	}
 
 	void AutonomousInit()
@@ -130,14 +127,14 @@ public:
 	{
 		//std::cout << "Gyro: " << RobotLocation::get()->getGyro()->GetAngle() << std::endl;
 		//std::cout << input->Get();
-		//relay.checkStates();
-		//lifter.update();
+		relay.checkStates();
+		lifter.update();
 		
-		::Wait(0.5);
-		std::cout << "north" << std::endl << std::endl;
-		RobotLocation::get()->getNorth()->getDistance();
-		std::cout << "east" << std::endl << std::endl;
-		RobotLocation::get()->getEast()->getDistance();
+		//::Wait(0.5);
+		//std::cout << "north" << std::endl << std::endl;
+		//RobotLocation::get()->getNorth()->getDistance();
+		//std::cout << "east" << std::endl << std::endl;
+		//RobotLocation::get()->getEast()->getDistance();
 
 		/*Joystick liftStick(1);
 		Talon toteMotor(1);

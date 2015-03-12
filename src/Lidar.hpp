@@ -3,6 +3,7 @@
 
 #include <wpilib.h>
 #include <iostream>
+#include <chrono>
 
 const float distance = 0xf;
 const float distwo = 0x10;
@@ -10,12 +11,15 @@ const float distwo = 0x10;
 class Lidar
 {
 public:
-	Lidar(I2C::Port port, uint8_t address);
+	//Lidar(I2C::Port port, uint8_t address);
+	Lidar(uint32_t channel);
 	double getDistance();
 	virtual double PIDGet();
 	virtual ~Lidar();
 private:
-	I2C comm;
+	DigitalInput comm;
+	DigitalOutput commOut;
+
 };
 
 

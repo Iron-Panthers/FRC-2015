@@ -2,8 +2,8 @@
 
 ToteLifter::ToteLifter()
 	: toteEncoder(new Encoder(4, 5)), //Encoder ports
-	  leftMotor(new Talon(5)),
-	  rightMotor(new Talon(4)),
+	  leftMotor(new Talon(0)),
+	  rightMotor(new Talon(1)),
 	  toteMotorSpeed(1.0),
 	  encoderValueFileName("lastEncoderValue.txt"),
 	  isManualUp(false),

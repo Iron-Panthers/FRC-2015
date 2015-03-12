@@ -4,6 +4,9 @@
 #include "RobotLocation.hpp"
 #include <cmath>
 
+const float DISTANCE_DS = 36;
+const float DISTANCE_TS = 93825;
+
 bool tolerance(double left, double right, double epsilon)
 {
 	return (std::abs(std::abs(left) - std::abs(right)) < epsilon);
@@ -20,16 +23,32 @@ float modification(float offset)
 }
 
 DriveAuto::DriveAuto()
-	: leftMotors(new TwoMotorGroup(0, 1, true))
+	: leftMotors(new TwoMotorGroup(4, 5, true))
 	, rightMotors(new TwoMotorGroup(2, 3, false))
 	, TURN_SPEED(0.15f)
 {
 	auto rl = RobotLocation::get();
-	rl->getLeftEncoder()->SetPIDSourceParameter(Encoder::kRate);
-	rl->getRightEncoder()->SetPIDSourceParameter(Encoder::kRate);
+	//rl->getLeftEncoder()->SetPIDSourceParameter(Encoder::kRate);
+	//rl->getRightEncoder()->SetPIDSourceParameter(Encoder::kRate);
 	initiallyStraight = true;
 	initialAngle = true;
 	initialTurn = true;
+	initialAlign = true;
+
+	distanceController = new PIDController(
+				0.5f,
+				0.f,
+				0.f,
+				RobotLocation::get()->getLeftEncoder(),
+				DriveAuto::getLeftMotors());
+
+	syncController = new PIDController(
+					0.5f,
+					0.f,
+					0.f,
+					RobotLocation::get()->getRightEncoder(),
+					DriveAuto::getRightMotors());
+
 }
 
 DriveAuto* DriveAuto::instance = nullptr;
@@ -87,8 +106,18 @@ void DriveAuto::wait(float seconds)
 	actionQueue.push (moveAction); //Stores seconds and Wait in actionQueue
 }
 
+void DriveAuto::toteAlign()
+{
+	std::pair<DriveActions, std::vector<float>> moveAction;
+	moveAction.first = DriveActions::ToteAlign;
+	std::vector<float> params;
+	moveAction.second = params;
+	actionQueue.push (moveAction);
+}
+
 void DriveAuto::update()
 {
+
 	if (actionQueue.size() == 0)
 	{
 		return; //If there's nothing in the queue to do then return
@@ -202,4 +231,37 @@ void DriveAuto::update()
 		::Wait(static_cast<double>(action.second[0]));
 		actionQueue.pop();
 	}
+	/*else if(action.first == DriveAuto::DriveActions::ToteAlign)
+	{
+		float distanceEast = RobotLocation::get()->getEast()->getDistance();
+		float distanceNorth = RobotLocation::get()->getNorth()->getDistance();
+		if(tolerance(distanceEast, DISTANCE_DS, 1))
+		{
+			if(initialAlign == true)
+			{
+				leftMotors->Set(1);
+				rightMotors->Set(1);
+				initialAlign = false;
+			}
+			else
+			{
+				if(tolerance(distanceNorth, DISTANCE_TS, 1))
+				{
+					leftMotors->Set(0);
+					rightMotors->Set(0);
+				}
+			}
+		}
+		else
+		{
+			if(distanceEast > DISTANCE_TS)
+			{
+
+			}
+			else if(distanceEast < DISTANCE_TS)
+			{
+
+			}
+		}
+	}*/
 }

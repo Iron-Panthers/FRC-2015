@@ -13,11 +13,13 @@ public:
 	void move(float feet, float motorVelocity);
 	void axisTurn(float degrees);
 	void wait(float seconds);
+	void toteAlign();
 	enum DriveActions
 	{
 		Move,
 		Turn,
-		Wait
+		Wait,
+		ToteAlign
 	};
 	void update();
 	static DriveAuto* get();
@@ -33,8 +35,10 @@ private:
 	float initialAngle;
 	bool initiallyStraight;
 	bool initialTurn;
-
+	bool initialAlign;
 	const float TURN_SPEED;
+	PIDController* distanceController;
+	PIDController* syncController;
 };
 
 #endif
