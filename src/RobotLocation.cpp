@@ -3,11 +3,6 @@
 #include <iostream>
 #include <cmath>
 
-const std::pair<float, float> RobotLocation::getPosition()
-{
-	return pos;
-}
-
 RobotLocation* RobotLocation::instance = nullptr;
 RobotLocation* RobotLocation::get()
 {
@@ -19,33 +14,18 @@ RobotLocation* RobotLocation::get()
 }
 
 RobotLocation::RobotLocation()
-	//: gyro(new Gyro(0))
-	//: left(new Encoder(0,1))
-	//, b	uiltinaccelerometer()
-	//: right(new Encoder(4, 5))
-	//, north(new Lidar(I2C::Port::kMXP, 0x62))
-	//, east(new Lidar(I2C::Port::kOnboard, 0x62))
+	  : gyro(new Gyro(0))
+	  , left(new Encoder(0,1))
+	  , right(new Encoder(2, 3))
+	  , north(new LidarPWM(4, 5, 6))
+	  , east(new LidarI2C(I2C::Port::kOnboard, static_cast<uint8_t>(0x62)))
 
 {
-	//left->SetDistancePerPulse(0.073631077818);
-	//left->SetDistancePerPulse(0.073631077818 / 7.139690);
-	//left->SetDistancePerPulse(163/12);
-	//right->SetDistancePerPulse(0.073631077818 / 7.139690);
+	left->SetDistancePerPulse(0.01031292364);
+	right->SetDistancePerPulse(0.01031292364);
 }
 
-void RobotLocation::update()
-{
-	/*double x = builtinaccelerometer.GetX()
-	double y = builtinaccelerometer.GetY()
-
-	float distX = x * (1/3600);
-	float distY = y * (1/3600);
-
-	pos.first = distX += position.first
-	pos.second = distY += position.second*/
-}
-
-/*Lidar* RobotLocation::getNorth()
+Lidar* RobotLocation::getNorth()
 {
 	return north;
 }
@@ -53,7 +33,7 @@ void RobotLocation::update()
 Lidar* RobotLocation::getEast()
 {
 	return east;
-}*/
+}
 
 const std::shared_ptr<Gyro> RobotLocation::getGyro() const
 {

@@ -4,8 +4,8 @@
 #include "RobotLocation.hpp"
 #include <cmath>
 
-const float DISTANCE_DS = 36;
-const float DISTANCE_TS = 93825;
+const float DISTANCE_DS = 16.291 * 2.54;
+const float DISTANCE_TS = 28.086 * 2.54;
 
 bool tolerance(double left, double right, double epsilon)
 {
@@ -28,26 +28,13 @@ DriveAuto::DriveAuto()
 	, TURN_SPEED(0.15f)
 {
 	auto rl = RobotLocation::get();
-	//rl->getLeftEncoder()->SetPIDSourceParameter(Encoder::kRate);
-	//rl->getRightEncoder()->SetPIDSourceParameter(Encoder::kRate);
+	rl->getLeftEncoder()->SetPIDSourceParameter(Encoder::kRate);
+	rl->getRightEncoder()->SetPIDSourceParameter(Encoder::kDistance);
+
 	initiallyStraight = true;
 	initialAngle = true;
 	initialTurn = true;
 	initialAlign = true;
-
-	distanceController = new PIDController(
-				0.5f,
-				0.f,
-				0.f,
-				RobotLocation::get()->getLeftEncoder(),
-				DriveAuto::getLeftMotors());
-
-	syncController = new PIDController(
-					0.5f,
-					0.f,
-					0.f,
-					RobotLocation::get()->getRightEncoder(),
-					DriveAuto::getRightMotors());
 
 }
 
@@ -82,8 +69,6 @@ void DriveAuto::move(float inches, float motorVelocity)
 	params.push_back(currentDistance);
 	moveAction.second = params; //Puts inches & motorVelocity in moveAction
 	actionQueue.push (moveAction); //Stores the params pair and the DriveAction in actionQueue
-
-	//rightMotors->syncWith(RobotLocation::get()->getLeftEncoder(), RobotLocation::get()->getRightEncoder());
 }
 
 void DriveAuto::axisTurn(float degrees)
@@ -231,7 +216,7 @@ void DriveAuto::update()
 		::Wait(static_cast<double>(action.second[0]));
 		actionQueue.pop();
 	}
-	/*else if(action.first == DriveAuto::DriveActions::ToteAlign)
+	else if(action.first == DriveAuto::DriveActions::ToteAlign)
 	{
 		float distanceEast = RobotLocation::get()->getEast()->getDistance();
 		float distanceNorth = RobotLocation::get()->getNorth()->getDistance();
@@ -254,14 +239,18 @@ void DriveAuto::update()
 		}
 		else
 		{
-			if(distanceEast > DISTANCE_TS)
+			if(distanceEast > DISTANCE_DS)
 			{
-
+				leftMotors->Set(0);
+				rightMotors->Set(0.5);
+				initialAlign = true;
 			}
-			else if(distanceEast < DISTANCE_TS)
+			else if(distanceEast < DISTANCE_DS)
 			{
-
+				leftMotors->Set(0.5);
+				rightMotors->Set(0);
+				initialAlign = true;
 			}
 		}
-	}*/
+	}
 }

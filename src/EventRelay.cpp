@@ -3,8 +3,10 @@
 #include "DriveAuto.hpp"
 
 EventRelay::EventRelay()
-	: actionMap()
-	, joyWrap()
+	: actionMapJoy()
+	, actionMapGCN()
+	, joyWrap(0)
+	, gamecube(1)
 	, driveRobot(DriveAuto::get()->getLeftMotors()->getTalonOne().get()
 			   , DriveAuto::get()->getLeftMotors()->getTalonTwo().get()
 			   , DriveAuto::get()->getRightMotors()->getTalonOne().get()
@@ -15,10 +17,8 @@ EventRelay::EventRelay()
 	driveRobot.SetInvertedMotor(static_cast<RobotDrive::MotorType>(1), false);
 	driveRobot.SetInvertedMotor(static_cast<RobotDrive::MotorType>(2), false);
 	driveRobot.SetInvertedMotor(static_cast<RobotDrive::MotorType>(3), false);
-	//0 3
-	//0 2
+
 	driveRobot.SetSafetyEnabled(false);
-	std::cout << "Event Relay done" <<std::endl;
 }
 
 void EventRelay::checkStates()
@@ -26,22 +26,35 @@ void EventRelay::checkStates()
 	driveRobot.ArcadeDrive(joyWrap.getJoystick(), 2);
 
 	joyWrap.pollJoystick();
-	std::cout << joyWrap.getJoystick()->GetRawAxis(2) << std::endl;
-	std::array<JoyButton, 12> buttonStates = joyWrap.getStates();
-	auto button = buttonStates[0];
+	gamecube.pollJoystick();
 
-	for(unsigned int i = 0; i < buttonStates.size(); i++)
+	std::array<JoyButton, 12> buttonStatesJoy = joyWrap.getStates();
+	std::array<JoyButton, 12> buttonStatesGCN = gamecube.getStates();
+
+	for(unsigned int i = 0; i < buttonStatesJoy.size(); i++)
 	{
-		if (buttonStates[i].down || buttonStates[i].pressed || buttonStates[i].up)
+		if (buttonStatesJoy[i].down || buttonStatesJoy[i].pressed || buttonStatesJoy[i].up)
 		{
-			actionMap.eventOccurredFor(buttonStates[i]);
+			actionMapJoy.eventOccurredFor(buttonStatesJoy[i]);
+		}
+	}
+
+	for(unsigned int i = 0; i < buttonStatesGCN.size(); i++)
+	{
+		if (buttonStatesGCN[i].down || buttonStatesGCN[i].pressed || buttonStatesGCN[i].up)
+		{
+			actionMapGCN.eventOccurredFor(buttonStatesGCN[i]);
 		}
 	}
 }
 
 
-ActionMap& EventRelay::getMap()
+ActionMap& EventRelay::getMapJoy()
 {
-	std::cout << "Got that map... You \'na\' me?" << std::endl;
-	return actionMap;
+	return actionMapJoy;
+}
+
+ActionMap& EventRelay::getMapGCN()
+{
+	return actionMapGCN;
 }

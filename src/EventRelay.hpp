@@ -9,12 +9,17 @@
 class EventRelay
 {
 private:
-	ActionMap actionMap;
+	ActionMap actionMapJoy;
+	ActionMap actionMapGCN;
 	JoystickWrapper joyWrap;
+	JoystickWrapper gamecube;
 public:
 	void checkStates();
-	ActionMap& getMap();
+	ActionMap& getMapJoy();
+	ActionMap& getMapGCN();
+
 	EventRelay();
+
 	RobotDrive driveRobot;
 };
 
