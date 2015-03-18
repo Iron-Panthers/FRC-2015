@@ -11,7 +11,17 @@
 #include "ActionMap.hpp"
 #include "Shifter.hpp"
 #include "ToteLifter.hpp"
+#include "JoyTest.hpp"
 
+void createButtonMapping(bool down, bool pressed, bool up,
+						 ButtonNames buttonName,
+						 std::function<void()> callback,
+						 ActionMap &map)
+{
+	JoyButton button(down, pressed, up, buttonName);
+	Action<void()> action(callback, 0);
+	map.associate(button, action);
+}
 
 class Robot: public IterativeRobot
 {
@@ -19,6 +29,8 @@ private:
 	EventRelay relay;
 	ToteLifter lifter;
 	Shifter shifter;
+	Timer timer;
+	JoyTest joyTest;
 public:
 	Robot() : shifter(0, 1)
 	{
@@ -26,39 +38,57 @@ public:
 
 	void RobotInit()
 	{
-		JoyButton button9(true, false, false, ButtonNames::Button9);
-		std::function<void()> callbackManualUp(std::bind(&ToteLifter::manualUp, &lifter));
-		Action<void()> actionManualUp(callbackManualUp, 0);
-		relay.getMapJoy().associate(button9, actionManualUp);
+		auto &joyMap = relay.getMapJoy();
+		auto &gcnMap = relay.getMapGCN();
 
-		JoyButton button11(true, false, false, ButtonNames::Button11);
-		std::function<void()> callbackManualStop(std::bind(&ToteLifter::manualStop, &lifter));
-		Action<void()> actionManualStop(callbackManualStop, 0);
-		relay.getMapJoy().associate(button11, actionManualStop);
+		createButtonMapping(true, false, false
+				          , ButtonNames::Button9
+						  , std::bind(&ToteLifter::manualUp, &lifter)
+						  , joyMap);
 
-		JoyButton button10(true, false, false, ButtonNames::Button10);
-		std::function<void()> callbackManualDown(std::bind(&ToteLifter::manualDown, &lifter));
-		Action<void()> actionManualDown(callbackManualDown, 0);
-		relay.getMapJoy().associate(button10, actionManualDown);
+		createButtonMapping(true, false, false
+						  , ButtonNames::Button11
+						  , std::bind(&ToteLifter::manualStop, &lifter)
+						  , joyMap);
 
-		JoyButton button(true, false, false, ButtonNames::Button7);
-		std::function<void()> callbackShiftLow(std::bind(&Shifter::shiftLow, &shifter));
-		Action<void()> actionB(callbackShiftLow, 0);
-		relay.getMapJoy().associate(button, actionB);
+		createButtonMapping(true, false, false
+						  , ButtonNames::Button10
+						  , std::bind(&ToteLifter::manualDown, &lifter)
+						  , joyMap);
 
-		JoyButton buttonHigh(true, false, false, ButtonNames::Button8);
-		std::function<void()> callbackShiftHigh(std::bind(&Shifter::shiftHigh, &shifter));
-		Action<void()> actionHigh(callbackShiftHigh, 0);
-		relay.getMapJoy().associate(buttonHigh, actionHigh);
+		createButtonMapping(true, false, false
+						  , ButtonNames::Button7
+						  , std::bind(&Shifter::shiftLow, &shifter)
+						  , joyMap);
+
+		createButtonMapping(true, false, false
+						  , ButtonNames::Button8
+						  , std::bind(&Shifter::shiftHigh, &shifter)
+						  , joyMap);
+
+		createButtonMapping(true, false, false
+				          , ButtonNames::Trigger
+						  , std::bind(&JoyTest::button21, &joyTest)
+						  , gcnMap);
+
+		createButtonMapping(true, false, false
+						  , ButtonNames::Trigger
+						  , std::bind(&JoyTest::button11, &joyTest)
+					 	  , joyMap);
+
 	}
 
 	void AutonomousInit()
 	{
-
+		RobotLocation::get();
 	}
 
 	void AutonomousPeriodic()
 	{
+		int dist = RobotLocation::get()->getEast()->getDistance();
+		std::cout << dist << std::endl;
+		std::cout << "\t" << RobotLocation::get()->getNorth()->getDistance() << std::endl;
+
 	}
 
 	void TeleopInit()
@@ -69,6 +99,7 @@ public:
 	void TeleopPeriodic()
 	{
 		relay.checkStates();
+		shifter.shiftUpdate();
 	}
 
 	void DisabledInit()
