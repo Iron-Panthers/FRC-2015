@@ -13,7 +13,7 @@ public:
 	virtual double PIDGet();
 	virtual ~LidarI2C();
 private:
-	I2C lidar;
+	I2C *lidar;
 	void readyUp();
 	/**
 	 * Pin 1 - 5v
