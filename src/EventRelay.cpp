@@ -23,7 +23,7 @@ EventRelay::EventRelay()
 
 void EventRelay::checkStates()
 {
-	driveRobot.ArcadeDrive(joyWrap.getJoystick(), 2);
+	driveRobot.ArcadeDrive(joyWrap.getJoystick(), 1, joyWrap.getJoystick(), 2);
 
 	joyWrap.pollJoystick();
 	gamecube.pollJoystick();

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <chrono>
 #include "Lidar.hpp"
+#include <deque>
 
 class LidarPWM : public Lidar
 {
@@ -14,9 +15,14 @@ public:
 	virtual double PIDGet();
 	virtual ~LidarPWM();
 private:
+	double restart();
+
 	DigitalInput pulseLength;
 	DigitalOutput sensorManagement;
 	DigitalOutput resistorLine;
+
+	std::list<double> movingAverage;
+	double computedMA;
 	/**
 	 * Pin 1 - 5v
 	 * Pin 2 - Power en - Digital output - turn off sensor (low) turn on sensor (high)

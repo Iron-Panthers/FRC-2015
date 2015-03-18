@@ -29,7 +29,6 @@ private:
 	EventRelay relay;
 	ToteLifter lifter;
 	Shifter shifter;
-	Timer timer;
 	JoyTest joyTest;
 public:
 	Robot() : shifter(0, 1)
@@ -75,19 +74,22 @@ public:
 						  , ButtonNames::Trigger
 						  , std::bind(&JoyTest::button11, &joyTest)
 					 	  , joyMap);
-
 	}
 
 	void AutonomousInit()
 	{
-		RobotLocation::get();
 	}
 
 	void AutonomousPeriodic()
 	{
-		int dist = RobotLocation::get()->getEast()->getDistance();
-		std::cout << dist << std::endl;
-		std::cout << "\t" << RobotLocation::get()->getNorth()->getDistance() << std::endl;
+		Timer timer;
+
+		auto rl = RobotLocation::get();
+		timer.Start();
+		std::cout << rl->getEast()->getDistance() << std::endl;
+		timer.Stop();
+
+		std::cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t" << timer.Get() << std::endl;
 
 	}
 
@@ -100,6 +102,10 @@ public:
 	{
 		relay.checkStates();
 		shifter.shiftUpdate();
+		lifter.update();
+		int dist = RobotLocation::get()->getEast()->getDistance();
+		std::cout << dist << std::endl;
+		std::cout << "\t" << RobotLocation::get()->getNorth()->getDistance() << std::endl;
 	}
 
 	void DisabledInit()
