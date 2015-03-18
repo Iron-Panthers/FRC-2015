@@ -7,7 +7,6 @@ Action<T>::Action(std::function<T> func, int cost)
 	: callback(func)
 	, cost(cost)
 {
-	std::cout << "Action constructor was called." << std::endl;
 }
 
 template <typename T>

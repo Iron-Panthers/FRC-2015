@@ -1,7 +1,7 @@
 #include "ToteLifter.hpp"
 
 ToteLifter::ToteLifter()
-	: toteEncoder(new Encoder(4, 5)), //Encoder ports
+	: toteEncoder(new Encoder(7, 8)), //Encoder ports
 	  leftMotor(new Talon(0)),
 	  rightMotor(new Talon(1)),
 	  toteMotorSpeed(1.0),

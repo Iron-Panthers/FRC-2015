@@ -12,14 +12,9 @@ LidarPWM::LidarPWM(uint32_t channelPulseLength, uint32_t channelSensorManagement
 
 double LidarPWM::getDistance() //returns distance in centimeters
 {
-	while (!pulseLength.Get()) {}
+	for (int i = 0; !pulseLength.Get(); i++) { if (i > 500) break; else continue; }
 	auto start = std::chrono::high_resolution_clock::now();
-	while (pulseLength.Get()) {}
-	for (int i = 0; pulseLength.Get(); i++)
-	{
-		//std::cout << "second loop" << i << std::endl;
-		if (i > 500) break; else continue;
-	}
+	for (int i = 0; pulseLength.Get(); i++) { if (i > 500) break; else continue; }
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = stop - start;
 	auto microseconds = std::chrono::duration_cast<std::chrono::duration<int, std::micro>>(duration);

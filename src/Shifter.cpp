@@ -21,7 +21,6 @@ void Shifter::shiftHigh()
 	Wait(0.1);
 	DriveAuto::get()->getLeftMotors()->Set(pSpeedOne);
 	DriveAuto::get()->getRightMotors()->Set(pSpeedTwo);
-	std::cout << "ShiftHigh online" << std::endl;
 }
 
 void Shifter::shiftLow()
@@ -33,7 +32,6 @@ void Shifter::shiftLow()
 	Wait(0.1);
 	DriveAuto::get()->getLeftMotors()->Set(pSpeedOne);
 	DriveAuto::get()->getRightMotors()->Set(pSpeedTwo);
-	std::cout << "ShiftLow online" << std::endl;
 }
 
 void Shifter::shiftUpdate()

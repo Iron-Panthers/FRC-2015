@@ -14,7 +14,7 @@ JoyButton::JoyButton(ButtonNames name)
 }
 
 JoyButton::JoyButton(const JoyButton& button)
-	: name(button.name), down(button.down), pressed(button.pressed), up(button.up)
+	: down(button.down), pressed(button.pressed), up(button.up), name(button.name)
 {
 
 }
@@ -37,10 +37,22 @@ inline bool JoyButton::operator==(const JoyButton& right)
 		return true;
 	else
 		return false;
-	std::cout << "Operator== JoyButton" << std::endl;
 }
 
 bool JoyButton::operator<(const JoyButton& right) const
 {
 	return name < right.name;
+}
+
+std::ostream& operator<<(std::ostream &out, JoyButton &joyButton)
+{
+	out << std::boolalpha
+		<< "Down: " << joyButton.down << '\t'
+	    << "Pressed: " << joyButton.pressed << '\t'
+		<< "Up: " << joyButton.up << '\t'
+		<< "Button index: " << joyButton.name
+		<< std::endl;
+
+	return out;
+
 }

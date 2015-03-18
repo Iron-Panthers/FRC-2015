@@ -29,7 +29,7 @@ bool JoystickWrapper::checkPressed(JoyButton joyButton, ButtonNames butt)
 
 void JoystickWrapper::pollJoystick()
 {
-	for (unsigned int i = 0; i < joyButtons.size(); i++)
+	for (unsigned int i = 0; i < joyButtons.size() && i < joystick->GetButtonCount(); i++)
 	{
 		if(checkUp(joyButtons[i], static_cast<ButtonNames>(i + 1)))
 		{

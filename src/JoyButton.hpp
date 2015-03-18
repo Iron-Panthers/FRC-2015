@@ -3,6 +3,7 @@
 
 #include <WPILib.h>
 #include <iostream>
+#include <ostream>
 
 enum ButtonNames
 {
@@ -33,6 +34,8 @@ public:
 	JoyButton(const JoyButton& button);
 	JoyButton(ButtonNames name);
 	JoyButton(bool wouldBeDown, bool wouldBePressed, bool wouldBeUp, ButtonNames name);
+
+	friend std::ostream& operator<<(std::ostream &out, JoyButton &joyButton);
 
 };
 

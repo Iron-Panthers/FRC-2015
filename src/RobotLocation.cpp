@@ -18,7 +18,7 @@ RobotLocation::RobotLocation()
 	  , left(new Encoder(0,1))
 	  , right(new Encoder(2, 3))
 	  , north(new LidarPWM(4, 5, 6))
-	  , east(new LidarI2C(I2C::Port::kOnboard, static_cast<uint8_t>(0x62)))
+	  , east(new LidarI2C(I2C::Port::kMXP, 0x62))
 
 {
 	left->SetDistancePerPulse(0.01031292364);

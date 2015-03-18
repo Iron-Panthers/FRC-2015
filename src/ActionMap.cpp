@@ -4,12 +4,10 @@
 
 ActionMap::ActionMap()
 {
-	std::cout << "ActionMap Online" << std::endl;
 }
 
 void ActionMap::associate(JoyButton button, Action<void()> action)
 {
-	std::cout << "Associate Online" << std::endl;
 	std::pair<JoyButton, Action<void()>> buttonPair(button, action);
 	buttonMap.insert(buttonPair);
 }
