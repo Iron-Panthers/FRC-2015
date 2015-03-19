@@ -46,13 +46,13 @@ public:
 						  , joyMap);
 
 		createButtonMapping(true, false, false
-						  , ButtonNames::Button11
-						  , std::bind(&ToteLifter::manualStop, &lifter)
+						  , ButtonNames::Button10
+						  , std::bind(&ToteLifter::manualDown, &lifter)
 						  , joyMap);
 
 		createButtonMapping(true, false, false
-						  , ButtonNames::Button10
-						  , std::bind(&ToteLifter::manualDown, &lifter)
+						  , ButtonNames::Button11
+						  , std::bind(&ToteLifter::manualStop, &lifter)
 						  , joyMap);
 
 		createButtonMapping(true, false, false
@@ -65,15 +65,26 @@ public:
 						  , std::bind(&Shifter::shiftHigh, &shifter)
 						  , joyMap);
 
-		createButtonMapping(true, false, false
-				          , ButtonNames::Trigger
-						  , std::bind(&JoyTest::button21, &joyTest)
+		//up down z button respectively on gcn
+		createButtonMapping(false, true, false
+						  , ButtonNames::Button9
+						  , std::bind(&ToteLifter::manualUp, &lifter)
+						  , gcnMap);
+
+		createButtonMapping(false, true, false
+					      , ButtonNames::Button10
+					      , std::bind(&ToteLifter::manualDown, &lifter)
 						  , gcnMap);
 
 		createButtonMapping(true, false, false
-						  , ButtonNames::Trigger
-						  , std::bind(&JoyTest::button11, &joyTest)
-					 	  , joyMap);
+					      , ButtonNames::SideButton
+						  , std::bind(&DriveAuto::panic, DriveAuto::get())
+						  , gcnMap);
+
+		createButtonMapping(true, false, false
+				  	  	  , ButtonNames::SideButton
+						  , std::bind(&DriveAuto::toteAlign, DriveAuto::get())
+						  , joyMap);
 	}
 
 	void AutonomousInit()

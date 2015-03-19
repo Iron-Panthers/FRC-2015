@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <WPILib.h>
 #include "DriveAuto.hpp"
@@ -28,8 +29,8 @@ DriveAuto::DriveAuto()
 	, TURN_SPEED(0.15f)
 {
 	auto rl = RobotLocation::get();
-	rl->getLeftEncoder()->SetPIDSourceParameter(Encoder::kRate);
-	rl->getRightEncoder()->SetPIDSourceParameter(Encoder::kDistance);
+	rl->getLeftEncoder()->SetPIDSourceParameter(Encoder::kDistance);
+	rl->getRightEncoder()->SetPIDSourceParameter(Encoder::kRate);
 
 	initiallyStraight = true;
 	initialAngle = true;
@@ -97,7 +98,25 @@ void DriveAuto::toteAlign()
 	moveAction.first = DriveActions::ToteAlign;
 	std::vector<float> params;
 	moveAction.second = params;
+
+	dsLeftController = new PIDController(0.0002f, 0.0f, 0.0f, 0.0075f, RobotLocation::get()->getLeftEncoder().get(), leftMotors.get(), 0.05f);
+	dsRightController = new PIDController(0.0002f, 0.0f, 0.0f, 0.0075f, RobotLocation::get()->getRightEncoder().get(), rightMotors.get(), 0.05f);
+	dsLeftController->Enable();
+	dsRightController->Enable();
+
+	syncController = new PIDController(0.00009f, 0.0f, 0.0f, 0.0075f, RobotLocation::get()->getRightEncoder().get(), rightMotors.get(), 0.05f);
+
+	distanceController = new PIDController(0.5f, 0.f, 0.f, 0.f, RobotLocation::get()->getLeftEncoder().get(), leftMotors.get(), 0.05f);
+
+	std::queue<std::pair<DriveActions, std::vector<float>>> emptyQueue;
+	std::swap(actionQueue, emptyQueue);
 	actionQueue.push (moveAction);
+}
+
+void DriveAuto::panic()
+{
+	std::queue<std::pair<DriveActions, std::vector<float>>> emptyQueue;
+	std::swap(actionQueue, emptyQueue);
 }
 
 void DriveAuto::update()
@@ -218,38 +237,60 @@ void DriveAuto::update()
 	}
 	else if(action.first == DriveAuto::DriveActions::ToteAlign)
 	{
-		float distanceEast = RobotLocation::get()->getEast()->getDistance();
-		float distanceNorth = RobotLocation::get()->getNorth()->getDistance();
-		if(tolerance(distanceEast, DISTANCE_DS, 1))
+		auto *rl = RobotLocation::get();
+
+		if (!tolerance(computedMA, DISTANCE_DS, 2))
 		{
-			if(initialAlign == true)
-			{
-				leftMotors->Set(1);
-				rightMotors->Set(1);
-				initialAlign = false;
-			}
-			else
-			{
-				if(tolerance(distanceNorth, DISTANCE_TS, 1))
-				{
-					leftMotors->Set(0);
-					rightMotors->Set(0);
+			const int MA_LENGTH = 12;
+			double dist = rl->getEast()->getDistance();
+
+			movingAverage.push_front(dist);
+			if (movingAverage.size() > MA_LENGTH) movingAverage.pop_back();
+
+			int max = 0, min = 999999;
+			std::for_each (movingAverage.begin(), movingAverage.end(),	//identify outliers
+				[&] (auto e) {
+					if (e > max) max = e; else if (e < min) min = e;
 				}
-			}
+			);
+
+			auto copy = movingAverage;
+			copy.remove_if([&] (auto e) { return e <= min || e >= max; });
+
+			computedMA = 0;
+			for (auto e : copy) { computedMA += e; }
+			computedMA /= copy.size();
+
+			double diff = DISTANCE_DS - computedMA;
+
+			dsLeftController->SetSetpoint(80 + diff / 2);
+			dsRightController->SetSetpoint(80 - diff / 2);
+
+
+		}
+		else if (rl->getNorth()->getDistance() > DISTANCE_TS - 24)
+		{
+			dsLeftController->Disable();
+			dsRightController->Disable();
+			syncController->Enable();
+
+			syncController->SetSetpoint(rl->getLeftEncoder()->GetRate());
 		}
 		else
 		{
-			if(distanceEast > DISTANCE_DS)
+			syncController->Disable();
+			distanceController->Enable();
+			if (initialAlignDistance)
 			{
-				leftMotors->Set(0);
-				rightMotors->Set(0.5);
-				initialAlign = true;
+				float currentDist = (rl->getLeftEncoder()->GetDistance() + rl->getRightEncoder()->GetDistance()) / 2;
+				distanceController->SetSetpoint(currentDist + DISTANCE_TS);
+				initialAlignDistance = false;
 			}
-			else if(distanceEast < DISTANCE_DS)
+
+			if (rl->getNorth()->getDistance() <= DISTANCE_TS)
 			{
-				leftMotors->Set(0.5);
-				rightMotors->Set(0);
-				initialAlign = true;
+				actionQueue.pop();
+				distanceController->Disable();
 			}
 		}
 	}

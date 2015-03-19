@@ -23,7 +23,13 @@ EventRelay::EventRelay()
 
 void EventRelay::checkStates()
 {
-	driveRobot.ArcadeDrive(joyWrap.getJoystick(), 1, joyWrap.getJoystick(), 2);
+	auto *joyExtreme = joyWrap.getJoystick();
+	auto *gcn = gamecube.getJoystick();
+
+	if (std::abs(joyExtreme->GetRawAxis(1)) > 0.05 || std::abs(joyExtreme->GetRawAxis(2) > 0.05))
+		driveRobot.ArcadeDrive(joyWrap.getJoystick(), 1, joyWrap.getJoystick(), 2);
+	else
+		driveRobot.ArcadeDrive(gcn->GetRawAxis(1) / 10.0f, gcn->GetRawAxis(0) / 10.0f);
 
 	joyWrap.pollJoystick();
 	gamecube.pollJoystick();

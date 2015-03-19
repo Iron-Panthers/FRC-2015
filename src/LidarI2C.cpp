@@ -34,27 +34,10 @@ double LidarI2C::getDistance() //returns distance in centimeters
 
 	}
 
-	unsigned char *test = new unsigned char[8];
-	for (int i = 0; ret != 0 && i < tries; i++)
-	{
-		::Wait(0.003);
-		ret = lidar->Read(0xf, 1, test);
-	}
-	int high = test[0];
-	readyUp();
-	for (int i = 0; ret != 0 && i < tries; i++)
-	{
-		::Wait(0.003);
-		ret = lidar->Read(0x10, 1, test);
-	}
-	int low = test[0];
-
 	int centimeters = (distArray[0] << 8) + distArray[1];
 
 	delete[] distArray;
-	delete[] test;
 
-	return (high << 8) + low;
 	return centimeters;
 }
 

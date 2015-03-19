@@ -114,10 +114,10 @@ void ToteLifter::update()
 
 	std::cout << "toteEncoder: " << toteEncoder->GetDistance() << std::endl;
 
-	std::ofstream lastEncoderValue(encoderValueFileName, std::ios::trunc);
-	lastEncoderValue << toteEncoder->GetDistance() + distanceOffset;
+//	std::ofstream lastEncoderValue(encoderValueFileName, std::ios::trunc);
+//	lastEncoderValue << toteEncoder->GetDistance() + distanceOffset;
 
-	lastEncoderValue.close();
+//	lastEncoderValue.close();
 
 	if(isManualUp)
 	{

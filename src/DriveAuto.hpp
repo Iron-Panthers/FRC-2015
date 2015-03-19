@@ -14,6 +14,7 @@ public:
 	void axisTurn(float degrees);
 	void wait(float seconds);
 	void toteAlign();
+	void panic();
 	enum DriveActions
 	{
 		Move,
@@ -34,11 +35,18 @@ private:
 	static DriveAuto* instance;
 	float initialAngle;
 	bool initiallyStraight;
-	bool initialTurn;
 	bool initialAlign;
+	bool initialTurn;
+
+	std::list<double> movingAverage;
+	double computedMA;
+
+	bool initialAlignDistance;
 	const float TURN_SPEED;
-	PIDController* distanceController;
+	PIDController* dsLeftController;
+	PIDController* dsRightController;
 	PIDController* syncController;
+	PIDController* distanceController;
 };
 
 #endif
