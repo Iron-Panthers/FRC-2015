@@ -34,6 +34,7 @@ private:
 	const std::shared_ptr<TwoMotorGroup> rightMotors;
 	static DriveAuto* instance;
 	float initialAngle;
+	float wantedAngle;
 	bool initiallyStraight;
 	bool initialAlign;
 	bool initialTurn;
@@ -47,6 +48,8 @@ private:
 	PIDController* dsRightController;
 	PIDController* syncController;
 	PIDController* distanceController;
+
+	Timer waitTimer;
 };
 
 #endif

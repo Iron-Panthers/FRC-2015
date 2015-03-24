@@ -13,6 +13,11 @@ private:
 	ActionMap actionMapGCN;
 	JoystickWrapper joyWrap;
 	JoystickWrapper gamecube;
+
+	std::list<double> movingAverageDrive;
+	double computedMADrive;
+	std::list<double> movingAverageTwist;
+	double computedMATwist;
 public:
 	void checkStates();
 	ActionMap& getMapJoy();

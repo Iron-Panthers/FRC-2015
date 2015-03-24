@@ -39,6 +39,7 @@ double LidarI2C::getDistance() //returns distance in centimeters
 	delete[] distArray;
 
 	return centimeters;
+	return 0;
 }
 
 double LidarI2C::PIDGet()

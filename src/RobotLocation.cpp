@@ -22,7 +22,7 @@ RobotLocation::RobotLocation()
 
 {
 	left->SetDistancePerPulse(0.01031292364);
-	right->SetDistancePerPulse(0.01031292364);
+	right->SetDistancePerPulse(-0.01031292364);
 }
 
 Lidar* RobotLocation::getNorth()

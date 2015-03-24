@@ -57,12 +57,13 @@ double LidarPWM::getDistance() //returns distance in centimeters
 	computedMA /= copy.size();
 
 	return computedMA;
+	return 0;
 }
 
 double LidarPWM::restart()
 {
 	sensorManagement.Set(0);
-	::Wait(0.004);
+	//::Wait(0.004);
 	sensorManagement.Set(1);
 	return computedMA;
 }

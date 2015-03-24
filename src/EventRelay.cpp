@@ -26,10 +26,38 @@ void EventRelay::checkStates()
 	auto *joyExtreme = joyWrap.getJoystick();
 	auto *gcn = gamecube.getJoystick();
 
-	if (std::abs(joyExtreme->GetRawAxis(1)) > 0.05 || std::abs(joyExtreme->GetRawAxis(2) > 0.05))
-		driveRobot.ArcadeDrive(joyWrap.getJoystick(), 1, joyWrap.getJoystick(), 2);
+	double driveAxis = joyExtreme->GetRawAxis(1);
+	double twistAxis = joyExtreme->GetRawAxis(2);
+
+	driveAxis = std::abs(driveAxis) > 0.1 ? driveAxis : 0;
+	twistAxis = std::abs(twistAxis) > 0.1 ? twistAxis : 0;
+
+	std::cout << gcn->GetRawAxis(1) << "\t\t" << gcn->GetRawAxis(0) << std::endl;
+
+	const double MA_LENGTH = 25;
+	movingAverageDrive.push_front(driveAxis);
+	movingAverageTwist.push_front(twistAxis);
+	if (movingAverageDrive.size() > MA_LENGTH) movingAverageDrive.pop_back();
+	if (movingAverageTwist.size() > MA_LENGTH) movingAverageTwist.pop_back();
+
+	computedMADrive = 0;
+	computedMATwist = 0;
+	for (auto e : movingAverageDrive) { computedMADrive += e; }
+	for (auto e : movingAverageTwist) { computedMATwist += e; }
+	computedMADrive /= MA_LENGTH;
+	computedMATwist /= MA_LENGTH;
+
+	driveAxis = computedMADrive;
+	twistAxis = computedMATwist;
+
+	if (std::abs(gcn->GetRawAxis(1)) > 0.25 || std::abs(gcn->GetRawAxis(0)) > 0.25)
+	{
+		driveRobot.ArcadeDrive(gcn->GetRawAxis(1) * 0.5, gcn->GetRawAxis(0) * 0.5);
+	}
 	else
-		driveRobot.ArcadeDrive(gcn->GetRawAxis(1) / 10.0f, gcn->GetRawAxis(0) / 10.0f);
+	{
+		driveRobot.ArcadeDrive(driveAxis, twistAxis * 0.75);
+	}
 
 	joyWrap.pollJoystick();
 	gamecube.pollJoystick();

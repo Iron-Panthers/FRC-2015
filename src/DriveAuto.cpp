@@ -26,11 +26,11 @@ float modification(float offset)
 DriveAuto::DriveAuto()
 	: leftMotors(new TwoMotorGroup(4, 5, true))
 	, rightMotors(new TwoMotorGroup(2, 3, false))
-	, TURN_SPEED(0.15f)
+	, TURN_SPEED(0.35f)
 {
 	auto rl = RobotLocation::get();
 	rl->getLeftEncoder()->SetPIDSourceParameter(Encoder::kDistance);
-	rl->getRightEncoder()->SetPIDSourceParameter(Encoder::kRate);
+	rl->getRightEncoder()->SetPIDSourceParameter(Encoder::kDistance);
 
 	initiallyStraight = true;
 	initialAngle = true;
@@ -70,6 +70,11 @@ void DriveAuto::move(float inches, float motorVelocity)
 	params.push_back(currentDistance);
 	moveAction.second = params; //Puts inches & motorVelocity in moveAction
 	actionQueue.push (moveAction); //Stores the params pair and the DriveAction in actionQueue
+
+	//syncController = new PIDController(0.00009f, 0.0f, 0.0f, 0.0075f, RobotLocation::get()->getRightEncoder().get(), rightMotors.get(), 0.05f);
+	syncController = new PIDController(0.01f, 0.00003f, 0.f, 0.f, RobotLocation::get()->getRightEncoder().get(), rightMotors.get(), 0.05f);
+	distanceController = new PIDController(0.01f, 0.00003f, 0.f, 0.f, RobotLocation::get()->getLeftEncoder().get(), leftMotors.get(), 0.05f);
+
 }
 
 void DriveAuto::axisTurn(float degrees)
@@ -106,7 +111,7 @@ void DriveAuto::toteAlign()
 
 	syncController = new PIDController(0.00009f, 0.0f, 0.0f, 0.0075f, RobotLocation::get()->getRightEncoder().get(), rightMotors.get(), 0.05f);
 
-	distanceController = new PIDController(0.5f, 0.f, 0.f, 0.f, RobotLocation::get()->getLeftEncoder().get(), leftMotors.get(), 0.05f);
+	distanceController = new PIDController(0.1f, 0.f, 0.f, 0.f, RobotLocation::get()->getLeftEncoder().get(), leftMotors.get(), 0.05f);
 
 	std::queue<std::pair<DriveActions, std::vector<float>>> emptyQueue;
 	std::swap(actionQueue, emptyQueue);
@@ -117,59 +122,49 @@ void DriveAuto::panic()
 {
 	std::queue<std::pair<DriveActions, std::vector<float>>> emptyQueue;
 	std::swap(actionQueue, emptyQueue);
+
+	while (actionQueue.size() > 0)
+		actionQueue.pop();
 }
 
 void DriveAuto::update()
 {
-
+	std::cout << "Current gyro value: " << RobotLocation::get()->getGyro()->GetAngle() << std::endl;
 	if (actionQueue.size() == 0)
 	{
 		return; //If there's nothing in the queue to do then return
 	}
 
-	std::pair<DriveAuto::DriveActions, std::vector<float> > action = actionQueue.front();
+	std::pair<DriveAuto::DriveActions, std::vector<float> > &action = actionQueue.front();
 	auto robotLocation = RobotLocation::get();
 
 	if(action.first == DriveAuto::DriveActions::Move)
 	{
 		if(initiallyStraight == true)
 		{
-			initialAngle = RobotLocation::get()->getGyro()->GetAngle();
+			initialAngle = RobotLocation::get()->getGyro()->GetAngle() * -1;
 			initiallyStraight = false;
+			action.second[2] = RobotLocation::get()->getLeftEncoder()->GetDistance();
+
+			distanceController->Enable();
+			syncController->Enable();
+			distanceController->SetSetpoint(action.second[2] + action.second[0]);
+			syncController->SetSetpoint(RobotLocation::get()->getRightEncoder()->GetDistance() + action.second[0]);
 		}
 		else
 		{
-			leftMotors->Set(action.second[1]);
-			rightMotors->Set(action.second[1]); //Sets the left & right motors to the motorVelocity that was pushed in the queue in Move()
-			float currentAngle = RobotLocation::get()->getGyro()->GetAngle();
-			std::cout << "InitialAngle: " << initialAngle << std::endl << "Current Angle: " << currentAngle << std::endl;
-			if(!tolerance(currentAngle, initialAngle, 0.03))
-			{
-				float offset = currentAngle - initialAngle;
-				if (currentAngle > initialAngle)
-				{
-					leftMotors->Set(action.second[1] - modification(offset));
-					rightMotors->Set(action.second[1] + modification(offset));
-				}
-				else if(currentAngle < initialAngle)
-				{
-					leftMotors->Set(action.second[1] + modification(offset));
-					rightMotors->Set(action.second[1] - modification(offset));
-				}
-			}
-			else
-			{
-				if(tolerance(leftMotors->Get(), 0, 0.01))
-				{
-					leftMotors->Set(action.second[1]);
-					rightMotors->Set(action.second[1]);
-				}
-			}
+			std::cout << "right dist" << RobotLocation::get()->getRightEncoder()->GetDistance() << std::endl;
+			std::cout << leftMotors->Get() << "\t\t" << rightMotors->Get() << std::endl;
+
 			float totalDistance = robotLocation->getLeftEncoder()->GetDistance();
-			if(tolerance(action.second[0], totalDistance - action.second[2], 0.5 * action.second[1] * 10)) //if totalDistance is more or less 0
+			if(totalDistance - action.second[2] > action.second[0]) //if totalDistance is more or less 0
 			{
 				leftMotors->Set(0);
 				rightMotors->Set(0);
+				syncController->Disable();
+				distanceController->Disable();
+				delete syncController;
+				delete distanceController;
 				actionQueue.pop();
 				initiallyStraight = true;
 				if (actionQueue.size() > 0 && actionQueue.front().first == DriveAuto::DriveActions::Move) //If there's stuff in actionQueues
@@ -182,24 +177,31 @@ void DriveAuto::update()
 	}
 	else if(action.first == DriveAuto::DriveActions::Turn)
 	{
-
 		if(initialTurn == true)
 		{
-			initialAngle = RobotLocation::get()->getGyro()->GetAngle();
+			std::cout << "axis turn enable" << std::endl;
+			RobotLocation::get()->getGyro()->Reset();
+			initialAngle = RobotLocation::get()->getGyro()->GetAngle() * -1;
+			std::cout << "Initial angle: " << initialAngle << std::endl;
+			wantedAngle = initialAngle + action.second[0];
+			std::cout << "Wanted angle: " << wantedAngle << std::endl;
 			initialTurn = false;
 		}
 		else
 		{
-			std::cout << "gyro" << RobotLocation::get()->getGyro()->GetAngle() << std::endl;
-			float wantedAngle = RobotLocation::get()->getGyro()->GetAngle() - initialAngle;
-			if(action.second[0] < 0) //want to turn right
+			if(action.second[0] > 0) //want to turn right
 			{
-				leftMotors->Set(-TURN_SPEED);
-				rightMotors->Set(TURN_SPEED);
-				if(tolerance(action.second[0], wantedAngle, 2)) //need to use tolerance here
+				std::cout << "axis turn start" << std::endl;
+				leftMotors->Set(TURN_SPEED);
+				rightMotors->Set(-TURN_SPEED);
+				if(RobotLocation::get()->getGyro()->GetAngle() * -1 > wantedAngle) //need to use tolerance here
 				{
+					std::cout << "turn GetAngle: " << RobotLocation::get()->getGyro()->GetAngle() << std::endl;
+					std::cout << "turn wanted angle: " << wantedAngle << std::endl;
+					std::cout << "Current gyro value: " << RobotLocation::get()->getGyro()->GetAngle() << std::endl;
 					leftMotors->Set(0);
 					rightMotors->Set(0);
+					std::cout << "axis turn done" <<std::endl;
 					actionQueue.pop();
 					initialTurn = true;
 					if (actionQueue.size() > 0 && actionQueue.front().first == DriveAuto::DriveActions::Move) //If there's stuff in actionQueues
@@ -209,11 +211,11 @@ void DriveAuto::update()
 					}
 				}
 			}
-			if(action.second[0] > 0) //want to turn left
+			if(action.second[0] < 0) //want to turn left
 			{
-				leftMotors->Set(TURN_SPEED);
-				rightMotors->Set(-TURN_SPEED);
-				if(tolerance(action.second[0], wantedAngle, 2)) //need to use tolerance here
+				leftMotors->Set(-TURN_SPEED);
+				rightMotors->Set(TURN_SPEED);
+				if(RobotLocation::get()->getGyro()->GetAngle() * -1 < wantedAngle) //need to use tolerance here
 				{
 					leftMotors->Set(0);
 					rightMotors->Set(0);
@@ -230,10 +232,19 @@ void DriveAuto::update()
 	}
 	else if(action.first == DriveAuto::DriveActions::Wait)
 	{
-		leftMotors->Set(0);
-		rightMotors->Set(0);
-		::Wait(static_cast<double>(action.second[0]));
-		actionQueue.pop();
+		if (waitTimer.Get() == 0)
+			waitTimer.Start();
+		else
+		{
+			leftMotors->Set(0);
+			rightMotors->Set(0);
+			if (waitTimer.Get() > action.second[0])
+			{
+				actionQueue.pop();
+				waitTimer.Reset();
+			}
+
+		}
 	}
 	else if(action.first == DriveAuto::DriveActions::ToteAlign)
 	{
@@ -291,6 +302,10 @@ void DriveAuto::update()
 			{
 				actionQueue.pop();
 				distanceController->Disable();
+				delete dsLeftController;
+				delete dsRightController;
+				delete syncController;
+				delete distanceController;
 			}
 		}
 	}

@@ -1,20 +1,26 @@
 #include "ToteLifter.hpp"
 
+const double MIN_POT = 112.0;
+const double MAX_POT = 0.0;
+
+const double LEVELS[5] = { 112.22, 78.183, 70.183, 39.344, 31.264 };
+
+
 ToteLifter::ToteLifter()
-	: toteEncoder(new Encoder(7, 8)), //Encoder ports
-	  leftMotor(new Talon(0)),
+	: leftMotor(new Talon(0)),
 	  rightMotor(new Talon(1)),
 	  toteMotorSpeed(1.0),
 	  encoderValueFileName("lastEncoderValue.txt"),
 	  isManualUp(false),
 	  isManualDown(false),
-	  isManualStop(true)
+	  isManualStop(true),
+	  pot(new AnalogPotentiometer(1, 112))
 {
 	//std::ifstream lastEncoderValue(encoderValueFileName);
 	//distanceOffset = std::stof(encoderValueFileName);
 	distanceOffset = 0;
 	targetDistance = distanceOffset;
-	toteEncoder->SetDistancePerPulse(1/43.375);
+	//toteEncoder->SetDistancePerPulse(1/43.375);
 }
 
 ToteLifter::~ToteLifter()
@@ -28,110 +34,127 @@ bool ToteLifter::tolerance(double left, double right, double epsilon)
 
 void ToteLifter::setToteLevel(int level)
 {
-	if(level > 0)
-	{
-		targetDistance = 16.5 * level + 5;
-	}
-	else
-	{
-		targetDistance = 16.5 * level;
-	}
-}
-void ToteLifter::setToteLevel1()
-{
-	setToteLevel(0);
-}
-void ToteLifter::setToteLevel2()
-{
-	setToteLevel(1);
-}
-void ToteLifter::setToteLevel3()
-{
-	setToteLevel(2);
-}
-void ToteLifter::setToteLevel4()
-{
-	setToteLevel(3);
+	targetDistance = LEVELS[level];
 }
 
-std::shared_ptr<Encoder> ToteLifter::getToteEncoder()
+
+/*std::shared_ptr<Encoder> ToteLifter::getToteEncoder()
 {
 	return toteEncoder;
-}
+}*/
 
 void ToteLifter::manualUp()
 {
 	isManualUp = true;
 	isManualDown = false;
-	isManualStop = false;
+	autoLevelMode = false;
 }
 
 void ToteLifter::manualDown()
 {
 	isManualUp = false;
 	isManualDown = true;
-	isManualStop = false;
+	autoLevelMode = false;
 }
 
-void ToteLifter::manualStop()
-{
-	isManualUp = false;
-	isManualDown = false;
-	isManualStop = true;
-}
-
-void ToteLifter::resumeAuto()
-{
-	isManualUp = false;
-	isManualDown = false;
-	isManualStop = false;
-}
 
 void ToteLifter::update()
 {
-	if (!isManualUp || !isManualDown || !isManualStop )
+	if ((!isManualUp && !isManualDown) && autoLevelMode)
 	{
-		double currentDistance = toteEncoder->GetDistance() + distanceOffset;
-		if(!tolerance(currentDistance, targetDistance, 2))
+		double pos = pot->Get();
+		if (!tolerance(pos, targetDistance, 1.5))
 		{
-			if(targetDistance > currentDistance)
+			if (targetDistance > pos)
 			{
-				leftMotor->Set(-toteMotorSpeed);
-				rightMotor->Set(toteMotorSpeed);
+				moveDown();
 			}
-			else if(targetDistance < currentDistance)
+			else if (targetDistance < pos)
 			{
-				leftMotor->Set(toteMotorSpeed);
-				rightMotor->Set(-toteMotorSpeed);
+				moveUp();
 			}
 		}
 		else
 		{
-			leftMotor->Set(0);
-			rightMotor->Set(0);
+			stop();
+		}
+	}
+	else
+	{
+		if(isManualUp)
+		{
+			moveUp();
+		}
+		else if(isManualDown)
+		{
+			moveDown();
+		}
+		else
+		{
+			stop();
 		}
 	}
 
-	std::cout << "toteEncoder: " << toteEncoder->GetDistance() << std::endl;
+	isManualUp = false;
+	isManualDown = false;
+}
 
-//	std::ofstream lastEncoderValue(encoderValueFileName, std::ios::trunc);
-//	lastEncoderValue << toteEncoder->GetDistance() + distanceOffset;
-
-//	lastEncoderValue.close();
-
-	if(isManualUp)
+void ToteLifter::moveUp()
+{
+	if (pot->Get() > (MAX_POT + 1.5))
 	{
 		leftMotor->Set(-1);
 		rightMotor->Set(1);
 	}
-	else if(isManualDown)
+}
+void ToteLifter::moveDown()
+{
+	if (pot->Get() < MIN_POT - 1.5)
 	{
 		leftMotor->Set(1);
 		rightMotor->Set(-1);
 	}
-	else if(isManualStop)
-	{
-		leftMotor->Set(0.0);
-		rightMotor->Set(0.0);
-	}
 }
+void ToteLifter::stop()
+{
+	leftMotor->Set(0);
+	rightMotor->Set(0);
+
+}
+
+void ToteLifter::levelUp()
+{
+	double pos = pot->Get();
+
+	double minGreater = 0.0;
+	int minGreaterIndex = 0;
+	for (int i = 0; i < 5; i++)
+	{
+		if (pos > LEVELS[i] && LEVELS[i] > minGreater)
+		{
+			minGreater = LEVELS[i];
+			minGreaterIndex = i;
+		}
+	}
+	setToteLevel(minGreaterIndex);
+	autoLevelMode = true;
+}
+
+void ToteLifter::levelDown()
+{
+	double pos = pot->Get();
+
+	double maxGreater = 99999.0;
+	int maxGreaterIndex = 0;
+	for (int i = 0; i < 5; i++)
+	{
+		if (pos < LEVELS[i] && LEVELS[i] < maxGreater)
+		{
+			maxGreater = LEVELS[i];
+			maxGreaterIndex = i;
+		}
+	}
+	setToteLevel(maxGreaterIndex);
+	autoLevelMode = true;
+}
+

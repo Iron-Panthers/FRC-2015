@@ -12,6 +12,9 @@
 #include "Shifter.hpp"
 #include "ToteLifter.hpp"
 #include "JoyTest.hpp"
+#include "Lidar.hpp"
+#include "LidarI2C.hpp"
+#include "LidarPWM.hpp"
 
 void createButtonMapping(bool down, bool pressed, bool up,
 						 ButtonNames buttonName,
@@ -24,12 +27,15 @@ void createButtonMapping(bool down, bool pressed, bool up,
 }
 
 class Robot: public IterativeRobot
+	:Lidar(new LidarI2(0x62)
 {
 private:
 	EventRelay relay;
 	ToteLifter lifter;
 	Shifter shifter;
 	JoyTest joyTest;
+	LidarI2C *Lidar;
+
 public:
 	Robot() : shifter(0, 1)
 	{
@@ -50,10 +56,6 @@ public:
 						  , std::bind(&ToteLifter::manualDown, &lifter)
 						  , joyMap);
 
-		createButtonMapping(true, false, false
-						  , ButtonNames::Button11
-						  , std::bind(&ToteLifter::manualStop, &lifter)
-						  , joyMap);
 
 		createButtonMapping(true, false, false
 						  , ButtonNames::Button7
@@ -65,48 +67,62 @@ public:
 						  , std::bind(&Shifter::shiftHigh, &shifter)
 						  , joyMap);
 
-		//up down z button respectively on gcn
+		//up down dpad
 		createButtonMapping(false, true, false
 						  , ButtonNames::Button9
 						  , std::bind(&ToteLifter::manualUp, &lifter)
 						  , gcnMap);
 
+		//z
 		createButtonMapping(false, true, false
 					      , ButtonNames::Button10
 					      , std::bind(&ToteLifter::manualDown, &lifter)
 						  , gcnMap);
 
+		//x
+		createButtonMapping(true, false, false
+						  , ButtonNames::BottomRight
+						  , std::bind(&ToteLifter::levelUp, &lifter)
+						  , gcnMap);
+
+		//y
+		createButtonMapping(true, false, false
+					      , ButtonNames::BottomLeft
+					      , std::bind(&ToteLifter::levelDown, &lifter)
+						  , gcnMap);
+
+		//b
 		createButtonMapping(true, false, false
 					      , ButtonNames::SideButton
 						  , std::bind(&DriveAuto::panic, DriveAuto::get())
 						  , gcnMap);
 
-		createButtonMapping(true, false, false
-				  	  	  , ButtonNames::SideButton
-						  , std::bind(&DriveAuto::toteAlign, DriveAuto::get())
-						  , joyMap);
+
 	}
 
 	void AutonomousInit()
 	{
+		//DriveAuto::get()->move(72, 0.5);
+		Timer timer;
+		timer.Start();
+		while (timer.Get() < 3.00)
+			lifter.moveUp();
+		Wait(2);
+		DriveAuto::get()->axisTurn(90);
+		DriveAuto::get()->wait(1);
+		DriveAuto::get()->move(100, 0.75);
 	}
 
 	void AutonomousPeriodic()
 	{
-		Timer timer;
-
-		auto rl = RobotLocation::get();
-		timer.Start();
-		std::cout << rl->getEast()->getDistance() << std::endl;
-		timer.Stop();
-
-		std::cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t\t" << timer.Get() << std::endl;
-
+		DriveAuto::get()->update();
+		lifter.update();
 	}
 
 	void TeleopInit()
 	{
-
+		DriveAuto::get()->panic();
+		shifter.shiftLow();
 	}
 
 	void TeleopPeriodic()
@@ -114,9 +130,7 @@ public:
 		relay.checkStates();
 		shifter.shiftUpdate();
 		lifter.update();
-		int dist = RobotLocation::get()->getEast()->getDistance();
-		std::cout << dist << std::endl;
-		std::cout << "\t" << RobotLocation::get()->getNorth()->getDistance() << std::endl;
+		std::cout << "Lidar Get Good" << Lidar.getDistance() << std::endl;
 	}
 
 	void DisabledInit()
