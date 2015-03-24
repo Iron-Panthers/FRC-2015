@@ -15,6 +15,7 @@
 #include "Lidar.hpp"
 #include "LidarI2C.hpp"
 #include "LidarPWM.hpp"
+#include "ContainerLifter.hpp"
 
 void createButtonMapping(bool down, bool pressed, bool up,
 						 ButtonNames buttonName,
@@ -26,8 +27,8 @@ void createButtonMapping(bool down, bool pressed, bool up,
 	map.associate(button, action);
 }
 
-class Robot: public IterativeRobot
-	:Lidar(new LidarI2(0x62)
+class Robot : public IterativeRobot
+	//: Lidar(new LidarI2C(0x62f))
 {
 private:
 	EventRelay relay;
@@ -35,6 +36,7 @@ private:
 	Shifter shifter;
 	JoyTest joyTest;
 	LidarI2C *Lidar;
+	ContainerLifter cLifter;
 
 public:
 	Robot() : shifter(0, 1)
@@ -67,6 +69,15 @@ public:
 						  , std::bind(&Shifter::shiftHigh, &shifter)
 						  , joyMap);
 
+		createButtonMapping(true, false, false
+						  , ButtonNames::Button11
+						  , std::bind(&ContainerLifter::extendPiston, &cLifter)
+						  , joyMap);
+
+		createButtonMapping(true, false, false
+						  , ButtonNames::Button12
+						  , std::bind(&ContainerLifter::retractPiston, &cLifter)
+						  , joyMap);
 		//up down dpad
 		createButtonMapping(false, true, false
 						  , ButtonNames::Button9
@@ -130,7 +141,7 @@ public:
 		relay.checkStates();
 		shifter.shiftUpdate();
 		lifter.update();
-		std::cout << "Lidar Get Good" << Lidar.getDistance() << std::endl;
+		//std::cout << "Lidar Get Good" << Lidar.getDistance() << std::endl;
 	}
 
 	void DisabledInit()
