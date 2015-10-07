@@ -10,7 +10,7 @@
 class DriveAuto
 {
 public:
-	void move(float feet, float motorVelocity);
+	void move(float inches, float motorVelocity);
 	void axisTurn(float degrees);
 	void wait(float seconds);
 	void toteAlign();

@@ -14,18 +14,18 @@ RobotLocation* RobotLocation::get()
 }
 
 RobotLocation::RobotLocation()
-	  : gyro(new Gyro(0))
-	  , left(new Encoder(0,1))
-	  , right(new Encoder(2, 3))
-	  , north(new LidarPWM(4, 5, 6))
-	  , east(new LidarI2C(I2C::Port::kMXP, 0x62))
+	  : gyro(new  Gyro(5))
+	  , left(new Encoder(0, 1, true))
+	  , right(new Encoder(2, 3, true))
+	  //, north(new LidarPWM(4, 5, 6))
+	  //, east(new LidarI2C(I2C::Port::kMXP, 0x62))
 
 {
 	left->SetDistancePerPulse(0.01031292364);
 	right->SetDistancePerPulse(-0.01031292364);
 }
 
-Lidar* RobotLocation::getNorth()
+/*Lidar* RobotLocation::getNorth()
 {
 	return north;
 }
@@ -33,7 +33,7 @@ Lidar* RobotLocation::getNorth()
 Lidar* RobotLocation::getEast()
 {
 	return east;
-}
+}*/
 
 const std::shared_ptr<Gyro> RobotLocation::getGyro() const
 {

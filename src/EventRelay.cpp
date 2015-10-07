@@ -7,6 +7,8 @@ EventRelay::EventRelay()
 	, actionMapGCN()
 	, joyWrap(0)
 	, gamecube(1)
+	, movingAverageDrive(25)
+	, movingAverageTwist(25)
 	, driveRobot(DriveAuto::get()->getLeftMotors()->getTalonOne().get()
 			   , DriveAuto::get()->getLeftMotors()->getTalonTwo().get()
 			   , DriveAuto::get()->getRightMotors()->getTalonOne().get()
@@ -17,6 +19,8 @@ EventRelay::EventRelay()
 	driveRobot.SetInvertedMotor(static_cast<RobotDrive::MotorType>(1), false);
 	driveRobot.SetInvertedMotor(static_cast<RobotDrive::MotorType>(2), false);
 	driveRobot.SetInvertedMotor(static_cast<RobotDrive::MotorType>(3), false);
+
+	zeroMotorTimer.Start();
 
 	driveRobot.SetSafetyEnabled(false);
 }
@@ -32,31 +36,35 @@ void EventRelay::checkStates()
 	driveAxis = std::abs(driveAxis) > 0.1 ? driveAxis : 0;
 	twistAxis = std::abs(twistAxis) > 0.1 ? twistAxis : 0;
 
-	std::cout << gcn->GetRawAxis(1) << "\t\t" << gcn->GetRawAxis(0) << std::endl;
+	//std::cout << gcn->GetRawAxis(1) << "\t\t" << gcn->GetRawAxis(0) << std::endl;
 
-	const double MA_LENGTH = 25;
-	movingAverageDrive.push_front(driveAxis);
-	movingAverageTwist.push_front(twistAxis);
-	if (movingAverageDrive.size() > MA_LENGTH) movingAverageDrive.pop_back();
-	if (movingAverageTwist.size() > MA_LENGTH) movingAverageTwist.pop_back();
+	movingAverageDrive.giveRawValue(driveAxis);
+	movingAverageTwist.giveRawValue(twistAxis);
 
-	computedMADrive = 0;
-	computedMATwist = 0;
-	for (auto e : movingAverageDrive) { computedMADrive += e; }
-	for (auto e : movingAverageTwist) { computedMATwist += e; }
-	computedMADrive /= MA_LENGTH;
-	computedMATwist /= MA_LENGTH;
+	driveAxis = movingAverageDrive.computeAverage();
+	twistAxis = movingAverageTwist.computeAverage();
 
-	driveAxis = computedMADrive;
-	twistAxis = computedMATwist;
+	float turnAxisGCN = onlyFB_GCN ? 0 : gcn->GetRawAxis(0);
+	onlyFB_GCN = false;
 
-	if (std::abs(gcn->GetRawAxis(1)) > 0.25 || std::abs(gcn->GetRawAxis(0)) > 0.25)
+	//std::cout << "drive" << driveAxis << " twist" << twistAxis << std::endl;
+
+	if (zeroMotorTimer.Get() < 5)
 	{
-		driveRobot.ArcadeDrive(gcn->GetRawAxis(1) * 0.5, gcn->GetRawAxis(0) * 0.5);
+		DriveAuto::get()->getLeftMotors()->Set(0);
+		DriveAuto::get()->getRightMotors()->Set(0);
 	}
 	else
 	{
-		driveRobot.ArcadeDrive(driveAxis, twistAxis * 0.75);
+		if (std::abs(gcn->GetRawAxis(1)) > 0.25 || std::abs(turnAxisGCN) > 0.25)
+		{
+			driveRobot.ArcadeDrive(gcn->GetRawAxis(1) * 0.8, turnAxisGCN * .82);
+		}
+		else
+		{
+			driveRobot.ArcadeDrive(driveAxis * 1, twistAxis * 1);
+		}
+
 	}
 
 	joyWrap.pollJoystick();
@@ -91,4 +99,14 @@ ActionMap& EventRelay::getMapJoy()
 ActionMap& EventRelay::getMapGCN()
 {
 	return actionMapGCN;
+}
+
+void EventRelay::setFBGCN()
+{
+	onlyFB_GCN = true;
+}
+
+void EventRelay::zeroMotors()
+{
+	zeroMotorTimer.Reset();
 }

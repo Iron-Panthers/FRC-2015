@@ -36,7 +36,6 @@ DriveAuto::DriveAuto()
 	initialAngle = true;
 	initialTurn = true;
 	initialAlign = true;
-
 }
 
 DriveAuto* DriveAuto::instance = nullptr;
@@ -60,7 +59,6 @@ const std::shared_ptr<TwoMotorGroup> DriveAuto::getRightMotors()
 
 void DriveAuto::move(float inches, float motorVelocity)
 {
-	std::cout << "move" << std::endl;
 	std::pair<DriveActions, std::vector<float> > moveAction;
 	moveAction.first = DriveActions::Move;
 	std::vector<float> params;  //stores inches and motorVelocity
@@ -129,7 +127,9 @@ void DriveAuto::panic()
 
 void DriveAuto::update()
 {
-	std::cout << "Current gyro value: " << RobotLocation::get()->getGyro()->GetAngle() << std::endl;
+	std::cout << "left  \t" << RobotLocation::get()->getLeftEncoder()->GetDistance() << std::endl;
+	std::cout << "right \t" << RobotLocation::get()->getRightEncoder()->GetDistance() << std::endl;
+	//std::cout << "Current gyro value: " << RobotLocation::get()->getGyro()->GetAngle() << std::endl;
 	if (actionQueue.size() == 0)
 	{
 		return; //If there's nothing in the queue to do then return
@@ -142,7 +142,10 @@ void DriveAuto::update()
 	{
 		if(initiallyStraight == true)
 		{
-			initialAngle = RobotLocation::get()->getGyro()->GetAngle() * -1;
+
+			//initialAngle = RobotLocation::get()->getGyro()->GetAngle() * -1; //THIS DOES NOT WORK
+			//std::cout << initialAngle << std::endl;
+
 			initiallyStraight = false;
 			action.second[2] = RobotLocation::get()->getLeftEncoder()->GetDistance();
 
@@ -153,12 +156,14 @@ void DriveAuto::update()
 		}
 		else
 		{
-			std::cout << "right dist" << RobotLocation::get()->getRightEncoder()->GetDistance() << std::endl;
-			std::cout << leftMotors->Get() << "\t\t" << rightMotors->Get() << std::endl;
-
+			//std::cout << "right dist" << RobotLocation::get()->getRightEncoder()->GetDistance() << std::endl;
+			//std::cout << leftMotors->Get() << "\t\t" << rightMotors->Get() << std::endl;
+			leftMotors->Set(action.second[1]);
+			rightMotors->Set(action.second[1]);
 			float totalDistance = robotLocation->getLeftEncoder()->GetDistance();
 			if(totalDistance - action.second[2] > action.second[0]) //if totalDistance is more or less 0
 			{
+				std::cout << "update called" << std::endl;
 				leftMotors->Set(0);
 				rightMotors->Set(0);
 				syncController->Disable();
@@ -169,6 +174,7 @@ void DriveAuto::update()
 				initiallyStraight = true;
 				if (actionQueue.size() > 0 && actionQueue.front().first == DriveAuto::DriveActions::Move) //If there's stuff in actionQueues
 				{
+					//std::cout << "nyan" << std::endl;
 					float leftDistance = robotLocation->getLeftEncoder()->GetDistance();
 					actionQueue.front().second[2] = leftDistance;
 				}
@@ -246,7 +252,7 @@ void DriveAuto::update()
 
 		}
 	}
-	else if(action.first == DriveAuto::DriveActions::ToteAlign)
+	/*else if(action.first == DriveAuto::DriveActions::ToteAlign)
 	{
 		auto *rl = RobotLocation::get();
 
@@ -308,5 +314,5 @@ void DriveAuto::update()
 				delete distanceController;
 			}
 		}
-	}
+	}*/
 }

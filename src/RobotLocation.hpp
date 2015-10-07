@@ -20,15 +20,15 @@ public:
 	std::shared_ptr<Encoder> getLeftEncoder();
 	std::shared_ptr<Encoder> getRightEncoder();
 
-	Lidar* getNorth();
-	Lidar* getEast();
+	//Lidar* getNorth();
+	//Lidar* getEast();
 private:
 	RobotLocation();
 	const std::shared_ptr<Gyro> gyro;
 	std::shared_ptr<Encoder> left, right;
 	static RobotLocation* instance;
 
-	Lidar *north, *east;
+	//Lidar *north, *east;
 };
 
 

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <chrono>
 #include "Lidar.hpp"
+#include "MovingAverage.hpp"
 #include <deque>
 
 class LidarPWM : public Lidar
@@ -20,8 +21,8 @@ private:
 	DigitalInput pulseLength;
 	DigitalOutput sensorManagement;
 	DigitalOutput resistorLine;
+	MovingAverage<double> movingAverage;
 
-	std::list<double> movingAverage;
 	double computedMA;
 	/**
 	 * Pin 1 - 5v

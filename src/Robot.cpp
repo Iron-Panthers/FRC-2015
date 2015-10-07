@@ -12,9 +12,6 @@
 #include "Shifter.hpp"
 #include "ToteLifter.hpp"
 #include "JoyTest.hpp"
-#include "Lidar.hpp"
-#include "LidarI2C.hpp"
-#include "LidarPWM.hpp"
 #include "ContainerLifter.hpp"
 
 void createButtonMapping(bool down, bool pressed, bool up,
@@ -35,12 +32,14 @@ private:
 	ToteLifter lifter;
 	Shifter shifter;
 	JoyTest joyTest;
-	LidarI2C *Lidar;
+	//LidarI2C *Lidar;
 	ContainerLifter cLifter;
+	Timer timer;
 
 public:
-	Robot() : shifter(0, 1)
+	Robot() : shifter(0, 1), cLifter(2, 3)
 	{
+
 	}
 
 	void RobotInit()
@@ -49,15 +48,14 @@ public:
 		auto &gcnMap = relay.getMapGCN();
 
 		createButtonMapping(true, false, false
-				          , ButtonNames::Button9
-						  , std::bind(&ToteLifter::manualUp, &lifter)
-						  , joyMap);
-
-		createButtonMapping(true, false, false
-						  , ButtonNames::Button10
+				          , ButtonNames::BottomRight
 						  , std::bind(&ToteLifter::manualDown, &lifter)
 						  , joyMap);
 
+		createButtonMapping(true, false, false
+						  , ButtonNames::TopRight
+						  , std::bind(&ToteLifter::manualUp, &lifter)
+						  , joyMap);
 
 		createButtonMapping(true, false, false
 						  , ButtonNames::Button7
@@ -78,42 +76,59 @@ public:
 						  , ButtonNames::Button12
 						  , std::bind(&ContainerLifter::retractPiston, &cLifter)
 						  , joyMap);
-		//up down dpad
+
+		//y
 		createButtonMapping(false, true, false
-						  , ButtonNames::Button9
+						  , ButtonNames::BottomRight
 						  , std::bind(&ToteLifter::manualUp, &lifter)
 						  , gcnMap);
 
-		//z
+		//b
 		createButtonMapping(false, true, false
-					      , ButtonNames::Button10
+					      , ButtonNames::SideButton
 					      , std::bind(&ToteLifter::manualDown, &lifter)
+						  , gcnMap);
+		//down
+		createButtonMapping(true, false, false
+					      , ButtonNames::Button10
+						  , std::bind(&DriveAuto::panic, DriveAuto::get())
+						  , gcnMap);
+
+		//a
+		createButtonMapping(true, false, false
+						  , ButtonNames::Trigger
+						  , std::bind(&ContainerLifter::extendPiston, &cLifter)
 						  , gcnMap);
 
 		//x
 		createButtonMapping(true, false, false
-						  , ButtonNames::BottomRight
-						  , std::bind(&ToteLifter::levelUp, &lifter)
+						  , ButtonNames::BottomLeft
+						  , std::bind(&ContainerLifter::retractPiston, &cLifter)
 						  , gcnMap);
 
-		//y
+		//up
 		createButtonMapping(true, false, false
-					      , ButtonNames::BottomLeft
-					      , std::bind(&ToteLifter::levelDown, &lifter)
-						  , gcnMap);
+						, ButtonNames::Button9
+						, std::bind(&ToteLifter::limitOverride, &lifter)
+						, gcnMap);
 
-		//b
+		//start
 		createButtonMapping(true, false, false
-					      , ButtonNames::SideButton
-						  , std::bind(&DriveAuto::panic, DriveAuto::get())
-						  , gcnMap);
+						, ButtonNames::Button8
+						, std::bind(&EventRelay::setFBGCN, &relay)
+						, gcnMap);
 
-
+		//z
+		createButtonMapping(true, false, false
+						, ButtonNames::TopLeft
+						, std::bind(&EventRelay::zeroMotors, &relay)
+						, gcnMap);
 	}
 
 	void AutonomousInit()
 	{
-		//DriveAuto::get()->move(72, 0.5);
+		/*
+		DriveAuto::get()->move(72, 0.5);
 		Timer timer;
 		timer.Start();
 		while (timer.Get() < 3.00)
@@ -122,16 +137,37 @@ public:
 		DriveAuto::get()->axisTurn(90);
 		DriveAuto::get()->wait(1);
 		DriveAuto::get()->move(100, 0.75);
+		*/
+		shifter.shiftLow();
+		//Timer timer;
+		//timer.Start();
+		//DriveAuto::get()->wait(2.0);
+		std::cout << "cato" << std::endl;
+		cLifter.extendPiston();
+		//Wait(2);
+		//DriveAuto::get()->wait(2.0);
+		//cLifter.retractPiston();
+		//DriveAuto::get()->move(5, 0.5);
+		std::cout << "cat" << std::endl;
+		//DriveAuto::get()->getLeftMotors()->Set(0.6);
+		//DriveAuto::get()->getRightMotors()->Set(0.6);
 	}
 
 	void AutonomousPeriodic()
 	{
+		/*
+		 if(timer.Get() > 3)
+		{
+			cLifter.retractPiston();
+		}
+		*/
 		DriveAuto::get()->update();
-		lifter.update();
 	}
 
 	void TeleopInit()
 	{
+		RobotLocation::get()->getLeftEncoder()->Reset();
+		RobotLocation::get()->getRightEncoder()->Reset();
 		DriveAuto::get()->panic();
 		shifter.shiftLow();
 	}
@@ -141,7 +177,8 @@ public:
 		relay.checkStates();
 		shifter.shiftUpdate();
 		lifter.update();
-		//std::cout << "Lidar Get Good" << Lidar.getDistance() << std::endl;
+		//std::cout << "left" << RobotLocation::get()->getLeftEncoder()->GetDistance() << std::endl;
+		//std::cout << "right" << RobotLocation::get()->getRightEncoder()->GetDistance() << std::endl;
 	}
 
 	void DisabledInit()

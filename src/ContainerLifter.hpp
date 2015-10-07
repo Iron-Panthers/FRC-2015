@@ -8,11 +8,10 @@ class ContainerLifter
 {
 public:
 	ContainerLifter();
-	ContainerLifter(int leftPortA, int leftPortB, int rightPortA, int rightPortB);
+	ContainerLifter(int portA, int portB);
 	void extendPiston();
 	void retractPiston();
-	const std::unique_ptr<DoubleSolenoid> cRight;
-	const std::unique_ptr<DoubleSolenoid> cLeft;
+	const std::unique_ptr<DoubleSolenoid> containerS;
 };
 
 #endif

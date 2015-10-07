@@ -4,6 +4,7 @@
 #include <WPILib.h>
 #include "ActionMap.hpp"
 #include "JoystickWrapper.hpp"
+#include "MovingAverage.hpp"
 #include <iostream>
 
 class EventRelay
@@ -13,15 +14,19 @@ private:
 	ActionMap actionMapGCN;
 	JoystickWrapper joyWrap;
 	JoystickWrapper gamecube;
+	MovingAverage<double> movingAverageDrive;
+	MovingAverage<double> movingAverageTwist;
 
-	std::list<double> movingAverageDrive;
-	double computedMADrive;
-	std::list<double> movingAverageTwist;
-	double computedMATwist;
+	bool onlyFB_GCN;
+	Timer zeroMotorTimer;
+
 public:
 	void checkStates();
 	ActionMap& getMapJoy();
 	ActionMap& getMapGCN();
+
+	void setFBGCN();
+	void zeroMotors();
 
 	EventRelay();
 
